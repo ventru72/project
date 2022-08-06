@@ -9,23 +9,31 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="37*"/>
-            <RowDefinition Height="180*"/>
+            <RowDefinition Height="27*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="360*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="287*"/>
             <ColumnDefinition Width="513*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="listBox" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+        <ListBox x:Name="listBox" Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,25,0,0" Grid.RowSpan="2">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding }"/>
+                        <TextBlock Text="{Binding Name_Project}"/>
                     </StackPanel>
-                </DataTemplate> 
+                </DataTemplate>
             </ListBox.ItemTemplate>
-            
-        </ListBox> 
+
+        </ListBox>
+        <DataGrid x:Name="dataGrid" Grid.Column="1" Grid.RowSpan="4" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="137,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="120" Height="21"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="19,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="245" Grid.Row="1" Height="16"/>
+        <Button x:Name="button" Content="Выполнить" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="20" Width="65"/>
+        <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" Margin="137,0,0,0" VerticalAlignment="Center" Width="120"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Выбор проекта:" VerticalAlignment="Center"/>
 
     </Grid>
 </Window>
