@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace project
 {
-    public class Dictionary
+    interface IRequests
+    {
+
+    }
+    public class Dictionary: IRequests
     {
         public int id_stamps { get; set; }
         public string stamps_Sshort_name { get; set; }
@@ -26,17 +30,17 @@ namespace project
         public Dictionary() { }
 
     }
-    public class Project_name
+    public class Project_name : IRequests
     {
         public List<string> name_project { get; set; }
     }
-    public class Project: Dictionary
+    public class Project: Dictionary,  IRequests
     {
         public int id_project { get; set; }
         
         public string cipher { get; set; }
         public string name_project { get; set; }
-        public int  id_executors { get; set; }
+         
         public DateTime dadata_Creation { get; set; }
         public DateTime Dadata_Change { get; set; }
         //public Project(string Stamps_Short_Name, DateTime Dadata_Creation, DateTime Dadata_Change):base(Stamps_Short_Name)
@@ -44,9 +48,15 @@ namespace project
 
         //}
         public Project() { }
+        public Project(int id_project, string name_project) 
+        { 
+            this.id_project = id_project;
+            this.name_project = name_project;
+        }
 
     }
-    public class Design_Object : Project
+    
+    public class Design_Object : Project, IRequests
     {
         public int id_design_object { get; set; }
         public int id_parent { get; set; }
@@ -67,7 +77,7 @@ namespace project
         //}
         public Design_Object(){}
     }
-    public class Set_Documentation : Design_Object
+    public class Set_Documentation : Design_Object, IRequests
     {
     
 
@@ -79,7 +89,7 @@ namespace project
        
 
     }
-    public class Documents : Set_Documentation
+    public class Documents : Set_Documentation, IRequests
     {
         public int number_documents { get; set; }
         public string name_documents { get; set; }

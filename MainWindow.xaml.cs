@@ -30,7 +30,9 @@ namespace project
             
             string selectQuery = $@"select 
         id_project,
-        name_project
+        name_project,
+        id_executor,
+        cipher
         from project";
             InitializeComponent();
           
@@ -38,16 +40,16 @@ namespace project
             Sql_Requests sql_Requests = new Sql_Requests();
            
             List<Project> date_projects = sql_Requests.Select(selectQuery);
-            List<string> date_projects2 = new List<string>();
+            List<Project> name_projects = new List<Project>();
            // comboBox_projects.DataContext = date_projects;
             foreach (Project project in date_projects)
             {
-                date_projects2.Add(project.name_project.ToString());
+                name_projects.Add(new Project(project.id_project, project.name_project.ToString()));
             }
 
 
             dataGrid.ItemsSource = date_projects;
-            comboBox1.ItemsSource = date_projects2;
+            comboBox1.ItemsSource = name_projects;
 
 
         }
@@ -56,19 +58,20 @@ namespace project
         {
             Sql_Requests sql_Requests = new Sql_Requests();
             string selectQuery = $@"select 
-        id_project,
-        name_project
-        from project";
+            id_project,
+            name_project
+            from project";
 
            
         }
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           
             string selectQuery = $@"select 
         id_project,
-        name_project
+        name_project,
+        id_executor,
+        cipher
         from project";
             Sql_Requests sql_Requests = new Sql_Requests();
             List<Project> date_projects = sql_Requests.Select(selectQuery);
@@ -98,10 +101,12 @@ namespace project
             
             Sql_Requests sql_Requests = new Sql_Requests();
             comboBox1.DataContext = comboBox1.SelectedItem;
+
+            Project project = comboBox1.DataContext as Project;
             string selectQuery = $"SELECT id_design_object, name_object, code" +
-                $" FROM project " +
-                $"LEFT JOIN design_object ON project.id_executor = design_object.id_executor " +
-                $"WHERE name_project = '{comboBox1.DataContext.ToString()}'";
+                                 $" FROM project " +
+                                 $" LEFT JOIN design_object ON project.id_executor = design_object.id_executor " +
+                                 $" WHERE id_project = '{project.id_project}'";
             List<Project> date_projects = sql_Requests.Select(selectQuery);
             listBox.ItemsSource = date_projects;
 
