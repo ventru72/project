@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:project"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1200">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="27*"/>
@@ -22,7 +22,23 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding date_projects}"/>
+                        <TextBlock    Text="Обьект проектирования - ">
+                            <Hyperlink  Tag="{Binding name_object}" Click="Hyperlink_Click_Object_Name">
+                                <TextBlock    Text="{Binding name_object}"/> 
+                            </Hyperlink>
+                           
+                            <TextBlock    Text="ID = "/> 
+                            <TextBlock    Text="{Binding id_design_object}"/> 
+                           
+                           
+                        </TextBlock>
+                        <TextBlock    Text="Комплект документации -  ">
+                            <Hyperlink  Tag="{Binding stamps_number}" Click="Hyperlink_Click_Set_Documentation">
+                             <TextBlock    Text="{Binding stamps_number}"/>
+                                 </Hyperlink>
+                        </TextBlock> 
+
+
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -31,14 +47,12 @@
         <DataGrid x:Name="dataGrid"  Grid.Column="1"    Grid.RowSpan="4" d:ItemsSource="{d:SampleData ItemCount=5}" 
                   
                   SelectionChanged="dataGrid_SelectionChanged" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}"/>
-
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="19,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="245" Grid.Row="1" Height="16"/>
         <Button x:Name="button" Content="Выполнить" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="20" Width="65"/>
         <ComboBox x:Name="comboBox1"
                   HorizontalAlignment="Left"
                   Margin="126,22,0,0"
                   VerticalAlignment="Top"
-                  Width="120"
+                  Width="151"
                   SelectionChanged="comboBox1_SelectionChanged" 
                   Grid.RowSpan="2"
                   Grid.Row="1">

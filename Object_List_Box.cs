@@ -13,7 +13,7 @@ namespace project
     public class Dictionary: IRequests
     {
         public int id_stamps { get; set; }
-        public string stamps_Sshort_name { get; set; }
+        public string stamps_short_name { get; set; }
         public string stamps_full_name { get; set; }
 
         public int id_type_documents { get; set; }
@@ -63,8 +63,16 @@ namespace project
         public string name_object { get; set; }
         public string code { get; set; }
         public string full_code { get; set; }
+        public string stamps_number { get; set; }
+        
         public int id_set_documentation { get; set; }
-        public string composite_stamps_do { get; set; }
+       
+        public Design_Object(int id_design_object, string name_object, string stamps_number)
+        {
+            this.id_design_object = id_design_object;
+            this.name_object = name_object;
+            this.stamps_number = stamps_number;   
+        }
         //public Design_Object(int Id_Design_Object, string Full_Code, string Stamps_Short_Name, string Сomposite_Stamps_Do, string Executor, DateTime Dadata_Creation, DateTime Dadata_Change) : base(Stamps_Short_Name, Dadata_Creation, Dadata_Change)
         //{
         //    this.Id_Design_Object = Id_Design_Object;
@@ -83,7 +91,8 @@ namespace project
 
         public int number_set_documentation { get; set; }
         public string name_set_documentation { get; set; }
-        public string composite_stamps_sd { get; set; }
+       
+        public string number_type_documents { get; set; }
         public int id_documents { get; set; }
         public Set_Documentation() { }
        
@@ -91,11 +100,17 @@ namespace project
     }
     public class Documents : Set_Documentation, IRequests
     {
-        public int number_documents { get; set; }
-        public string name_documents { get; set; }
-        public string composite_stamps_doc { get; set; }
+        public int number_document { get; set; }
+        public string name_document { get; set; }
+        string type_documents_full_name { get; set; }
 
-       
+        public Documents(string type_documents_full_name, int number_document, string name_document)
+        {
+            this.type_documents_full_name = type_documents_full_name;
+            this.number_document = number_document;
+            this.name_document = name_document;
+        }
+
         //public Documents(int Id_Documents, string Stamps_Short_Name, int Number_Documents, string Name_Documents, string Сomposite_Stamps_Doc,  DateTime Dadata_Creation, DateTime Dadata_Change)  
         //{
         //    this.Id_Documents = Id_Documents;
