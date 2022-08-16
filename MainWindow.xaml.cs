@@ -167,23 +167,44 @@ namespace project
             comboBox1.DataContext = comboBox1.SelectedItem;
 
             Project project = comboBox1.DataContext as Project;
-            string selectQuery = $"SELECT id_design_object, name_object, design_object.stamps_number" +
+            string selectQuery = $"SELECT id_design_object, name_object, design_object.stamps_number, id_parent" +
                                  $" FROM project " +
                                  $" LEFT JOIN design_object ON project.id_executor =" +
                                  $" design_object.id_executor " +
                                  //$" LEFT JOIN set_documentation ON design_object.stamps_number =" +
                                  //$" set_documentation.stamps_number " +
                                  $" WHERE id_project = '{project.id_project}'";
+            
+            string Requests_Parent(int id_parent)
+            {
+                string parent_selectQuery = $"SELECT id_design_object, name_object, design_object.stamps_number, id_parent" +
+                                                $" FROM project " +
+                                                $" LEFT JOIN design_object ON project.id_executor =" +
+                                                $" design_object.id_executor " +
+                                                //$" LEFT JOIN set_documentation ON design_object.stamps_number =" +
+                                                //$" set_documentation.stamps_number " +
+                                                $" WHERE id_project = '{project.id_project}' AND id_parent = '{id_parent}' ";
+                return parent_selectQuery;
+            }
+            
+
             List<Design_Object> date_projects = sql_Requests.Select_Object(selectQuery);
-             
+            List<Design_Object> parent_design_object = new List<Design_Object>();
+
             ObservableCollection<Design_Object> name_object_l = new ObservableCollection<Design_Object>();
             
             foreach (Design_Object i in date_projects)
             {
-                name_object_l.Add(new Design_Object(i.id_design_object, i.name_object, i.stamps_number));
+                name_object_l.Add(new Design_Object(i.id_design_object, i.name_object, i.stamps_number, i.id_parent));
                  
             }
-           
+           for (int i = 0; i < name_object_l.Count; i++)
+            {
+                while (name_object_l[i].id_parent > 0)
+                {
+                    parent_design_object = sql_Requests.Select_Object(Requests_Parent(name_object_l[i].id_parent));
+                }
+            }
             listBox.ItemsSource = name_object_l;
 
         }

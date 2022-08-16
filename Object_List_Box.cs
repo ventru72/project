@@ -67,11 +67,12 @@ namespace project
         
         public int id_set_documentation { get; set; }
        
-        public Design_Object(int id_design_object, string name_object, string stamps_number)
+        public Design_Object(int id_design_object, string name_object, string stamps_number, int id_parent)  
         {
             this.id_design_object = id_design_object;
             this.name_object = name_object;
             this.stamps_number = stamps_number;   
+            this.id_parent = id_parent;
         }
         //public Design_Object(int Id_Design_Object, string Full_Code, string Stamps_Short_Name, string Сomposite_Stamps_Do, string Executor, DateTime Dadata_Creation, DateTime Dadata_Change) : base(Stamps_Short_Name, Dadata_Creation, Dadata_Change)
         //{
