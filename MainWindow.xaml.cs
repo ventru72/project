@@ -95,10 +95,11 @@ namespace project
         {
 
             string selected_object_name = (sender as Hyperlink).Tag as string;
-            int id_design_object = 0;
+            int id_parent = 0;
             List <string> full_code_list = new List<string>();
             string first_code = string.Empty;
             string full_code = string.Empty;
+            int count = 0;
             string str = string.Empty;
             bool stop_full_code = false;
             while (stop_full_code ==false)
@@ -110,27 +111,28 @@ namespace project
                 
                for (int i = 0; i < name_object_l.Count; i++)
                {
-                    if (name_object_l[i].name_object == selected_object_name)
+                    if (name_object_l[i].name_object == selected_object_name )
                     {
-                        id_design_object = name_object_l[i].id_design_object;
+                        if(  count == 0)
+                        {
+                            first_code = name_object_l[i].code + ".";
+                        }
+                        
+                        id_parent = name_object_l[i].id_parent;
+                        count++;
                         break;
                     }
-                    else if (name_object_l[i].name_object == (sender as Hyperlink).Tag as string)
-                    {
-                        first_code = name_object_l[i].code;
-                    }
-                 
                }
                for (int i = 0; i < name_object_l.Count; i++)
                 {
-                    if (name_object_l[i].id_parent == id_design_object)
-                    {
+                    if (name_object_l[i].id_design_object == id_parent )
+                    {   
                         full_code_list.Add(name_object_l[i].code + ".");
                         selected_object_name = name_object_l[i].name_object;
-
+                       
                         break;
                     }
-                    else if (i == name_object_l.Count - 1 && name_object_l[i].id_parent != id_design_object)
+                    else if (i == name_object_l.Count - 1 && name_object_l[i].id_design_object != id_parent)
                     {
                         stop_full_code = true;
                         full_code_list.Insert(0,first_code);
@@ -138,11 +140,19 @@ namespace project
                         {
                             full_code = full_code + n;
                         }
-                        
                         break;
                     }
                 }
+                
                 return (selected_object_name, full_code_list, first_code);
+            }
+            for (int t = 0; t < name_object_l.Count; t++)
+            {
+                if (name_object_l[t].name_object == selected_object_name)
+                {
+                    first_code = name_object_l[t].code + ".";
+                    break;
+                }
             }
             MessageBox.Show(full_code);
             //if(full_code_list.Count>1)
