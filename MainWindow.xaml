@@ -29,14 +29,19 @@
                             <TextBlock    Text="ID = "/> 
                             <TextBlock    Text="{Binding id_design_object}"/> 
                         </TextBlock>
+                        <TextBlock    Text="Комплект документации -  ">
+                            <Hyperlink  Tag="{Binding stamps_number}" Click="Hyperlink_Click_Set_Documentation">
+                             <TextBlock    Text="{Binding stamps_number}"/>
+                                 </Hyperlink>
+                        </TextBlock>
                         <TextBlock    Text="Дочерний обьект проектирования - ">
                             <Hyperlink  Tag="{Binding name_object_parent}" Click="Hyperlink_Click_Object_Name">
                                 <TextBlock    Text="{Binding name_object_parent}"/> 
                             </Hyperlink>
                                 </TextBlock>
-                        <TextBlock    Text="Комплект документации -  ">
-                            <Hyperlink  Tag="{Binding stamps_number}" Click="Hyperlink_Click_Set_Documentation">
-                             <TextBlock    Text="{Binding stamps_number}"/>
+                        <TextBlock    Text="Дочерний комплект документации -  ">
+                            <Hyperlink  Tag="{Binding stamps_number_parent}" Click="Hyperlink_Click_Set_Documentation">
+                             <TextBlock    Text="{Binding stamps_number_parent}"/>
                                  </Hyperlink>
                         </TextBlock> 
 

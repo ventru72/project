@@ -24,7 +24,7 @@ namespace project
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+       public ObservableCollection<Design_Object> name_object_l = new ObservableCollection<Design_Object>();
         public MainWindow()
         {
             
@@ -93,11 +93,47 @@ namespace project
         /// <param name="e"></param>
         void Hyperlink_Click_Object_Name(object sender, RoutedEventArgs e)
         {
-            
-           
-            string selected_object_name = (sender as Hyperlink).Tag as string;
 
-            string selectQuery = $"SELECT cipher, name_object, design_object.stamps_number" +
+            string selected_object_name = (sender as Hyperlink).Tag as string;
+            int id_design_object = 0;
+            string full_code = string.Empty;
+            bool stop_full_code = false;
+            while (stop_full_code ==false)
+            { 
+            Full_Code(selected_object_name, full_code);
+            }
+            (string selected_object_name, string full_code) Full_Code( string str_object_name, string f_code)
+            {
+                
+               for (int i = 0; i < name_object_l.Count; i++)
+               {
+                    if (name_object_l[i].name_object == selected_object_name)
+                    {
+                        id_design_object = name_object_l[i].id_design_object;
+                        break;
+                    }
+                 
+               }
+               for (int i = 0; i < name_object_l.Count; i++)
+                {
+                    if (name_object_l[i].id_parent == id_design_object)
+                    {
+                        full_code = full_code + name_object_l[i].code + ".";
+                        selected_object_name = name_object_l[i].name_object;
+
+                        break;
+                    }
+                    else if (i == name_object_l.Count - 1 && name_object_l[i].id_parent != id_design_object)
+                    {
+                        stop_full_code = true;
+                        break;
+                    }
+                }
+                return (selected_object_name, full_code);
+            }
+           
+
+                string selectQuery = $"SELECT cipher, name_object, design_object.stamps_number" +
                                 $" FROM project " +
                                 $" LEFT JOIN design_object ON project.id_executor =" +
                                 $" design_object.id_executor " +
@@ -203,7 +239,7 @@ namespace project
             List<Design_Object> date_projects = sql_Requests.Select_Object(selectQuery);
             //List<Design_Object> parent_design_object = new List<Design_Object>();
 
-            ObservableCollection<Design_Object> name_object_l = new ObservableCollection<Design_Object>();
+           
             
             foreach (Design_Object i in date_projects)
             {
@@ -211,13 +247,14 @@ namespace project
                    i.id_design_object_parent, i.code_parent, i.name_object_parent, i.stamps_number_parent, i.id_parent_parent));
                  
             }
-           //for (int i = 0; i < name_object_l.Count; i++)
-           // {
-           //     while (name_object_l[i].id_parent > 0)
-           //     {
-           //         parent_design_object = sql_Requests.Select_Object(Requests_Parent(name_object_l[i].id_parent));
-           //     }
-           // }
+            //for (int i = 0; i < name_object_l.Count; i++)
+            //{
+            //    while (name_object_l[i].id_parent > 0)
+            //    {
+
+            //        //parent_design_object = sql_Requests.Select_Object(Requests_Parent(name_object_l[i].id_parent));
+            //    }
+            //}
             listBox.ItemsSource = name_object_l;
 
         }
