@@ -96,13 +96,16 @@ namespace project
 
             string selected_object_name = (sender as Hyperlink).Tag as string;
             int id_design_object = 0;
+            List <string> full_code_list = new List<string>();
+            string first_code = string.Empty;
             string full_code = string.Empty;
+            string str = string.Empty;
             bool stop_full_code = false;
             while (stop_full_code ==false)
             { 
-            Full_Code(selected_object_name, full_code);
+            Full_Code(selected_object_name, full_code_list, first_code);
             }
-            (string selected_object_name, string full_code) Full_Code( string str_object_name, string f_code)
+            (string selected_object_name, List<string> full_code, string first_code) Full_Code( string str_object_name, List<string> full_code_, string first_code_)
             {
                 
                for (int i = 0; i < name_object_l.Count; i++)
@@ -112,13 +115,17 @@ namespace project
                         id_design_object = name_object_l[i].id_design_object;
                         break;
                     }
+                    else if (name_object_l[i].name_object == (sender as Hyperlink).Tag as string)
+                    {
+                        first_code = name_object_l[i].code;
+                    }
                  
                }
                for (int i = 0; i < name_object_l.Count; i++)
                 {
                     if (name_object_l[i].id_parent == id_design_object)
                     {
-                        full_code = full_code + name_object_l[i].code + ".";
+                        full_code_list.Add(name_object_l[i].code + ".");
                         selected_object_name = name_object_l[i].name_object;
 
                         break;
@@ -126,14 +133,34 @@ namespace project
                     else if (i == name_object_l.Count - 1 && name_object_l[i].id_parent != id_design_object)
                     {
                         stop_full_code = true;
+                        full_code_list.Insert(0,first_code);
+                        foreach (var n in full_code_list)
+                        {
+                            full_code = full_code + n;
+                        }
+                        
                         break;
                     }
                 }
-                return (selected_object_name, full_code);
+                return (selected_object_name, full_code_list, first_code);
             }
-           
+            MessageBox.Show(full_code);
+            //if(full_code_list.Count>1)
+            //{ 
+            //for (int i = 0; i < full_code_list.Count; i++)
+            //    {
+            //        if(full_code_list.Count> 1)
+            //        {
+            //            full_code = full_code + full_code_list[i];
+            //        }
+            //        else if (i == full_code_list.Count - 1)
+            //        {
 
-                string selectQuery = $"SELECT cipher, name_object, design_object.stamps_number" +
+            //        }
+            //    }
+            //}
+
+            string selectQuery = $"SELECT cipher, name_object, design_object.stamps_number" +
                                 $" FROM project " +
                                 $" LEFT JOIN design_object ON project.id_executor =" +
                                 $" design_object.id_executor " +
