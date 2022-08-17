@@ -160,6 +160,18 @@ namespace project
             this.data_creation_document = data_creation_document;
             this.data_change_document = data_change_document;
         }
+        public Documents(int id_stamps, int number_set_documentation, string type_documents_full_name, int number_document, string name_document,
+           DateTime data_creation_document, DateTime data_change_document )
+        {
+            this.number_set_documentation = number_set_documentation;
+            this.id_stamps = id_stamps;
+            
+            this.type_documents_full_name = type_documents_full_name;
+            this.number_document = number_document;
+            this.name_document = name_document;
+            this.data_creation_document = data_creation_document;
+            this.data_change_document = data_change_document;
+        }
 
         //public Documents(int Id_Documents, string Stamps_Short_Name, int Number_Documents, string Name_Documents, string Сomposite_Stamps_Doc,  DateTime Dadata_Creation, DateTime Dadata_Change)  
         //{

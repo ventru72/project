@@ -153,14 +153,20 @@ namespace project
            
            
             full_stamps = cipher+ "-" + full_code + "-" +  full_stamps;
-            MessageBox.Show(full_code);
-            MessageBox.Show(full_stamps);
-            string selectQuery = $"SELECT cipher, name_object, design_object.stamps_number" +
-                                $" FROM project " +
-                                $" LEFT JOIN design_object ON project.id_project =" +
-                                $" design_object.id_project " +
-                                //$" LEFT JOIN set_documentation ON design_object.stamps_number =" +
-                                //$" set_documentation.stamps_number " +
+            //MessageBox.Show(full_code);
+            //MessageBox.Show(full_stamps);
+            string selectQuery = $"SELECT  set_documentation.id_stamps,  number_set_documentation,   type_documents_full_name,  number_document,  name_document," +
+                                $"  data_creation_document,  data_change_document" +
+                                $" FROM design_object " +
+                                $" LEFT JOIN set_documentation ON design_object.stamps_number =" +
+                                $" set_documentation.stamps_number " +
+                                $" LEFT JOIN documents ON documents.number_type_documents =" +
+                                $" set_documentation.number_type_documents " +
+                               
+                                $" LEFT JOIN guide_type_documents ON documents.id_type_documents =" +
+                                $" guide_type_documents.id_type_documents " +
+                                $" LEFT JOIN guide_stamps ON set_documentation.id_stamps =" +
+                                $" guide_stamps.id_stamps " +
                                 $" WHERE name_object = '{selected_object_name}'";
             Sql_Requests sql_Requests = new Sql_Requests();
 
@@ -174,7 +180,7 @@ namespace project
 
 
             dataGrid.ItemsSource = date_documents;
-            comboBox1.ItemsSource = name_projects;
+            //comboBox1.ItemsSource = name_projects;
 
 
 
