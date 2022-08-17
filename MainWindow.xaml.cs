@@ -99,6 +99,8 @@ namespace project
             List <string> full_code_list = new List<string>();
             string first_code = string.Empty;
             string full_code = string.Empty;
+            string full_stamps = string.Empty;
+            string cipher = string.Empty;
             int count = 0;
             string str = string.Empty;
             bool stop_full_code = false;
@@ -116,6 +118,8 @@ namespace project
                         if(  count == 0)
                         {
                             first_code = name_object_l[i].code + ".";
+                            full_stamps = name_object_l[i].stamps_number;
+                            cipher = name_object_l[i].cipher;
                         }
                         
                         id_parent = name_object_l[i].id_parent;
@@ -146,49 +150,30 @@ namespace project
                 
                 return (selected_object_name, full_code_list, first_code);
             }
-            for (int t = 0; t < name_object_l.Count; t++)
-            {
-                if (name_object_l[t].name_object == selected_object_name)
-                {
-                    first_code = name_object_l[t].code + ".";
-                    break;
-                }
-            }
+           
+           
+            full_stamps = cipher+ "-" + full_code + "-" +  full_stamps;
             MessageBox.Show(full_code);
-            //if(full_code_list.Count>1)
-            //{ 
-            //for (int i = 0; i < full_code_list.Count; i++)
-            //    {
-            //        if(full_code_list.Count> 1)
-            //        {
-            //            full_code = full_code + full_code_list[i];
-            //        }
-            //        else if (i == full_code_list.Count - 1)
-            //        {
-
-            //        }
-            //    }
-            //}
-
+            MessageBox.Show(full_stamps);
             string selectQuery = $"SELECT cipher, name_object, design_object.stamps_number" +
                                 $" FROM project " +
-                                $" LEFT JOIN design_object ON project.id_executor =" +
-                                $" design_object.id_executor " +
+                                $" LEFT JOIN design_object ON project.id_project =" +
+                                $" design_object.id_project " +
                                 //$" LEFT JOIN set_documentation ON design_object.stamps_number =" +
                                 //$" set_documentation.stamps_number " +
                                 $" WHERE name_object = '{selected_object_name}'";
             Sql_Requests sql_Requests = new Sql_Requests();
 
-            List<Project> date_projects = sql_Requests.Select_Project(selectQuery);
-            List<Project> name_projects = new List<Project>();
+            List<Documents> date_documents = sql_Requests.Select_Set_Documentation(selectQuery);
+            List<Documents> name_projects = new List<Documents>();
             // comboBox_projects.DataContext = date_projects;
-            foreach (Project project in date_projects)
+            foreach (Documents project in date_documents)
             {
-                name_projects.Add(new Project(project.id_project, project.name_project.ToString()));
+                //name_projects.Add(new Design_Object(project.id_project, project.name_project.ToString()));
             }
 
 
-            dataGrid.ItemsSource = date_projects;
+            dataGrid.ItemsSource = date_documents;
             comboBox1.ItemsSource = name_projects;
 
 
@@ -248,16 +233,21 @@ namespace project
                                 
             //                     $" WHERE id_project = '{project.id_project}'";
 
-            string selectQuery = $"SELECT o.id_design_object, o.code, o.name_object, o.stamps_number, o.id_parent, " +
+            string selectQuery = $"SELECT cipher,  o.data_creation_design_object, o.data_change_design_object, " +
+                                 $" o.id_design_object, o.code, o.name_object, o.stamps_number, o.id_parent, " +
                                  $" r.id_design_object AS id_design_object_parent," +
                                  $" r.code AS code_parent," +
                                  $" r.name_object AS name_object_parent," +
                                  $" r.stamps_number AS stamps_number_parent," +
                                  $" r.id_parent AS id_parent_parent" +
-                                 $" FROM project " +
-                                 $" LEFT JOIN design_object AS o ON project.id_executor = o.id_executor " +
+                                 $" FROM project" +
+                                 
+                                 $" JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
+                                 $" LEFT JOIN design_object AS o ON project.id_project = o.id_project" +
+                                 $" JOIN set_documentation ON o.stamps_number = set_documentation.stamps_number " +
+                              
                                  $" LEFT JOIN design_object AS r ON o.id_design_object = r.id_parent" +
-                                 $" WHERE id_project = '{project.id_project}'";
+                                 $" WHERE project.id_project = '{project.id_project}'";
 
             //string Requests_Parent(int id_parent)
             //{
@@ -280,7 +270,7 @@ namespace project
             
             foreach (Design_Object i in date_projects)
             {
-                name_object_l.Add(new Design_Object(i.id_design_object, i.code, i.name_object,  i.stamps_number, i.id_parent,
+                name_object_l.Add(new Design_Object(  i.executor_full_name, i.data_creation_design_object, i.data_change_design_object, i.cipher, i.id_design_object, i.code, i.name_object,  i.stamps_number, i.id_parent,
                    i.id_design_object_parent, i.code_parent, i.name_object_parent, i.stamps_number_parent, i.id_parent_parent));
                  
             }

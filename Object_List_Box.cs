@@ -41,8 +41,8 @@ namespace project
         public string cipher { get; set; }
         public string name_project { get; set; }
          
-        public DateTime dadata_Creation { get; set; }
-        public DateTime Dadata_Change { get; set; }
+        public DateTime data_creation_design_object { get; set; }
+        public DateTime data_change_design_object { get; set; }
         //public Project(string Stamps_Short_Name, DateTime Dadata_Creation, DateTime Dadata_Change):base(Stamps_Short_Name)
         //{
 
@@ -72,11 +72,20 @@ namespace project
         public string name_object_parent { get; set; }
         public int id_design_object_parent { get; set; }
         public string stamps_number_parent { get; set; }
+         
 
         public int id_set_documentation { get; set; }
-        public Design_Object(int id_design_object,  string code, string name_object, string stamps_number, int id_parent,
+        public Design_Object( string executor_full_name, DateTime data_creation_design_object, DateTime data_change_design_object,
+            string cipher,
+            int id_design_object,  string code, string name_object, string stamps_number, int id_parent,
             int id_design_object_parent, string code_parent, string name_object_parent, string stamps_number_parent, int id_parent_parent)
         {
+             
+            this.executor_full_name = executor_full_name;
+            this.data_creation_design_object = data_creation_design_object;
+            this.data_change_design_object= data_change_design_object;
+            this.cipher = cipher;
+
             this.id_design_object = id_design_object;
             this.name_object = name_object;
             this.stamps_number = stamps_number;
@@ -115,6 +124,7 @@ namespace project
 
         public int number_set_documentation { get; set; }
         public string name_set_documentation { get; set; }
+
        
         public string number_type_documents { get; set; }
         public int id_documents { get; set; }
@@ -127,12 +137,28 @@ namespace project
         public int number_document { get; set; }
         public string name_document { get; set; }
         string type_documents_full_name { get; set; }
+        public DateTime data_creation_document { get; set; }
+        public DateTime data_change_document { get; set; }
+        public string full_cipher_documents { get; set; }
+
 
         public Documents(string type_documents_full_name, int number_document, string name_document)
         {
             this.type_documents_full_name = type_documents_full_name;
             this.number_document = number_document;
             this.name_document = name_document;
+        }
+        public Documents(int id_stamps, int number_set_documentation,  string type_documents_full_name, int number_document, string name_document,
+            DateTime data_creation_document, DateTime data_change_document, string full_cipher_documents)
+        {
+            this.number_set_documentation = number_set_documentation;
+            this.id_stamps = id_stamps;
+            this.full_cipher_documents = full_cipher_documents;
+            this.type_documents_full_name = type_documents_full_name;
+            this.number_document = number_document;
+            this.name_document = name_document;
+            this.data_creation_document = data_creation_document;
+            this.data_change_document = data_change_document;
         }
 
         //public Documents(int Id_Documents, string Stamps_Short_Name, int Number_Documents, string Name_Documents, string Сomposite_Stamps_Doc,  DateTime Dadata_Creation, DateTime Dadata_Change)  
