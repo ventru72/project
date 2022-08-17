@@ -33,7 +33,8 @@ namespace project
         name_project,
         id_executor,
         cipher
-        from project";
+        from project
+        ORDER BY id_project ASC ";
             InitializeComponent();
           
 
@@ -72,7 +73,8 @@ namespace project
         name_project,
         id_executor,
         cipher
-        from project";
+        from project
+        ORDER BY id_project ASC ";
             Sql_Requests sql_Requests = new Sql_Requests();
             List<Project> date_projects = sql_Requests.Select_Project(selectQuery);
 
@@ -167,44 +169,55 @@ namespace project
             comboBox1.DataContext = comboBox1.SelectedItem;
 
             Project project = comboBox1.DataContext as Project;
-            string selectQuery = $"SELECT id_design_object, name_object, design_object.stamps_number, id_parent" +
-                                 $" FROM project " +
-                                 $" LEFT JOIN design_object ON project.id_executor =" +
-                                 $" design_object.id_executor " +
-                                 //$" LEFT JOIN set_documentation ON design_object.stamps_number =" +
-                                 //$" set_documentation.stamps_number " +
-                                 $" WHERE id_project = '{project.id_project}'";
-            
-            string Requests_Parent(int id_parent)
-            {
-                string parent_selectQuery = $"SELECT id_design_object, name_object, design_object.stamps_number, id_parent" +
-                                                $" FROM project " +
-                                                $" LEFT JOIN design_object ON project.id_executor =" +
-                                                $" design_object.id_executor " +
-                                                //$" LEFT JOIN set_documentation ON design_object.stamps_number =" +
-                                                //$" set_documentation.stamps_number " +
-                                                $" WHERE id_project = '{project.id_project}' AND id_parent = '{id_parent}' ";
-                return parent_selectQuery;
-            }
-            
+            //string selectQuery = $"SELECT id_design_object, name_object, design_object.stamps_number, id_parent" +
+            //                     $" FROM project " +
+            //                     $" LEFT JOIN design_object ON project.id_executor = design_object.id_executor " +
+                                
+            //                     $" WHERE id_project = '{project.id_project}'";
 
+            string selectQuery = $"SELECT o.id_design_object, o.code, o.name_object, o.stamps_number, o.id_parent, " +
+                                 $" r.id_design_object AS id_design_object_parent," +
+                                 $" r.code AS code_parent," +
+                                 $" r.name_object AS name_object_parent," +
+                                 $" r.stamps_number AS stamps_number_parent," +
+                                 $" r.id_parent AS id_parent_parent" +
+                                 $" FROM project " +
+                                 $" LEFT JOIN design_object AS o ON project.id_executor = o.id_executor " +
+                                 $" LEFT JOIN design_object AS r ON o.id_design_object = r.id_parent" +
+                                 $" WHERE id_project = '{project.id_project}'";
+
+            //string Requests_Parent(int id_parent)
+            //{
+            //    string parent_selectQuery = $"SELECT id_design_object, name_object, design_object.stamps_number, id_parent" +
+            //                                    $" FROM project " +
+            //                                    $" LEFT JOIN design_object ON project.id_executor =" +
+            //                                    $" design_object.id_executor " +
+            //                                    //$" LEFT JOIN set_documentation ON design_object.stamps_number =" +
+            //                                    //$" set_documentation.stamps_number " +
+            //                                    $" WHERE id_project = '{project.id_project}' AND id_parent = '{id_parent}' ";
+            //    return parent_selectQuery;
+            //}
+
+
+            
             List<Design_Object> date_projects = sql_Requests.Select_Object(selectQuery);
-            List<Design_Object> parent_design_object = new List<Design_Object>();
+            //List<Design_Object> parent_design_object = new List<Design_Object>();
 
             ObservableCollection<Design_Object> name_object_l = new ObservableCollection<Design_Object>();
             
             foreach (Design_Object i in date_projects)
             {
-                name_object_l.Add(new Design_Object(i.id_design_object, i.name_object, i.stamps_number, i.id_parent));
+                name_object_l.Add(new Design_Object(i.id_design_object, i.code, i.name_object,  i.stamps_number, i.id_parent,
+                   i.id_design_object_parent, i.code_parent, i.name_object_parent, i.stamps_number_parent, i.id_parent_parent));
                  
             }
-           for (int i = 0; i < name_object_l.Count; i++)
-            {
-                while (name_object_l[i].id_parent > 0)
-                {
-                    parent_design_object = sql_Requests.Select_Object(Requests_Parent(name_object_l[i].id_parent));
-                }
-            }
+           //for (int i = 0; i < name_object_l.Count; i++)
+           // {
+           //     while (name_object_l[i].id_parent > 0)
+           //     {
+           //         parent_design_object = sql_Requests.Select_Object(Requests_Parent(name_object_l[i].id_parent));
+           //     }
+           // }
             listBox.ItemsSource = name_object_l;
 
         }

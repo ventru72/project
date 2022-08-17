@@ -59,14 +59,37 @@ namespace project
     public class Design_Object : Project, IRequests
     {
         public int id_design_object { get; set; }
+       
         public int id_parent { get; set; }
+       
         public string name_object { get; set; }
+       
         public string code { get; set; }
         public string full_code { get; set; }
         public string stamps_number { get; set; }
-        
+        public int id_parent_parent { get; set; }
+        public string code_parent { get; set; }
+        public string name_object_parent { get; set; }
+        public int id_design_object_parent { get; set; }
+        public string stamps_number_parent { get; set; }
+
         public int id_set_documentation { get; set; }
-       
+        public Design_Object(int id_design_object,  string code, string name_object, string stamps_number, int id_parent,
+            int id_design_object_parent, string code_parent, string name_object_parent, string stamps_number_parent, int id_parent_parent)
+        {
+            this.id_design_object = id_design_object;
+            this.name_object = name_object;
+            this.stamps_number = stamps_number;
+            this.id_parent = id_parent;
+            this.code = code;
+
+            this.id_design_object_parent = id_design_object_parent;
+            this.name_object_parent = name_object_parent;
+            this.stamps_number_parent = stamps_number_parent;
+            this.id_parent_parent = id_parent_parent;
+            this.code_parent = code_parent;
+        }
+        
         public Design_Object(int id_design_object, string name_object, string stamps_number, int id_parent)  
         {
             this.id_design_object = id_design_object;
