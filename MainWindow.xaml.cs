@@ -96,24 +96,84 @@ namespace project
 
             string selected_object_name = (sender as Hyperlink).Tag as string;
             int id_parent = 0;
-            List <string> full_code_list = new List<string>();
+            int id_design_object = 0;
+            List <string> full_code_list_items = new List<string>();
+            List<string> name_object_list = new List<string>();
+            List<int> id_object_list = new List<int>();
+            //List<Design_Object> design_objects_list = new List<Design_Object>();
+            //design_objects_list.Add(new Design_Object(name_object_l[i].id_design_object, selected_object_name));
+            List<string> full_code_list_parent = new List<string>();
+            List<string> full_stamps_list_parent = new List<string>();
             string first_code = string.Empty;
             string full_code = string.Empty;
+            int first_id = 0;
             string full_stamps = string.Empty;
             string cipher = string.Empty;
             int count = 0;
-            string str = string.Empty;
+            
             bool stop_full_code = false;
-            while (stop_full_code ==false)
-            { 
-            Full_Code(selected_object_name, full_code_list, first_code);
+
+            bool stop_add_list_items = false;
+
+            while (stop_full_code == false)
+            {
+                Get_Name_Object_List(id_design_object, id_object_list, first_code);
             }
-            (string selected_object_name, List<string> full_code, string first_code) Full_Code( string str_object_name, List<string> full_code_, string first_code_)
+            (int id_design_object, List<int> id_object_list, string first_code) Get_Name_Object_List(int id_design_object_, List<int> id_object_list_, string first_code_)
+            {
+
+                for (int i = 0; i < name_object_l.Count; i++)
+                {
+                    if (name_object_l[i].name_object == selected_object_name)
+                    {
+                        if (count == 0)
+                        {
+                            first_id = name_object_l[i].id_design_object;
+                        }
+                        count++;
+                        id_design_object = name_object_l[i].id_design_object;
+                        break;
+                    }
+                }
+                for (int i = 0; i < name_object_l.Count; i++)
+                {
+                    if (name_object_l[i].id_parent == id_design_object)
+                    {
+                        id_object_list.Add(name_object_l[i].id_design_object);
+                        selected_object_name = name_object_l[i].name_object;
+                    }
+                    else if (i == name_object_l.Count - 1 && name_object_l[i].id_parent != id_design_object)
+                    {
+                        stop_full_code = true;
+                        id_object_list.Insert(0, first_id);
+                        break;
+                    }
+                }
+                return (id_design_object, id_object_list, first_code);
+            }
+            count = 0;
+            stop_full_code = false;
+            selected_object_name = (sender as Hyperlink).Tag as string;
+
+
+            for (int i = 0; i < id_object_list.Count; i++)
+            {
+                id_design_object = id_object_list[i];
+                full_code_list_items.Clear();
+                stop_full_code = false;
+                count = 0;
+                while (stop_full_code == false)
+                {
+                    Full_Code(id_design_object, full_code_list_items, first_code);
+                }
+            }
+            
+            (int id_design_object, List<string> full_code, string first_code) Full_Code( int id_design_object_, List<string> full_code_, string first_code_)
             {
                 
                for (int i = 0; i < name_object_l.Count; i++)
                {
-                    if (name_object_l[i].name_object == selected_object_name )
+                    if (name_object_l[i].id_design_object == id_design_object)
                     {
                         if(  count == 0)
                         {
@@ -129,30 +189,32 @@ namespace project
                }
                for (int i = 0; i < name_object_l.Count; i++)
                 {
-                    if (name_object_l[i].id_design_object == id_parent )
-                    {   
-                        full_code_list.Add(name_object_l[i].code + ".");
-                        selected_object_name = name_object_l[i].name_object;
-                       
-                        break;
+                    if (name_object_l[i].id_design_object == id_parent)
+                    {
+                        full_code_list_items.Add(name_object_l[i].code + ".");
+                        //stop_add_list_items = true;
                     }
                     else if (i == name_object_l.Count - 1 && name_object_l[i].id_design_object != id_parent)
                     {
                         stop_full_code = true;
-                        full_code_list.Insert(0,first_code);
-                        foreach (var n in full_code_list)
+                        full_code_list_items.Insert(0,first_code);
+                        foreach (var n in full_code_list_items)
                         {
                             full_code = full_code + n;
                         }
+                        full_code_list_parent.Add(full_code);
+                        full_stamps = cipher + "-" + full_code + "-" + full_stamps;
+                        full_stamps_list_parent.Add(full_stamps);
                         break;
                     }
                 }
-                
-                return (selected_object_name, full_code_list, first_code);
+                stop_add_list_items = false;
+
+                return (id_design_object, full_code_list_items, first_code);
             }
            
            
-            full_stamps = cipher+ "-" + full_code + "-" +  full_stamps;
+            
             //MessageBox.Show(full_code);
             //MessageBox.Show(full_stamps);
             string selectQuery = $"SELECT  set_documentation.id_stamps,  number_set_documentation,   type_documents_full_name,  number_document,  name_document," +
@@ -292,4 +354,107 @@ namespace project
 
         }
     }
-} 
+}
+
+
+
+
+
+
+
+//while (stop_full_code == false)
+//{
+//    Get_Name_Object_List(selected_object_name, name_object_list, first_code);
+//}
+//(string selected_object_name, List<string> name_object_list, string first_code) Get_Name_Object_List(string str_object_name, List<string> name_object_list_, string first_code_)
+//{
+
+//    for (int i = 0; i < name_object_l.Count; i++)
+//    {
+//        if (name_object_l[i].name_object == selected_object_name)
+//        {
+
+//            if (count == 0)
+//            {
+//                first_code = name_object_l[i].code + ".";
+//                full_stamps = name_object_l[i].stamps_number;
+//                cipher = name_object_l[i].cipher;
+//            }
+//            count++;
+//            id_design_object = name_object_l[i].id_design_object;
+//            break;
+//        }
+//    }
+//    for (int i = 0; i < name_object_l.Count; i++)
+//    {
+//        if (name_object_l[i].id_parent == id_design_object)
+//        {
+//            name_object_list.Add(name_object_l[i].code + ".");
+//            selected_object_name = name_object_l[i].name_object;
+//        }
+//        else if (i == name_object_l.Count - 1 && name_object_l[i].id_parent != id_design_object)
+//        {
+//            stop_full_code = true;
+//            name_object_list.Insert(0, first_code);
+//            break;
+//        }
+//    }
+//    return (selected_object_name, name_object_list, first_code);
+//}
+//count = 0;
+//stop_full_code = false;
+//selected_object_name = (sender as Hyperlink).Tag as string;
+//for (int i = 0; i < name_object_list.Count; i++)
+//{
+//    selected_object_name = name_object_list[i];
+//    while (stop_full_code == false)
+//    {
+//        Full_Code(selected_object_name, full_code_list_items, first_code);
+//    }
+//}
+
+//(string selected_object_name, List<string> full_code, string first_code) Full_Code(string str_object_name, List<string> full_code_, string first_code_)
+//{
+
+//    for (int i = 0; i < name_object_l.Count; i++)
+//    {
+//        if (name_object_l[i].name_object == selected_object_name)
+//        {
+//            if (count == 0)
+//            {
+//                first_code = name_object_l[i].code + ".";
+//                full_stamps = name_object_l[i].stamps_number;
+//                cipher = name_object_l[i].cipher;
+//            }
+
+//            id_parent = name_object_l[i].id_parent;
+//            count++;
+//            break;
+//        }
+//    }
+//    for (int i = 0; i < name_object_l.Count; i++)
+//    {
+//        if (name_object_l[i].id_design_object == id_parent)
+//        {
+//            full_code_list_items.Add(name_object_l[i].code + ".");
+//            selected_object_name = name_object_l[i].name_object;
+
+
+//        }
+//        else if (i == name_object_l.Count - 1 && name_object_l[i].id_design_object != id_parent)
+//        {
+//            stop_full_code = true;
+//            full_code_list_items.Insert(0, first_code);
+//            foreach (var n in full_code_list_items)
+//            {
+//                full_code = full_code + n;
+//            }
+//            full_code_list_parent.Add(full_code);
+//            full_stamps = cipher + "-" + full_code + "-" + full_stamps;
+//            full_stamps_list_parent.Add(full_stamps);
+//            break;
+//        }
+//    }
+
+//    return (selected_object_name, full_code_list_items, first_code);
+//}

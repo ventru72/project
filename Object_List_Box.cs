@@ -98,7 +98,13 @@ namespace project
             this.id_parent_parent = id_parent_parent;
             this.code_parent = code_parent;
         }
-        
+
+        public Design_Object(int id_design_object, string name_object)
+        {
+            this.id_design_object = id_design_object;
+            this.name_object = name_object;
+          
+        }
         public Design_Object(int id_design_object, string name_object, string stamps_number, int id_parent)  
         {
             this.id_design_object = id_design_object;
