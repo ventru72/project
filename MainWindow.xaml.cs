@@ -157,7 +157,7 @@ namespace project
             stop_full_code = false;
             selected_object_name = (sender as Hyperlink).Tag as string;
 
-
+            List<Set_Documentation> set_documentations_l = new List<Set_Documentation>();
             for (int i = 0; i < id_object_list.Count; i++)
             {
                 id_design_object = id_object_list[i];
@@ -193,6 +193,7 @@ namespace project
                 {
                     if (name_object_l[i].id_design_object == id_parent && condition != name_object_l[i].code)
                     {
+                       
                         full_code_list_items.Add(name_object_l[i].code + ".");
                         condition = name_object_l[i].code; //stop_add_list_items = true;
                     }
@@ -203,9 +204,15 @@ namespace project
                         {
                             full_code = full_code + n;
                         }
-                        full_code_list_parent.Add(full_code);
-                        full_stamps = cipher + "-" + full_code + "-" + full_stamps;
-                        full_stamps_list_parent.Add(full_stamps);
+                       
+                        Set_Documentation set_documentation = new Set_Documentation();
+                        set_documentation.full_code_design_object = full_code;
+                        //full_code_list_parent.Add(full_code);
+                        set_documentation.full_cipher_project = cipher + "-" + full_code + "-" + full_stamps;
+                        set_documentation.cipher = cipher;
+                        set_documentations_l.Add(set_documentation);
+                        //full_stamps_list_parent.Add(full_stamps);
+
                         break;
                     }
                 }
@@ -218,28 +225,36 @@ namespace project
             string selectquery_id_object_list = string.Empty;
             //MessageBox.Show(full_code);
             //MessageBox.Show(full_stamps);
-
-            List<List<Set_Documentation>> date_set_documentation = new List<List<Set_Documentation>>();
+            ObservableCollection<Set_Documentation> Set_documents_l = new ObservableCollection<Set_Documentation>();
+            List<Set_Documentation> requests_set_documentation = new List<Set_Documentation>();
+            Sql_Requests sql_Requests = new Sql_Requests();
             for (int i = 0; i < id_object_list.Count; i++)
             {
-                string selectQuery = $"SELECT  stamps_full_name,  number_set_documentation, " +
+                string selectQuery = $"SELECT  stamps_full_name, executor_full_name, number_set_documentation, " +
                                $"  data_creation_set_docment,  data_change_set_docment" +
                                $" FROM design_object " +
-                                $"LEFT JOIN set_documentation ON design_object.stamps_number =" +
-                                 $" set_documentation.stamps_number " +
+                               $" LEFT JOIN set_documentation ON design_object.stamps_number =" +
+                               $" set_documentation.stamps_number " +
+                               $" LEFT JOIN guide_executors ON design_object.id_executor =" +
+                               $" guide_executors.id_executor " +
                                $" LEFT JOIN guide_stamps ON set_documentation.id_stamps =" +
                                $" guide_stamps.id_stamps " +
                                $" WHERE id_design_object = '{id_object_list[i]}'";
-                Sql_Requests sql_Requests = new Sql_Requests();
-
-                date_set_documentation.Add(sql_Requests.Select_Set_Documentation(selectQuery));
+                
+                requests_set_documentation = sql_Requests.Select_Set_Documentation(selectQuery);
+                Set_documents_l.Add(new Set_Documentation(set_documentations_l[i].cipher, set_documentations_l[i].full_code_design_object,
+                requests_set_documentation[0].stamps_full_name, requests_set_documentation[0].number_set_documentation,
+                set_documentations_l[i].full_cipher_project, requests_set_documentation[0].executor_full_name,
+                requests_set_documentation[0].data_creation_set_docment, requests_set_documentation[0].data_change_set_docment));
+                
             }
-            ObservableCollection<Set_Documentation> Set_documents_l = new ObservableCollection<Set_Documentation>();
+           
             //for (int i = 0; i < id_object_list.Count; i++)
             //{
-            //    Set_documents_l.Add(new Set_Documentation(date_set_documentation[i][i].stamps_full_name, date_set_documentation[i][i].number_set_documentation,
-            //        date_set_documentation[i][i].type_documents_full_Name, date_set_documentation[i][i].number_document, date_set_documentation[i][i].name_document,
-            //        date_set_documentation[i][i].data_creation_document, date_set_documentation[i][i].data_change_document));
+            //    Set_documents_l.Add(new Set_Documentation(set_documentations_l[i].cipher, set_documentations_l[i].full_code_design_object,
+            //        date_set_documentation[i][i].stamps_full_name, date_set_documentation[i][i].number_set_documentation,
+            //        set_documentations_l[i].full_cipher_project,  date_set_documentation[i][i].data_creation_set_docment, 
+            //        date_set_documentation[i][i].data_change_set_docment,  date_set_documentation[i][i].executor_full_name));
             //}
 
 
@@ -250,7 +265,7 @@ namespace project
 
 
 
-            dataGrid.ItemsSource = date_set_documentation;
+            dataGrid.ItemsSource = Set_documents_l;
             //comboBox1.ItemsSource = name_projects;
 
 

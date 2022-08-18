@@ -137,15 +137,15 @@ namespace project
         public string number_type_documents { get; set; }
         public int id_documents { get; set; }
         public Set_Documentation() { }
-        public Set_Documentation(string full_code_design_object, string cipher, int id_design_object,  string full_cipher_project)
+        public Set_Documentation(string full_code_design_object, string cipher,  string full_cipher_project)
         {
             this.cipher = cipher;
             this.full_code_design_object = full_code_design_object;
             this.full_cipher_project = full_cipher_project;
-            this.id_design_object = id_design_object;
+           
         }
-        public Set_Documentation(string full_code_design_object, string cipher, string stamps_full_name, int number_set_documentation, 
-            string full_cipher_project, DateTime data_creation_set_docment, DateTime data_change_set_docment)
+        public Set_Documentation(string cipher, string full_code_design_object, string stamps_full_name, int number_set_documentation, 
+            string full_cipher_project, string executor_full_name,  DateTime data_creation_set_docment, DateTime data_change_set_docment)
         {
             this.cipher = cipher;
             this.full_code_design_object = full_code_design_object;
@@ -154,6 +154,8 @@ namespace project
             this.number_set_documentation = number_set_documentation;
             this.data_creation_set_docment = data_creation_set_docment;
             this.data_change_set_docment = data_change_set_docment;
+            this.executor_full_name = executor_full_name;
+
         }
 
 
