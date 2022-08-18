@@ -95,25 +95,27 @@ namespace project
         {
 
             string selected_object_name = (sender as Hyperlink).Tag as string;
+            Hyperlink link = (Hyperlink)sender;
+            string tag = (string)link.Tag;
+            Design_Object design_object_click = (Design_Object)link.DataContext;
             int id_parent = 0;
             int id_design_object = 0;
             List <string> full_code_list_items = new List<string>();
             List<string> name_object_list = new List<string>();
             List<int> id_object_list = new List<int>();
-            //List<Design_Object> design_objects_list = new List<Design_Object>();
-            //design_objects_list.Add(new Design_Object(name_object_l[i].id_design_object, selected_object_name));
+          
             List<string> full_code_list_parent = new List<string>();
             List<string> full_stamps_list_parent = new List<string>();
             string first_code = string.Empty;
             string full_code = string.Empty;
+            string condition = string.Empty;
             int first_id = 0;
             string full_stamps = string.Empty;
             string cipher = string.Empty;
             int count = 0;
-            
             bool stop_full_code = false;
 
-            bool stop_add_list_items = false;
+          
 
             while (stop_full_code == false)
             {
@@ -189,14 +191,13 @@ namespace project
                }
                for (int i = 0; i < name_object_l.Count; i++)
                 {
-                    if (name_object_l[i].id_design_object == id_parent)
+                    if (name_object_l[i].id_design_object == id_parent && condition != name_object_l[i].code)
                     {
                         full_code_list_items.Add(name_object_l[i].code + ".");
-                        //stop_add_list_items = true;
+                        condition = name_object_l[i].code; //stop_add_list_items = true;
                     }
                     else if (i == name_object_l.Count - 1 && name_object_l[i].id_design_object != id_parent)
-                    {
-                        stop_full_code = true;
+                    {  stop_full_code = true;
                         full_code_list_items.Insert(0,first_code);
                         foreach (var n in full_code_list_items)
                         {
@@ -208,40 +209,48 @@ namespace project
                         break;
                     }
                 }
-                stop_add_list_items = false;
+               
 
                 return (id_design_object, full_code_list_items, first_code);
             }
-           
-           
-            
+
+
+            string selectquery_id_object_list = string.Empty;
             //MessageBox.Show(full_code);
             //MessageBox.Show(full_stamps);
-            string selectQuery = $"SELECT  set_documentation.id_stamps,  number_set_documentation,   type_documents_full_name,  number_document,  name_document," +
-                                $"  data_creation_document,  data_change_document" +
-                                $" FROM design_object " +
-                                $" LEFT JOIN set_documentation ON design_object.stamps_number =" +
-                                $" set_documentation.stamps_number " +
-                                $" LEFT JOIN documents ON documents.number_type_documents =" +
-                                $" set_documentation.number_type_documents " +
-                               
-                                $" LEFT JOIN guide_type_documents ON documents.id_type_documents =" +
-                                $" guide_type_documents.id_type_documents " +
-                                $" LEFT JOIN guide_stamps ON set_documentation.id_stamps =" +
-                                $" guide_stamps.id_stamps " +
-                                $" WHERE name_object = '{selected_object_name}'";
-            Sql_Requests sql_Requests = new Sql_Requests();
 
-            List<Documents> date_documents = sql_Requests.Select_Set_Documentation(selectQuery);
-            List<Documents> name_projects = new List<Documents>();
-            // comboBox_projects.DataContext = date_projects;
-            foreach (Documents project in date_documents)
+            List<List<Set_Documentation>> date_set_documentation = new List<List<Set_Documentation>>();
+            for (int i = 0; i < id_object_list.Count; i++)
             {
-                //name_projects.Add(new Design_Object(project.id_project, project.name_project.ToString()));
+                string selectQuery = $"SELECT  stamps_full_name,  number_set_documentation, " +
+                               $"  data_creation_set_docment,  data_change_set_docment" +
+                               $" FROM design_object " +
+                                $"LEFT JOIN set_documentation ON design_object.stamps_number =" +
+                                 $" set_documentation.stamps_number " +
+                               $" LEFT JOIN guide_stamps ON set_documentation.id_stamps =" +
+                               $" guide_stamps.id_stamps " +
+                               $" WHERE id_design_object = '{id_object_list[i]}'";
+                Sql_Requests sql_Requests = new Sql_Requests();
+
+                date_set_documentation.Add(sql_Requests.Select_Set_Documentation(selectQuery));
             }
+            ObservableCollection<Set_Documentation> Set_documents_l = new ObservableCollection<Set_Documentation>();
+            //for (int i = 0; i < id_object_list.Count; i++)
+            //{
+            //    Set_documents_l.Add(new Set_Documentation(date_set_documentation[i][i].stamps_full_name, date_set_documentation[i][i].number_set_documentation,
+            //        date_set_documentation[i][i].type_documents_full_Name, date_set_documentation[i][i].number_document, date_set_documentation[i][i].name_document,
+            //        date_set_documentation[i][i].data_creation_document, date_set_documentation[i][i].data_change_document));
+            //}
 
 
-            dataGrid.ItemsSource = date_documents;
+            List<Documents> name_projects = new List<Documents>();
+
+
+
+
+
+
+            dataGrid.ItemsSource = date_set_documentation;
             //comboBox1.ItemsSource = name_projects;
 
 
@@ -269,7 +278,7 @@ namespace project
                                 $" WHERE  set_documentation.stamps_number = '{selected_set_documentation}'";
             Sql_Requests sql_Requests = new Sql_Requests();
 
-            List<Documents> date_documents = sql_Requests.Select_Set_Documentation(selectQuery);
+            List<Documents> date_documents = sql_Requests.Select_Documentation(selectQuery);
             //List<Documents> name_projects = new List<Documents>();
             //// comboBox_projects.DataContext = date_projects;
             //foreach (Documents project in date_projects)
@@ -281,6 +290,38 @@ namespace project
             //dataGrid.ItemsSource = date_projects;
             dataGrid.ItemsSource = date_documents;
 
+
+            //List< List<Documents>> date_documents = new List<List<Documents>>();
+            //for (int i = 0; i < id_object_list.Count; i++)
+            //{
+            //    string selectQuery = $"SELECT  stamps_full_name,  number_set_documentation,   type_documents_full_name,  number_document,  name_document," +
+            //                   $"  data_creation_document,  data_change_document" +
+            //                   $" FROM design_object " +
+            //                   $" LEFT JOIN set_documentation ON design_object.stamps_number =" +
+            //                   $" set_documentation.stamps_number " +
+            //                   $" LEFT JOIN documents ON documents.number_type_documents =" +
+            //                   $" set_documentation.number_type_documents " +
+
+            //                   $" LEFT JOIN guide_type_documents ON documents.id_type_documents =" +
+            //                   $" guide_type_documents.id_type_documents " +
+            //                   $" LEFT JOIN guide_stamps ON set_documentation.id_stamps =" +
+            //                   $" guide_stamps.id_stamps " +
+            //                   $" WHERE id_design_object = '{id_object_list[i]}'";
+            //    Sql_Requests sql_Requests = new Sql_Requests();
+
+            //    date_documents.Add( sql_Requests.Select_Set_Documentation(selectQuery));
+            //}
+            //ObservableCollection<Documents> Set_documents_l = new ObservableCollection<Documents>();
+            //for (int i = 0; i < id_object_list.Count; i++)
+            //{
+            //    Set_documents_l.Add(new Documents(date_documents[i][i].stamps_full_name, date_documents[i][i].number_set_documentation,
+            //        date_documents[i][i].type_documents_full_Name, date_documents[i][i].number_document, date_documents[i][i].name_document,
+            //        date_documents[i][i].data_creation_document, date_documents[i][i].data_change_document));
+            //}
+
+
+            //List<Documents> name_projects = new List<Documents>();
+            // comboBox_projects.DataContext = date_projects;
 
 
         }
@@ -357,6 +398,25 @@ namespace project
 }
 
 
+//List<Documents> date_documents = new List<Documents>();
+//for (int i = 0; i < id_object_list.Count; i++)
+//{
+//    string selectQuery = $"SELECT  set_documentation.id_stamps,  number_set_documentation,   type_documents_full_name,  number_document,  name_document," +
+//                   $"  data_creation_document,  data_change_document" +
+//                   $" FROM design_object " +
+//                   $" LEFT JOIN set_documentation ON design_object.stamps_number =" +
+//                   $" set_documentation.stamps_number " +
+//                   $" LEFT JOIN documents ON documents.number_type_documents =" +
+//                   $" set_documentation.number_type_documents " +
+
+//                   $" LEFT JOIN guide_type_documents ON documents.id_type_documents =" +
+//                   $" guide_type_documents.id_type_documents " +
+//                   $" LEFT JOIN guide_stamps ON set_documentation.id_stamps =" +
+//                   $" guide_stamps.id_stamps " +
+//                   $" WHERE id_design_object = '{selectquery_id_object_list}'";
+//    Sql_Requests sql_Requests = new Sql_Requests();
+//    date_documents = sql_Requests.Select_Set_Documentation(selectQuery);
+//}
 
 
 

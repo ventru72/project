@@ -130,12 +130,33 @@ namespace project
 
         public int number_set_documentation { get; set; }
         public string name_set_documentation { get; set; }
-
-       
+        public DateTime data_creation_set_docment { get; set; }
+        public DateTime data_change_set_docment { get; set; }
+        public string full_code_design_object { get; set; }
+        public string full_cipher_project { get; set; }
         public string number_type_documents { get; set; }
         public int id_documents { get; set; }
         public Set_Documentation() { }
-       
+        public Set_Documentation(string full_code_design_object, string cipher, int id_design_object,  string full_cipher_project)
+        {
+            this.cipher = cipher;
+            this.full_code_design_object = full_code_design_object;
+            this.full_cipher_project = full_cipher_project;
+            this.id_design_object = id_design_object;
+        }
+        public Set_Documentation(string full_code_design_object, string cipher, string stamps_full_name, int number_set_documentation, 
+            string full_cipher_project, DateTime data_creation_set_docment, DateTime data_change_set_docment)
+        {
+            this.cipher = cipher;
+            this.full_code_design_object = full_code_design_object;
+            this.full_cipher_project = full_cipher_project;
+            this.stamps_full_name = stamps_full_name;
+            this.number_set_documentation = number_set_documentation;
+            this.data_creation_set_docment = data_creation_set_docment;
+            this.data_change_set_docment = data_change_set_docment;
+        }
+
+
 
     }
     public class Documents : Set_Documentation, IRequests
@@ -166,11 +187,11 @@ namespace project
             this.data_creation_document = data_creation_document;
             this.data_change_document = data_change_document;
         }
-        public Documents(int id_stamps, int number_set_documentation, string type_documents_full_name, int number_document, string name_document,
+        public Documents(string stamps_full_name, int number_set_documentation, string type_documents_full_name, int number_document, string name_document,
            DateTime data_creation_document, DateTime data_change_document )
         {
             this.number_set_documentation = number_set_documentation;
-            this.id_stamps = id_stamps;
+            this.stamps_full_name = stamps_full_name;
             
             this.type_documents_full_name = type_documents_full_name;
             this.number_document = number_document;
