@@ -54,7 +54,7 @@ namespace project
             
 
         }
-
+       
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Sql_Requests sql_Requests = new Sql_Requests();
@@ -101,11 +101,9 @@ namespace project
             int id_parent = 0;
             int id_design_object = 0;
             List <string> full_code_list_items = new List<string>();
-            List<string> name_object_list = new List<string>();
+           
             List<int> id_object_list = new List<int>();
           
-            List<string> full_code_list_parent = new List<string>();
-            List<string> full_stamps_list_parent = new List<string>();
             string first_code = string.Empty;
             string full_code = string.Empty;
             string condition = string.Empty;
@@ -121,6 +119,8 @@ namespace project
             {
                 Get_Name_Object_List(id_design_object, id_object_list, first_code);
             }
+           
+            //Вычисление id дочерних обьектов
             (int id_design_object, List<int> id_object_list, string first_code) Get_Name_Object_List(int id_design_object_, List<int> id_object_list_, string first_code_)
             {
 
@@ -169,7 +169,7 @@ namespace project
                     Full_Code(id_design_object, full_code_list_items, first_code);
                 }
             }
-            
+            //Вычисление  полного шифра и полного кода, на основе списка ID обьектов полученного выше
             (int id_design_object, List<string> full_code, string first_code) Full_Code( int id_design_object_, List<string> full_code_, string first_code_)
             {
                 
@@ -221,10 +221,9 @@ namespace project
                 return (id_design_object, full_code_list_items, first_code);
             }
 
+            //Формирование окончательного списка данных для вывода в таблицу
 
             string selectquery_id_object_list = string.Empty;
-            //MessageBox.Show(full_code);
-            //MessageBox.Show(full_stamps);
             ObservableCollection<Set_Documentation> Set_documents_l = new ObservableCollection<Set_Documentation>();
             List<Set_Documentation> requests_set_documentation = new List<Set_Documentation>();
             Sql_Requests sql_Requests = new Sql_Requests();
@@ -409,6 +408,140 @@ namespace project
             listBox.ItemsSource = name_object_l;
 
         }
+        private void DG1_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            string headername = e.Column.Header.ToString();
+
+            //Cancel the column you don't want to generate
+            if (headername == "name_set_documentation")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "number_type_documents")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "id_parent")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "id_documents")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "code")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "id_design_object")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "stamps_number")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "stamps_number_parent")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "id_design_object_parent")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "name_object_parent")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "code_parent")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "id_parent_parent")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "id_project")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "name_object")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "id_set_documentation")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "name_project")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "data_creation_design_object")
+            {
+                e.Cancel = true;
+            }
+              
+            else if (headername == "data_change_design_object")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "stamps_short_name")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "id_type_documents")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "id_stamps")
+            {
+                e.Cancel = true;
+            }
+
+            //update column details when generating
+            if (headername == "number_set_documentation")
+            {
+                e.Column.Header = "Номер";
+            }
+            else if (headername == "data_creation_set_docment")
+            {
+                e.Column.Header = "Дата создания";
+            }
+            else if (headername == "data_change_set_docment")
+            {
+                e.Column.Header = "Дата изменения"; 
+            }
+            else if (headername == "full_cipher_documents")
+            {
+                e.Column.Header = "Полный шифр документа";
+            }
+            else if (headername == "full_code_design_object")
+            {
+                e.Column.Header = "Полный код проекта";
+            }
+            else if (headername == "full_cipher_project")
+            {
+                e.Column.Header = "Полный шифр документа";
+            }
+            else if (headername == "cipher")
+            {
+                e.Column.Header = "Шифр";
+            }
+            else if (headername == "stamps_full_name")
+            {
+                e.Column.Header = "Марка"; 
+            }
+            else if (headername == "type_documents_full_Name")
+            {
+                e.Column.Header = "Тип документа";
+            }
+            else if (headername == "executor_full_name")
+            {
+                e.Column.Header = "Подрядчик";
+            }
+        }
+         
     }
 }
 

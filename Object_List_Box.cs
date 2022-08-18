@@ -17,11 +17,11 @@ namespace project
         public string stamps_full_name { get; set; }
 
         public int id_type_documents { get; set; }
-        public string type_documents_short_name { get; set; }
+        //public string type_documents_short_name { get; set; }
         public string type_documents_full_Name { get; set; }
 
-        public int id_executor { get; set; }
-        public string executor_short_name { get; set; }
+        //public int id_executor { get; set; }
+        //public string executor_short_name { get; set; }
         public string executor_full_name { get; set; }
         //public Dictionary(string Stamps_Short_Name)
         //{
@@ -65,7 +65,7 @@ namespace project
         public string name_object { get; set; }
        
         public string code { get; set; }
-        public string full_code { get; set; }
+         
         public string stamps_number { get; set; }
         public int id_parent_parent { get; set; }
         public string code_parent { get; set; }
@@ -126,8 +126,7 @@ namespace project
     }
     public class Set_Documentation : Design_Object, IRequests
     {
-    
-
+ 
         public int number_set_documentation { get; set; }
         public string name_set_documentation { get; set; }
         public DateTime data_creation_set_docment { get; set; }

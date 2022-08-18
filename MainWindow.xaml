@@ -51,7 +51,10 @@
             </ListBox.ItemTemplate>
 
         </ListBox>
-        <DataGrid x:Name="dataGrid"  Grid.Column="1"    Grid.RowSpan="4" d:ItemsSource="{d:SampleData ItemCount=5}" 
+        <DataGrid x:Name="dataGrid"
+                  AutoGeneratingColumn = "DG1_AutoGeneratingColumn"
+                  Grid.Column="1" 
+                  Grid.RowSpan="4" d:ItemsSource="{d:SampleData ItemCount=5}" 
                   
                   SelectionChanged="dataGrid_SelectionChanged" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}"/>
         <Button x:Name="button" Content="Выполнить" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="20" Width="65"/>
