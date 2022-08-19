@@ -118,6 +118,7 @@
     </ApplicationDefinition>
     <Compile Include="Requests_Type.cs" />
     <Compile Include="Sql_Requests.cs" />
+    <Compile Include="Tree_Object.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

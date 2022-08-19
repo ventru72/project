@@ -497,37 +497,53 @@ namespace project
                                  $" ORDER BY  r.id_design_object";
 
             List<Design_Object> date_projects = sql_Requests.Select_Object(selectQuery);
-            List<List<string>> stamps_number_list = new List<List<string>>();
-           List<string> stamps_number_list1 = new List<string>();
-            int index = 0;
+            List<List<string>> stamps_number_list_list = new List<List<string>>();
+            List<string> stamps_number_list = new List<string>();
+          
+          
             for (int i = 0; i < date_projects.Count; i++)
             {
                 if (i ==0 )
                 {
-                    stamps_number_list1.Add(date_projects[i].stamps_number);
-                    //stamps_number_list[date_projects[i].id_design_object].Add(date_projects[i].stamps_number);
-                    index = i - 1;
+                    stamps_number_list.Add(date_projects[i].stamps_number);
                 }
 
-                 if (i != date_projects.Count-1 && date_projects[i].id_design_object == date_projects[i+1].id_design_object)
+                 else if (i != date_projects.Count-1 && date_projects[i].id_design_object == date_projects[i-1].id_design_object)
                 {
-                    stamps_number_list1.Add(date_projects[i+1].stamps_number);
-                    //stamps_number_list[date_projects[i].id_design_object].Add(date_projects[i].stamps_number);
-                    index = i - 1;
+                    stamps_number_list.Add(date_projects[i].stamps_number);
                 }
-                 if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i + 1].id_design_object)
+
+                else if(i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
+                   date_projects[i].id_design_object != date_projects[i + 1].id_design_object)
+
                 {
-                    stamps_number_list1.Add(date_projects[i + 1].stamps_number);
-                    //stamps_number_list[date_projects[i].id_design_object].Add(date_projects[i].stamps_number);
-                    index = i - 1;
+                    stamps_number_list_list.Add(new List<string>(stamps_number_list));
+                    stamps_number_list.Clear();
+                    stamps_number_list.Add(date_projects[i].stamps_number);
+                   
                 }
-                 if(i == date_projects.Count - 1 && date_projects[i].id_design_object == date_projects[i-1].id_design_object && date_projects[i].id_design_object == date_projects[i - 2].id_design_object)
+                else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
+                   date_projects[i].id_design_object == date_projects[i + 1].id_design_object)
+
                 {
-                    stamps_number_list1.Add(date_projects[i].stamps_number);
+                    stamps_number_list_list.Add(new List<string>(stamps_number_list));
+                    stamps_number_list.Clear();
+                    stamps_number_list.Add(date_projects[i].stamps_number);
+                   
                 }
-                 else if (i == date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object)
+                else if (i == date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object )
+
                 {
-                    stamps_number_list1.Add(date_projects[i].stamps_number);
+                    stamps_number_list_list.Add(new List<string>(stamps_number_list));
+                    stamps_number_list.Clear();
+                    stamps_number_list.Add(date_projects[i].stamps_number);
+                    stamps_number_list_list.Add(new List<string>(stamps_number_list));
+                }
+                else if (i == date_projects.Count - 1 && date_projects[i].id_design_object == date_projects[i - 1].id_design_object)
+
+                {
+                    stamps_number_list.Add(date_projects[i].stamps_number);
+                    stamps_number_list_list.Add(new List<string>(stamps_number_list));
                 }
 
             }
