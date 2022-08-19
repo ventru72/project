@@ -124,9 +124,9 @@ namespace project
         //}
         public Design_Object(){}
     }
-    public class Set_Documentation : Design_Object, IRequests
+    public class Set_Documentation  
     {
- 
+        public string stamps_full_name { get; set; }
         public int number_set_documentation { get; set; }
         public string name_set_documentation { get; set; }
         public DateTime data_creation_set_docment { get; set; }
@@ -135,6 +135,8 @@ namespace project
         public string full_cipher_project { get; set; }
         public string number_type_documents { get; set; }
         public int id_documents { get; set; }
+        public string executor_full_name { get; set; }
+        public string cipher { get; set; }
         public Set_Documentation() { }
         public Set_Documentation(string full_code_design_object, string cipher,  string full_cipher_project)
         {
@@ -160,14 +162,17 @@ namespace project
 
 
     }
-    public class Documents : Set_Documentation, IRequests
+    public class Documents  
     {
         public int number_document { get; set; }
         public string name_document { get; set; }
+        public int number_set_documentation { get; set; }
         string type_documents_full_name { get; set; }
         public DateTime data_creation_document { get; set; }
         public DateTime data_change_document { get; set; }
         public string full_cipher_documents { get; set; }
+        public int id_stamps { get; set; }
+        public string stamps_full_name { get; set; }
 
 
         public Documents(string type_documents_full_name, int number_document, string name_document)
