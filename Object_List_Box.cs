@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace project
 {
@@ -63,16 +64,20 @@ namespace project
         public int id_parent { get; set; }
        
         public string name_object { get; set; }
-       
+        public string stamps_full_name { get; set; }
         public string code { get; set; }
-         
+        public string full_code { get; set; }
         public string stamps_number { get; set; }
         public int id_parent_parent { get; set; }
         public string code_parent { get; set; }
         public string name_object_parent { get; set; }
         public int id_design_object_parent { get; set; }
         public string stamps_number_parent { get; set; }
-         
+        public ObservableCollection<Design_Object> Design_Object_List { get; set; }
+        public int number_set_documentation { get; set; }
+        public DateTime data_creation_set_docment { get; set; }
+        public DateTime data_change_set_docment { get; set; }
+
 
         public int id_set_documentation { get; set; }
         public Design_Object( string executor_full_name, DateTime data_creation_design_object, DateTime data_change_design_object,
@@ -86,6 +91,7 @@ namespace project
             this.data_change_design_object= data_change_design_object;
             this.cipher = cipher;
 
+
             this.id_design_object = id_design_object;
             this.name_object = name_object;
             this.stamps_number = stamps_number;
@@ -98,7 +104,43 @@ namespace project
             this.id_parent_parent = id_parent_parent;
             this.code_parent = code_parent;
         }
+        public Design_Object(int id_parent, string cipher,   DateTime data_creation_design_object, DateTime data_change_design_object,
+          
+          int id_design_object, string code, string name_object,  string stamps_number,
+          int id_design_object_parent, string code_parent, string name_object_parent,   int id_parent_parent)
+        {
 
+            //this.executor_full_name = executor_full_name;
+            this.data_creation_design_object = data_creation_design_object;
+            this.data_change_design_object = data_change_design_object;
+            this.cipher = cipher;
+
+            this.id_design_object = id_design_object;
+            this.name_object = name_object;
+            this.stamps_number = stamps_number;
+            this.id_parent = id_parent;
+            this.code = code;
+
+            this.id_design_object_parent = id_design_object_parent;
+            this.name_object_parent = name_object_parent;
+            //this.stamps_number_parent = stamps_number_parent;
+            this.id_parent_parent = id_parent_parent;
+            this.code_parent = code_parent;
+        }
+        public Design_Object(int id_design_object, int id_parent, string stamps_number)
+        {
+            this.stamps_number = stamps_number;
+            this.id_parent = id_parent;
+            this.id_design_object = id_design_object;
+
+
+        }
+        public Design_Object(ObservableCollection<Design_Object> Design_Object_List)
+        {
+            this.Design_Object_List = Design_Object_List;
+
+
+        }
         public Design_Object(int id_design_object, string name_object)
         {
             this.id_design_object = id_design_object;
@@ -126,7 +168,10 @@ namespace project
     }
     public class Set_Documentation  
     {
+        
+        public string full_code { get; set; }
         public string stamps_full_name { get; set; }
+        public string stamps_short_name { get; set; }
         public int number_set_documentation { get; set; }
         public string name_set_documentation { get; set; }
         public DateTime data_creation_set_docment { get; set; }
@@ -135,6 +180,7 @@ namespace project
         public string full_cipher_project { get; set; }
         public string number_type_documents { get; set; }
         public int id_documents { get; set; }
+        public int id_design_objectstring { get; set; }
         public string executor_full_name { get; set; }
         public string cipher { get; set; }
         public Set_Documentation() { }
@@ -145,9 +191,11 @@ namespace project
             this.full_cipher_project = full_cipher_project;
            
         }
-        public Set_Documentation(string cipher, string full_code_design_object, string stamps_full_name, int number_set_documentation, 
-            string full_cipher_project, string executor_full_name,  DateTime data_creation_set_docment, DateTime data_change_set_docment)
+        public Set_Documentation(int id_design_objectstring, string cipher, string full_code_design_object, string stamps_short_name, int number_set_documentation, string stamps_full_name,  
+             string executor_full_name,  DateTime data_creation_set_docment, DateTime data_change_set_docment)
         {
+            this.id_design_objectstring = id_design_objectstring;
+            this.stamps_short_name = stamps_short_name;
             this.cipher = cipher;
             this.full_code_design_object = full_code_design_object;
             this.full_cipher_project = full_cipher_project;
