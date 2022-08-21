@@ -140,14 +140,14 @@ namespace project
 
                             get_data_sql = sql_Requests.Select_Object(selectQuery);
                             distinct_id_design_object = date_projects[i].id_design_object;
-                            for (int j = 0; j < date_projects.Count; j++)
+                            for (int j = 0; j < get_data_sql.Count; j++)
                             {
+                             output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
+                             get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
+                             get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
 
                             }
-                            output_set_documentation.Add(new Set_Documentation(get_data_sql[0].id_design_object, get_data_sql[0].cipher, date_projects[i].full_code,
-                            get_data_sql[0].stamps_short_name, get_data_sql[0].number_set_documentation, get_data_sql[0].stamps_full_name,
-                            get_data_sql[0].executor_full_name, get_data_sql[0].data_creation_set_docment, get_data_sql[0].data_change_set_docment));
-                            get_data_sql.Clear();
+                        get_data_sql.Clear();
                             stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
                       
                             if (id_parent_list.IndexOf(date_projects[i].id_design_object_parent) == -1 &&
@@ -171,13 +171,17 @@ namespace project
                                $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
                                $" WHERE design_object.id_design_object = '{date_projects[i].id_design_object_parent}'" +
                                $" ORDER BY  set_documentation.stamps_full_name ";
-
                         get_data_sql = sql_Requests.Select_Object(selectQuery);
                         distinct_id_design_object = date_projects[i].id_design_object;
-                        output_set_documentation.Add(new Set_Documentation(get_data_sql[0].id_design_object, get_data_sql[0].cipher, date_projects[i].full_code,
-                        get_data_sql[0].stamps_short_name, get_data_sql[0].number_set_documentation, get_data_sql[0].stamps_full_name,
-                        get_data_sql[0].executor_full_name, get_data_sql[0].data_creation_set_docment, get_data_sql[0].data_change_set_docment));
-                        get_data_sql.Clear(); stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+                        for (int j = 0; j < get_data_sql.Count; j++)
+                        {
+                            output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
+                          get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
+                          get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
+
+                        }
+                        get_data_sql.Clear(); 
+                        stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
                     }
 
                     else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
@@ -201,13 +205,17 @@ namespace project
                               $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
                               $" WHERE design_object.id_design_object = '{date_projects[i].id_design_object_parent}'" +
                               $" ORDER BY  set_documentation.stamps_full_name ";
-
                         get_data_sql = sql_Requests.Select_Object(selectQuery);
                         distinct_id_design_object = date_projects[i].id_design_object;
-                        output_set_documentation.Add(new Set_Documentation(get_data_sql[0].id_design_object, get_data_sql[0].cipher, date_projects[i].full_code,
-                        get_data_sql[0].stamps_short_name, get_data_sql[0].number_set_documentation, get_data_sql[0].stamps_full_name,
-                        get_data_sql[0].executor_full_name, get_data_sql[0].data_creation_set_docment, get_data_sql[0].data_change_set_docment));
-                        get_data_sql.Clear(); stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+                        for (int j = 0; j < get_data_sql.Count; j++)
+                        {
+                            output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
+                           get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
+                           get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
+
+                        }
+                        get_data_sql.Clear(); 
+                        stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
 
                     }
                     else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
@@ -231,12 +239,15 @@ namespace project
                                $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
                                $" WHERE design_object.id_design_object = '{date_projects[i].id_design_object_parent}'" +
                                $" ORDER BY  set_documentation.stamps_full_name ";
-
                         get_data_sql = sql_Requests.Select_Object(selectQuery);
                         distinct_id_design_object = date_projects[i].id_design_object;
-                        output_set_documentation.Add(new Set_Documentation(get_data_sql[0].id_design_object, get_data_sql[0].cipher, date_projects[i].full_code,
-                        get_data_sql[0].stamps_short_name, get_data_sql[0].number_set_documentation, get_data_sql[0].stamps_full_name,
-                        get_data_sql[0].executor_full_name, get_data_sql[0].data_creation_set_docment, get_data_sql[0].data_change_set_docment));
+                        for (int j = 0; j < get_data_sql.Count; j++)
+                        {
+                            output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
+                            get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
+                            get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
+
+                        }
                         get_data_sql.Clear(); 
                         stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
                         stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
@@ -263,12 +274,15 @@ namespace project
                               $" WHERE design_object.id_design_object = '{date_projects[i].id_design_object_parent}'" +
                               $" ORDER BY  set_documentation.stamps_full_name ";
 
-
                         get_data_sql = sql_Requests.Select_Object(selectQuery);
                         distinct_id_design_object = date_projects[i].id_design_object;
-                        output_set_documentation.Add(new Set_Documentation(get_data_sql[0].id_design_object, get_data_sql[0].cipher, date_projects[i].full_code,
-                        get_data_sql[0].stamps_short_name, get_data_sql[0].number_set_documentation, get_data_sql[0].stamps_full_name,
-                        get_data_sql[0].executor_full_name, get_data_sql[0].data_creation_set_docment, get_data_sql[0].data_change_set_docment));
+                        for (int j = 0; j < get_data_sql.Count; j++)
+                        {
+                            output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
+                           get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
+                           get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
+
+                        }
                         get_data_sql.Clear(); 
                         stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
                         stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
@@ -292,9 +306,13 @@ namespace project
 
                         get_data_sql = sql_Requests.Select_Object(selectQuery);
                         distinct_id_design_object = date_projects[i].id_design_object;
-                        output_set_documentation.Add(new Set_Documentation(get_data_sql[0].id_design_object, get_data_sql[0].cipher, date_projects[i].full_code,
-                        get_data_sql[0].stamps_short_name, get_data_sql[0].number_set_documentation, get_data_sql[0].stamps_full_name,
-                        get_data_sql[0].executor_full_name, get_data_sql[0].data_creation_set_docment, get_data_sql[0].data_change_set_docment));
+                        for (int j = 0; j < get_data_sql.Count; j++)
+                        {
+                            output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
+                            get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
+                            get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
+
+                        }
                         get_data_sql.Clear();
                         stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
 
