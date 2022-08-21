@@ -202,13 +202,12 @@ namespace project
                 selectQuery = $"SELECT DISTINCT  design_object.id_design_object, " +
                                                 $" full_code,  " +
                                                 $" set_documentation.stamps_full_name, " +
-
-
                                                 $" cipher, " +
                                                 $" data_creation_design_object," +
                                                 $" data_change_design_object, " +
                                                 $" code," +
-                                                $" name_object, " +
+                                                $" name_object," +
+                                                $" number_set_documentation, " +
                                                 $" stamps_short_name,  " +
                                                 $" stamps_short_name || number_set_documentation AS stamps_number," +
                                                 $" data_creation_set_docment," +
@@ -353,14 +352,12 @@ namespace project
                 selectQuery = $"SELECT DISTINCT  design_object.id_design_object, " +
                                                 $" full_code,  " +
                                                 $" set_documentation.stamps_full_name, " +
-                                                
-                                               
                                                 $" cipher, " +
                                                 $" data_creation_design_object," +
                                                 $" data_change_design_object, " +
                                                 $" code," +
                                                 $" name_object," +
-                                                $" number_set_documentation " +
+                                                $" number_set_documentation, " +
                                                 $" stamps_short_name,  " +
                                                 $" stamps_short_name || number_set_documentation AS stamps_number," +
                                                 $" data_creation_set_docment," +
@@ -462,7 +459,7 @@ namespace project
           
                 foreach (Design_Object i in date_projects)
                 {
-                 name_object_l.Add(new Design_Object(i.id_set_documentation, id_project,  i.executor_full_name, i.data_creation_design_object, i.data_change_design_object, i.cipher,
+                 name_object_l.Add(new Design_Object(i.id_set_documentation, id_project,  i.executor_full_name, i.data_creation_set_docment, i.data_change_set_docment, i.cipher,
                  i.id_design_object, i.code, i.name_object,  i.stamps_number, i.id_parent,
                  i.id_design_object_parent, i.code_parent, i.name_object_parent, i.stamps_number_parent, i.id_parent_parent));
                  
@@ -515,11 +512,11 @@ namespace project
                 "number_document",
                 "name_document",
                 "data_creation_document",
-                "data_change_document", 
-                "id_set_documentation",
-                "name_project", 
+                "data_change_document",
+                "full_code",
                 "number_set_documentation",
-                "id_stamps",
+                "stamps_short_name"
+                
             };
             List<string> new_field_table = new List<string>()
             {
@@ -536,10 +533,10 @@ namespace project
                 "Имя документа",
                 "Дата создания",
                 "Дата изменения", 
-                "id_set_documentation",
-                "name_project", 
-                "number_set_documentation",
-                "id_stamps",
+                "Полный код",
+                "Номер комп. док.", 
+                "Марка"
+                 
             };
             
             for (int i = 0; i < old_field_table.Count; i++)

@@ -42,8 +42,8 @@ namespace project
         public string cipher { get; set; }
         public string name_project { get; set; }
          
-        public DateTime data_creation_design_object { get; set; }
-        public DateTime data_change_design_object { get; set; }
+        //public DateTime data_creation_design_object { get; set; }
+        //public DateTime data_change_design_object { get; set; }
         //public Project(string Stamps_Short_Name, DateTime Dadata_Creation, DateTime Dadata_Change):base(Stamps_Short_Name)
         //{
 
@@ -138,7 +138,7 @@ namespace project
             //this.executor_full_name = executor_full_name;
             this.full_code = full_code;
             this.stamps_short_name = stamps_short_name;
-            this.data_change_design_object = data_change_design_object;
+            this.data_creation_set_docment = data_creation_set_docment;
             this.cipher = cipher;
 
             this.number_set_documentation = number_set_documentation;
@@ -244,7 +244,7 @@ namespace project
     {
         public int number_document { get; set; }
         public string name_document { get; set; }
-        public int number_set_documentation { get; set; }
+       
         public string type_documents_short_name { get; set; }
         public DateTime data_creation_document { get; set; }
         public DateTime data_change_document { get; set; }
@@ -267,10 +267,10 @@ namespace project
             this.number_document = number_document;
             this.name_document = name_document;
         }
-        public Documents(int id_stamps, int number_set_documentation,  string type_documents_short_name, int number_document, string name_document,
+        public Documents(int id_stamps,  string type_documents_short_name, int number_document, string name_document,
             DateTime data_creation_document, DateTime data_change_document, string full_cipher_documents)
         {
-            this.number_set_documentation = number_set_documentation;
+            
             this.id_stamps = id_stamps;
             this.full_cipher_documents = full_cipher_documents;
             this.type_documents_short_name = type_documents_short_name;
@@ -279,10 +279,10 @@ namespace project
             this.data_creation_document = data_creation_document;
             this.data_change_document = data_change_document;
         }
-        public Documents(int number_set_documentation, string type_documents_short_name, int number_document, string name_document,
+        public Documents( string type_documents_short_name, int number_document, string name_document,
            DateTime data_creation_document, DateTime data_change_document )
         {
-            this.number_set_documentation = number_set_documentation;
+            
             
             
             this.type_documents_short_name = type_documents_short_name;
