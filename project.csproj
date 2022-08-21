@@ -116,6 +116,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Class1.cs" />
     <Compile Include="Requests_Type.cs" />
     <Compile Include="Sql_Requests.cs" />
     <Compile Include="Tree_Object.cs" />

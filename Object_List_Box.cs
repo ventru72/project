@@ -81,12 +81,12 @@ namespace project
 
 
         public int id_set_documentation { get; set; }
-        public Design_Object( string executor_full_name, DateTime data_creation_design_object, DateTime data_change_design_object,
+        public Design_Object(int id_project, string executor_full_name, DateTime data_creation_design_object, DateTime data_change_design_object,
             string cipher,
             int id_design_object,  string code, string name_object, string stamps_number, int id_parent,
             int id_design_object_parent, string code_parent, string name_object_parent, string stamps_number_parent, int id_parent_parent)
         {
-             
+            this.id_project = id_project;
             this.executor_full_name = executor_full_name;
             this.data_creation_design_object = data_creation_design_object;
             this.data_change_design_object= data_change_design_object;
@@ -105,13 +105,14 @@ namespace project
             this.id_parent_parent = id_parent_parent;
             this.code_parent = code_parent;
         }
-        public Design_Object(int id_parent, string cipher,   DateTime data_creation_design_object, DateTime data_change_design_object,
+        public Design_Object(int id_project, int id_parent, string cipher,   DateTime data_creation_design_object, DateTime data_change_design_object,
           
           int id_design_object, string code, string name_object,  string stamps_number,
           int id_design_object_parent, string code_parent, string name_object_parent,   int id_parent_parent)
         {
 
             //this.executor_full_name = executor_full_name;
+            this.id_project = id_project;
             this.data_creation_design_object = data_creation_design_object;
             this.data_change_design_object = data_change_design_object;
             this.cipher = cipher;
