@@ -40,7 +40,7 @@
                                  </Hyperlink>
                         </TextBlock>
                         <TextBlock    Text="Дочерний обьект проектирования - ">
-                            <Hyperlink  Tag="{Binding name_object_parent}" Click="Hyperlink_Click_Object_Name">
+                            <Hyperlink  Tag="{Binding name_object_parent}" Click="Hyperlink_Click_Object_Name_Parent">
                                 <TextBlock    Text="{Binding name_object_parent}"/> 
                             </Hyperlink>
                                 </TextBlock>

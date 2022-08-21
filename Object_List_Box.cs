@@ -77,7 +77,9 @@ namespace project
         public int number_set_documentation { get; set; }
         public DateTime data_creation_set_docment { get; set; }
         public DateTime data_change_set_docment { get; set; }
-      
+        public string name_set_documentation { get; set; }
+        public string full_cipher_documents { get; set; }
+
 
 
         public int id_set_documentation { get; set; }
@@ -105,17 +107,17 @@ namespace project
             this.id_parent_parent = id_parent_parent;
             this.code_parent = code_parent;
         }
-        public Design_Object(int id_project, int id_parent, string cipher,   DateTime data_creation_design_object, DateTime data_change_design_object,
-          
-          int id_design_object, string code, string name_object,  string stamps_number,
-          int id_design_object_parent, string code_parent, string name_object_parent,   int id_parent_parent)
+        public Design_Object(int id_design_object, int id_project, string executor_full_name, DateTime data_creation_design_object, DateTime data_change_design_object,
+           string cipher,
+           string code, string name_object, string stamps_number, int id_parent,
+           int id_design_object_parent, string code_parent, string name_object_parent, string stamps_number_parent, int id_parent_parent)
         {
-
-            //this.executor_full_name = executor_full_name;
             this.id_project = id_project;
+            this.executor_full_name = executor_full_name;
             this.data_creation_design_object = data_creation_design_object;
             this.data_change_design_object = data_change_design_object;
             this.cipher = cipher;
+
 
             this.id_design_object = id_design_object;
             this.name_object = name_object;
@@ -125,6 +127,28 @@ namespace project
 
             this.id_design_object_parent = id_design_object_parent;
             this.name_object_parent = name_object_parent;
+            this.stamps_number_parent = stamps_number_parent;
+            this.id_parent_parent = id_parent_parent;
+            this.code_parent = code_parent;
+        }///
+        public Design_Object(string cipher,  string full_code, string stamps_short_name,
+            string name_set_documentation, string stamps_full_name, string executor_full_name,
+            DateTime data_creation_set_docment, DateTime data_change_set_docment )
+        {
+
+            //this.executor_full_name = executor_full_name;
+            this.full_code = full_code;
+            this.stamps_short_name = stamps_short_name;
+            this.data_change_design_object = data_change_design_object;
+            this.cipher = cipher;
+
+            this.name_set_documentation = name_set_documentation;
+            this.stamps_full_name = stamps_full_name;
+            this.executor_full_name = executor_full_name;
+            this.data_creation_set_docment = data_creation_set_docment;
+            this.data_change_set_docment = data_change_set_docment;
+
+           
             //this.stamps_number_parent = stamps_number_parent;
             this.id_parent_parent = id_parent_parent;
             this.code_parent = code_parent;

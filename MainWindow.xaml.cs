@@ -86,6 +86,177 @@ namespace project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
+        void Hyperlink_Click_Object_Name_Parent(object sender, RoutedEventArgs e)
+        {
+
+            string selected_object_name = (sender as Hyperlink).Tag as string;
+            Hyperlink link = (Hyperlink)sender;
+            string tag = (string)link.Tag;
+
+            Design_Object design_object_click = (Design_Object)link.DataContext;
+            int disign_id = design_object_click.id_design_object_parent;
+
+            List<string> full_code_list_items = new List<string>();
+            List<List<string>> full_code_list_list_items = new List<List<string>>();
+            List<int> id_object_list = new List<int>();
+            List<List<int>> id_object_list_list = new List<List<int>>();
+            List<Design_Object> stamps_number_list = new List<Design_Object>();
+            List<List<Design_Object>> stamps_number_list_list = new List<List<Design_Object>>();
+            List<Set_Documentation> output_set_documentation = new List<Set_Documentation>();
+            string first_code = string.Empty;
+            string full_code = string.Empty;
+            string condition = string.Empty;
+
+            string full_stamps = string.Empty;
+            string cipher = string.Empty;
+
+            List<int> id_parent_list = new List<int>();
+            Sql_Requests sql_Requests = new Sql_Requests();
+            string selectQuery = string.Empty;
+            List<Design_Object> get_data_sql = new List<Design_Object>();
+
+            List<int> all_id = new List<int>();
+
+            for (int i = 0; i < date_projects.Count; i++)
+            {
+                if (i == 0)
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+
+
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+                }
+
+                else if (i != date_projects.Count - 1 && date_projects[i].id_design_object == date_projects[i - 1].id_design_object)
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+                }
+
+                else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
+                   date_projects[i].id_design_object != date_projects[i + 1].id_design_object)
+
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
+
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+
+                }
+                else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
+                   date_projects[i].id_design_object == date_projects[i + 1].id_design_object)
+
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
+
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+
+                }
+                else if (i == date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object)
+
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
+
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
+                }
+                else if (i == date_projects.Count - 1 && date_projects[i].id_design_object == date_projects[i - 1].id_design_object)
+
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
+                }
+
+            }
+            List<Design_Object> date_right_table = new List<Design_Object>();
+            ObservableCollection<Design_Object> itog_date_list = new ObservableCollection<Design_Object>();
+            for (int i = disign_id; i < all_id.Count; i++)
+            {
+                selectQuery = $"SELECT DISTINCT  design_object.id_design_object, " +
+                                                $" full_code,  " +
+                                                $" set_documentation.stamps_full_name, " +
+
+
+                                                $" cipher, " +
+                                                $" data_creation_design_object," +
+                                                $" data_change_design_object, " +
+                                                $" code," +
+                                                $" name_object, " +
+                                                $" stamps_short_name,  " +
+                                                $" stamps_short_name || number_set_documentation AS stamps_number," +
+                                                $" data_creation_set_docment," +
+                                                $" data_change_set_docment, " +
+                                                $" executor_full_name," +
+                                                $" name_object " +
+
+                                                $" FROM project" +
+                                                $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
+                                                $" LEFT JOIN design_object   ON project.id_project = design_object.id_project" +
+                                                $" LEFT JOIN set_documentation ON  design_object.id_design_object = set_documentation.id_design_object" +
+                                                $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
+                                                $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
+                                                $" WHERE design_object.id_design_object = '{all_id[i]}'" +
+                                                $" ORDER BY  set_documentation.stamps_full_name ";
+                date_right_table = sql_Requests.Select_Object(selectQuery);
+                for (int j = 0; j < date_right_table.Count; j++)
+                {
+                    itog_date_list.Add(new Design_Object(date_right_table[j].cipher, date_right_table[j].full_code, date_right_table[j].stamps_short_name,
+                               date_right_table[j].name_set_documentation, date_right_table[j].stamps_full_name, date_right_table[j].executor_full_name,
+                               date_right_table[j].data_creation_set_docment, date_right_table[j].data_change_set_docment));
+                }
+
+            }
+
+
+            dataGrid.ItemsSource = itog_date_list;
+
+        }
         void Hyperlink_Click_Object_Name(object sender, RoutedEventArgs e)
         {
 
@@ -94,9 +265,8 @@ namespace project
             string tag = (string)link.Tag;
             
             Design_Object design_object_click = (Design_Object)link.DataContext;
-            int project_id = design_object_click.id_project;
+            int disign_id = design_object_click.id_design_object;
            
-            int id_design_object = 0;
             List <string> full_code_list_items = new List<string>();
             List<List<string>> full_code_list_list_items = new List<List<string>>();
             List<int> id_object_list = new List<int>();
@@ -111,460 +281,150 @@ namespace project
             string full_stamps = string.Empty;
             string cipher = string.Empty;
            
-            int distinct_id_design_object=0;
-          
             List<int> id_parent_list = new List<int>();
             Sql_Requests sql_Requests = new Sql_Requests();
             string selectQuery = string.Empty;
             List<Design_Object> get_data_sql = new List<Design_Object>();
 
-
-        void Find_Parent_Object(List<Design_Object> date_projects)
+            List<int> all_id = new List<int>();
+           
+            for (int i = 0; i < date_projects.Count; i++)
             {
+                if (i == 0)
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
 
+
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+                }
+
+                else if (i != date_projects.Count - 1 && date_projects[i].id_design_object == date_projects[i - 1].id_design_object)
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+                }
+
+                else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
+                   date_projects[i].id_design_object != date_projects[i + 1].id_design_object)
+
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
+
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+
+                }
+                else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
+                   date_projects[i].id_design_object == date_projects[i + 1].id_design_object)
+
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
+
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+
+                }
+                else if (i == date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object)
+
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
+
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
+                }
+                else if (i == date_projects.Count - 1 && date_projects[i].id_design_object == date_projects[i - 1].id_design_object)
+
+                {
+                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object);
+                    }
+                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
+                    {
+                        all_id.Add(date_projects[i].id_design_object_parent);
+                    }
+                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
+                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
+                }
+
+            }
+            List<Design_Object> date_right_table = new List<Design_Object>();
+            ObservableCollection<Design_Object> itog_date_list = new ObservableCollection<Design_Object>();
+            for (int i = disign_id; i < all_id.Count; i++)
+            {
+                selectQuery = $"SELECT DISTINCT  design_object.id_design_object, " +
+                                                $" full_code,  " +
+                                                $" set_documentation.stamps_full_name, " +
+                                                
+                                               
+                                                $" cipher, " +
+                                                $" data_creation_design_object," +
+                                                $" data_change_design_object, " +
+                                                $" code," +
+                                                $" name_object, " +
+                                                $" stamps_short_name,  " +
+                                                $" stamps_short_name || number_set_documentation AS stamps_number," +
+                                                $" data_creation_set_docment," +
+                                                $" data_change_set_docment, " +
+                                                $" executor_full_name," +
+                                                $" name_object " +
+                                                 
+                                                $" FROM project" +
+                                                $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
+                                                $" LEFT JOIN design_object   ON project.id_project = design_object.id_project" +
+                                                $" LEFT JOIN set_documentation ON  design_object.id_design_object = set_documentation.id_design_object" +
+                                                $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
+                                                $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
+                                                $" WHERE design_object.id_design_object = '{all_id[i]}'" +
+                                                $" ORDER BY  set_documentation.stamps_full_name ";
+                date_right_table = sql_Requests.Select_Object(selectQuery);
+                for (int j = 0; j < date_right_table.Count; j++)
+                {
+                    itog_date_list.Add(new Design_Object(date_right_table[j].cipher, date_right_table[j].full_code, date_right_table[j].stamps_short_name,
+                               date_right_table[j].name_set_documentation, date_right_table[j].stamps_full_name, date_right_table[j].executor_full_name,
+                               date_right_table[j].data_creation_set_docment, date_right_table[j].data_change_set_docment));
+                }
+
+            }
+           
             
-                for (int i = 0; i < date_projects.Count; i++)
-                {
-                    if (i == 0)
-                    {
-                        selectQuery = $"SELECT DISTINCT   full_code, set_documentation.stamps_full_name,  cipher, " +
-                                $" name_object, stamps_short_name,  " +
-                                $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
-                                $" executor_full_name" +
-                                $" FROM project" +
-                                $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
-                                $" LEFT JOIN design_object  ON project.id_project =design_object.id_project" +
-                                $" LEFT JOIN set_documentation ON design_object.id_design_object = set_documentation.id_design_object" +
-                                $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
-                                $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-                                $" WHERE design_object.id_design_object = '{date_projects[i].id_design_object_parent}'" +
-                                $" ORDER BY  set_documentation.stamps_full_name ";
-
-                            get_data_sql = sql_Requests.Select_Object(selectQuery);
-                            distinct_id_design_object = date_projects[i].id_design_object;
-                            for (int j = 0; j < get_data_sql.Count; j++)
-                            {
-                             output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
-                             get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
-                             get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
-
-                            }
-                        get_data_sql.Clear();
-                            stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-                      
-                            if (id_parent_list.IndexOf(date_projects[i].id_design_object_parent) == -1 &&
-                            id_parent_list.IndexOf(distinct_id_design_object) == -1)
-                            {
-                              id_parent_list.Add(date_projects[i].id_design_object_parent);
-                            }
-                    }
-
-                    else if (i != date_projects.Count - 1 && date_projects[i].id_design_object == date_projects[i - 1].id_design_object)
-                    {
-                        selectQuery = $"SELECT DISTINCT   full_code, set_documentation.stamps_full_name,  cipher, " +
-                               $" name_object, stamps_short_name,  " +
-                               $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
-                               $" executor_full_name" +
-                               $" FROM project" +
-                               $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
-                               $" LEFT JOIN design_object  ON project.id_project =design_object.id_project" +
-                               $" LEFT JOIN set_documentation ON design_object.id_design_object = set_documentation.id_design_object" +
-                               $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
-                               $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-                               $" WHERE design_object.id_design_object = '{date_projects[i].id_design_object_parent}'" +
-                               $" ORDER BY  set_documentation.stamps_full_name ";
-                        get_data_sql = sql_Requests.Select_Object(selectQuery);
-                        distinct_id_design_object = date_projects[i].id_design_object;
-                        for (int j = 0; j < get_data_sql.Count; j++)
-                        {
-                            output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
-                          get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
-                          get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
-
-                        }
-                        get_data_sql.Clear(); 
-                        stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-                    }
-
-                    else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
-                       date_projects[i].id_design_object != date_projects[i + 1].id_design_object)
-
-                    {
-                        if (id_parent_list.IndexOf(date_projects[i].id_design_object_parent) == -1 &&
-                               id_parent_list.IndexOf(distinct_id_design_object) == -1)
-                        {
-                        id_parent_list.Add(date_projects[i].id_design_object_parent);
-                    }
-                        selectQuery = $"SELECT DISTINCT   full_code, set_documentation.stamps_full_name,  cipher, " +
-                              $" name_object, stamps_short_name,  " +
-                              $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
-                              $" executor_full_name" +
-                              $" FROM project" +
-                              $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
-                              $" LEFT JOIN design_object  ON project.id_project =design_object.id_project" +
-                              $" LEFT JOIN set_documentation ON design_object.id_design_object = set_documentation.id_design_object" +
-                              $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
-                              $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-                              $" WHERE design_object.id_design_object = '{date_projects[i].id_design_object_parent}'" +
-                              $" ORDER BY  set_documentation.stamps_full_name ";
-                        get_data_sql = sql_Requests.Select_Object(selectQuery);
-                        distinct_id_design_object = date_projects[i].id_design_object;
-                        for (int j = 0; j < get_data_sql.Count; j++)
-                        {
-                            output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
-                           get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
-                           get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
-
-                        }
-                        get_data_sql.Clear(); 
-                        stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-
-                    }
-                    else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
-                       date_projects[i].id_design_object == date_projects[i + 1].id_design_object)
-
-                    {
-                        if (id_parent_list.IndexOf(date_projects[i].id_design_object_parent) == -1 &&
-                               id_parent_list.IndexOf(distinct_id_design_object) == -1)
-                        {
-                        id_parent_list.Add(date_projects[i].id_design_object_parent);
-                    }
-                        selectQuery = $"SELECT DISTINCT   full_code, set_documentation.stamps_full_name,  cipher, " +
-                               $" name_object, stamps_short_name,  " +
-                               $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
-                               $" executor_full_name" +
-                               $" FROM project" +
-                               $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
-                               $" LEFT JOIN design_object  ON project.id_project =design_object.id_project" +
-                               $" LEFT JOIN set_documentation ON design_object.id_design_object = set_documentation.id_design_object" +
-                               $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
-                               $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-                               $" WHERE design_object.id_design_object = '{date_projects[i].id_design_object_parent}'" +
-                               $" ORDER BY  set_documentation.stamps_full_name ";
-                        get_data_sql = sql_Requests.Select_Object(selectQuery);
-                        distinct_id_design_object = date_projects[i].id_design_object;
-                        for (int j = 0; j < get_data_sql.Count; j++)
-                        {
-                            output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
-                            get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
-                            get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
-
-                        }
-                        get_data_sql.Clear(); 
-                        stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-                        stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-
-                    }
-                    else if (i == date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object)
-
-                    {
-                        if (id_parent_list.IndexOf(date_projects[i].id_design_object_parent) == -1 &&
-                               id_parent_list.IndexOf(distinct_id_design_object) == -1)
-                        {
-                        id_parent_list.Add(date_projects[i].id_design_object_parent);
-                        }
-                        selectQuery = $"SELECT DISTINCT   full_code, set_documentation.stamps_full_name,  cipher, " +
-                              $" name_object, stamps_short_name,  " +
-                              $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
-                              $" executor_full_name" +
-                              $" FROM project" +
-                              $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
-                              $" LEFT JOIN design_object  ON project.id_project =design_object.id_project" +
-                              $" LEFT JOIN set_documentation ON design_object.id_design_object = set_documentation.id_design_object" +
-                              $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
-                              $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-                              $" WHERE design_object.id_design_object = '{date_projects[i].id_design_object_parent}'" +
-                              $" ORDER BY  set_documentation.stamps_full_name ";
-
-                        get_data_sql = sql_Requests.Select_Object(selectQuery);
-                        distinct_id_design_object = date_projects[i].id_design_object;
-                        for (int j = 0; j < get_data_sql.Count; j++)
-                        {
-                            output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
-                           get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
-                           get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
-
-                        }
-                        get_data_sql.Clear(); 
-                        stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-                        stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
-                    }
-                    else if (i == date_projects.Count - 1 && date_projects[i].id_design_object == date_projects[i - 1].id_design_object)
-
-                    {
-                        selectQuery = $"SELECT DISTINCT   full_code, set_documentation.stamps_full_name,  cipher, " +
-                              $" name_object, stamps_short_name,  " +
-                              $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
-                              $" executor_full_name" +
-                              $" FROM project" +
-                              $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
-                              $" LEFT JOIN design_object  ON project.id_project =design_object.id_project" +
-                              $" LEFT JOIN set_documentation ON design_object.id_design_object = set_documentation.id_design_object" +
-                              $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
-                              $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-                              $" WHERE design_object.id_design_object = '{date_projects[i].id_design_object_parent}'" +
-                              $" ORDER BY  set_documentation.stamps_full_name ";
-
-
-                        get_data_sql = sql_Requests.Select_Object(selectQuery);
-                        distinct_id_design_object = date_projects[i].id_design_object;
-                        for (int j = 0; j < get_data_sql.Count; j++)
-                        {
-                            output_set_documentation.Add(new Set_Documentation(get_data_sql[j].id_design_object, get_data_sql[j].cipher, date_projects[i].full_code,
-                            get_data_sql[j].stamps_short_name, get_data_sql[j].number_set_documentation, get_data_sql[j].stamps_full_name,
-                            get_data_sql[j].executor_full_name, get_data_sql[j].data_creation_set_docment, get_data_sql[j].data_change_set_docment));
-
-                        }
-                        get_data_sql.Clear();
-                        stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-
-                        if (id_parent_list.IndexOf(date_projects[i].id_design_object_parent) == -1 &&
-                             id_parent_list.IndexOf(distinct_id_design_object) == -1)
-                        {
-                        id_parent_list.Add(date_projects[i].id_design_object_parent);
-                      }
-                    }
-                }
-            }
-            Find_Parent_Object(date_projects);
-
-           
-            while(id_parent_list.Count !=0)
-            {
-              for (int i = 0; i < id_parent_list.Count; i++)
-              {
-                 selectQuery = $"SELECT DISTINCT  o.id_design_object, o.full_code, r.full_code, set_documentation.stamps_full_name, full_cipher_documents, o.id_parent, cipher, " +
-                                 $"o.data_creation_design_object, o.data_change_design_object, " +
-                                 $" o.id_design_object, o.code, o.name_object, stamps_short_name,  " +
-                                 $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
-                                 $" r.id_design_object AS id_design_object_parent, executor_full_name," +
-                                 $" r.code AS code_parent,"                                 +
-                                 $" r.name_object AS name_object_parent," +
-                                 $" r.id_parent AS id_parent_parent" +
-                                 $" FROM project" +
-                                 $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
-                                 $" LEFT JOIN design_object AS o ON project.id_project = o.id_project" +
-                                 $" LEFT JOIN set_documentation ON o.id_design_object = set_documentation.id_design_object" +
-                                 $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
-                                 $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-                                 $"   JOIN design_object AS r ON o.id_design_object = r.id_parent" +
-                                  $" WHERE o.id_design_object = '{id_parent_list[i]}'" +
-                                  $" ORDER BY  set_documentation.stamps_full_name ";
-                date_projects = sql_Requests.Select_Object(selectQuery);
-                Find_Parent_Object(date_projects);
-                id_parent_list.RemoveAt(i);
-              }
-            }
-            selectQuery = $"SELECT DISTINCT o.full_code, r.full_code, set_documentation.stamps_full_name, full_cipher_documents, o.id_parent, cipher, " +
-                                   $"o.data_creation_design_object, o.data_change_design_object, " +
-                                   $" o.id_design_object, o.code, o.name_object, stamps_short_name,  " +
-                                   $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
-                                   $" r.id_design_object AS id_design_object_parent, executor_full_name," +
-                                   $" r.code AS code_parent,"
-                                   +
-                                   $" r.name_object AS name_object_parent," +
-
-                                   $" r.id_parent AS id_parent_parent" +
-                                   $" FROM project" +
-
-                                   $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
-                                   $" LEFT JOIN design_object AS o ON project.id_project = o.id_project" +
-                                   $" LEFT JOIN set_documentation ON o.id_design_object = set_documentation.id_design_object" +
-                                   $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
-                                   $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-
-                                   $"   JOIN design_object AS r ON o.id_design_object = r.id_parent" +
-                                   $" WHERE project.id_project = '{project_id}'" +
-                                   $" ORDER BY  r.id_design_object";
-            date_projects = sql_Requests.Select_Object(selectQuery);
-
-            //соритровка списка для подготовки к удалению дубликатов
-            int Comparer(Set_Documentation a, Set_Documentation b)
-            {
-
-                int comp_quantity_project = a.stamps_full_name.CompareTo(b.stamps_full_name);
-                if (comp_quantity_project != 0) return comp_quantity_project;
-
-                return a.stamps_full_name.CompareTo(b.stamps_full_name);
-            }
-            output_set_documentation.Sort(Comparer);
-
-            //удаление дубликатов
-            void Delete_Dublicat(List<Set_Documentation> output_set_documentation_)
-            {
-                for (int i = 0; i < output_set_documentation.Count; i++)
-                {
-                    if (i != output_set_documentation.Count - 1 && output_set_documentation[i].stamps_full_name == output_set_documentation[i + 1].stamps_full_name)
-                    {
-                        output_set_documentation.RemoveAt(i);
-                    }
-                    if (i == output_set_documentation.Count - 1 && output_set_documentation[i].stamps_full_name == output_set_documentation[i - 1].stamps_full_name)
-                    {
-                        output_set_documentation.RemoveAt(i);
-                    }
-                }
-            }
-            Delete_Dublicat(output_set_documentation);
-           
-            //selectQuery = $"SELECT DISTINCT o.full_code, r.full_code, set_documentation.stamps_full_name, full_cipher_documents, o.id_parent, cipher, " +
-            //                     $"o.data_creation_design_object, o.data_change_design_object, " +
-            //                     $" o.id_design_object, o.code, o.name_object, stamps_short_name,  " +
-            //                     $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
-            //                     $" r.id_design_object AS id_design_object_parent, executor_full_name," +
-            //                     $" r.code AS code_parent,"
-            //                     +
-            //                     $" r.name_object AS name_object_parent," +
-
-            //                     $" r.id_parent AS id_parent_parent" +
-            //                     $" FROM project" +
-
-            //                     $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
-            //                     $" LEFT JOIN design_object AS o ON project.id_project = o.id_project" +
-            //                     $" LEFT JOIN set_documentation ON o.id_design_object = set_documentation.id_design_object" +
-            //                     $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
-            //                     $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-
-            //                     $"   JOIN design_object AS r ON o.id_design_object = r.id_parent" +
-            //                     $" WHERE project.id_project = '{project.id_project}'" +
-            //                     $" ORDER BY  r.id_design_object";
-
-            //date_projects = sql_Requests.Select_Object(selectQuery);
-            //stamps_number_list_list.Add(stamps_number_list);
-
-
-
-            //while (stop_full_code == false)
-            //{
-            //    Get_Name_Object_List(id_design_object, id_object_list, first_code);
-            //}
-
-            ////Вычисление id дочерних обьектов
-            //(int id_design_object, List<int> id_object_list, string first_code) Get_Name_Object_List(int id_design_object__, List<int> id_object_list_, string first_code_)
-            //{
-
-            //    for (int i = 0; i < name_object_l.Count; i++)
-            //    {
-            //        if (name_object_l[i].name_object == selected_object_name)
-            //        {
-            //            if (count == 0)
-            //            {
-            //                first_id = name_object_l[i].id_design_object;
-            //            }
-            //            count++;
-            //            id_design_object = name_object_l[i].id_design_object;
-            //            break;
-            //        }
-            //    }
-            //  void Find_Id_List(Design_Object list, int id_design)
-            //  {
-            //     for (int i = 0; i < name_object_l.Count; i++)
-            //     {
-            //        if (name_object_l[i].id_parent == id_design_object)
-            //        {
-            //            id_object_list.Add(name_object_l[i].id_design_object);
-            //            selected_object_name = name_object_l[i].name_object;
-            //        }
-            //        else if (i == name_object_l.Count - 1 && name_object_l[i].id_parent != id_design_object)
-            //        {
-            //            stop_full_code = true;
-            //            id_object_list.Insert(0, first_id);
-            //            break;
-            //        }
-            //     }
-            //  }
-
-            //    return (id_design_object, id_object_list, first_code);
-            //}
-            //count = 0;
-            //stop_full_code = false;
-            //selected_object_name = (sender as Hyperlink).Tag as string;
-
-            //List<Set_Documentation> set_documentations_l = new List<Set_Documentation>();
-            //for (int i = 0; i < id_object_list.Count; i++)
-            //{
-            //    id_design_object = id_object_list[i];
-            //    full_code_list_items.Clear();
-            //    stop_full_code = false;
-            //    count = 0;
-            //    while (stop_full_code == false)
-            //    {
-            //        Full_Code(id_design_object, full_code_list_items, first_code);
-            //    }
-            //}
-            ////Вычисление  полного шифра и полного кода, на основе списка ID обьектов полученного выше
-            //(int id_design_object, List<string> full_code, string first_code) Full_Code( int id_design_object__, List<string> full_code_, string first_code_)
-            //{
-
-            //   for (int i = 0; i < name_object_l.Count; i++)
-            //   {
-            //        if (name_object_l[i].id_design_object == id_design_object)
-            //        {
-            //            if(  count == 0)
-            //            {
-            //                first_code = name_object_l[i].code + ".";
-            //                full_stamps = name_object_l[i].stamps_number;
-            //                cipher = name_object_l[i].cipher;
-            //            }
-
-            //            id_parent = name_object_l[i].id_parent;
-            //            count++;
-            //            break;
-            //        }
-            //   }
-            //   for (int i = 0; i < name_object_l.Count; i++)
-            //    {
-            //        if (name_object_l[i].id_design_object == id_parent && condition != name_object_l[i].code)
-            //        {
-
-            //            full_code_list_items.Add(name_object_l[i].code + ".");
-            //            condition = name_object_l[i].code; //stop_add_list_items = true;
-            //        }
-            //        else if (i == name_object_l.Count - 1 && name_object_l[i].id_design_object != id_parent)
-            //        {  stop_full_code = true;
-            //            full_code_list_items.Insert(0,first_code);
-            //            foreach (var n in full_code_list_items)
-            //            {
-            //                full_code = full_code + n;
-            //            }
-
-            //            Set_Documentation set_documentation = new Set_Documentation();
-            //            set_documentation.full_code_design_object = full_code;
-            //            set_documentation.full_cipher_project = cipher + "-" + full_code + "-" + full_stamps;
-            //            set_documentation.cipher = cipher;
-            //            set_documentations_l.Add(set_documentation);
-            //            break;
-            //        }
-            //    }
-            //    return (id_design_object, full_code_list_items, first_code);
-            //}
-
-            ////Формирование окончательного списка данных для вывода в таблицу
-
-            //string selectquery_id_object_list = string.Empty;
-            //ObservableCollection<Set_Documentation> Set_documents_l = new ObservableCollection<Set_Documentation>();
-            //List<Set_Documentation> requests_set_documentation = new List<Set_Documentation>();
-
-            //for (int i = 0; i < id_object_list.Count; i++)
-            //{
-            //    string selectQuery = $"SELECT  stamps_full_name, executor_full_name, number_set_documentation, " +
-            //                   $"  data_creation_set_docment,  data_change_set_docment" +
-            //                   $" FROM design_object " +
-            //                   $" LEFT JOIN set_documentation ON design_object.stamps_number =" +
-            //                   $" set_documentation.stamps_number " +
-            //                   $" LEFT JOIN guide_executors ON design_object.id_executor =" +
-            //                   $" guide_executors.id_executor " +
-            //                   $" LEFT JOIN guide_stamps ON set_documentation.id_stamps =" +
-            //                   $" guide_stamps.id_stamps " +
-            //                   $" WHERE id_design_object = '{id_object_list[i]}'";
-
-            //    requests_set_documentation = sql_Requests.Select_Set_Documentation(selectQuery);
-            //    Set_documents_l.Add(new Set_Documentation(set_documentations_l[i].cipher, set_documentations_l[i].full_code_design_object,
-            //    requests_set_documentation[0].stamps_full_name, requests_set_documentation[0].number_set_documentation,
-            //    set_documentations_l[i].full_cipher_project, requests_set_documentation[0].executor_full_name,
-            //    requests_set_documentation[0].data_creation_set_docment, requests_set_documentation[0].data_change_set_docment));
-
-            //}
-            dataGrid.ItemsSource = output_set_documentation;
+            dataGrid.ItemsSource = itog_date_list;
            
         }
         /// <summary>
@@ -765,105 +625,7 @@ namespace project
                                  $" ORDER BY  r.id_design_object";
 
             date_projects = sql_Requests.Select_Object(selectQuery);
-            List<int> all_id = new List<int>();
-            List<Design_Object> stamps_number_list = new List<Design_Object>();
-            List<List<Design_Object>> stamps_number_list_list = new List<List<Design_Object>>();
-            for (int i = 0; i < date_projects.Count; i++)
-            {
-                if (i == 0)
-                {
-                    if(all_id.IndexOf(date_projects[i].id_design_object) ==-1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object);
-                    }
-                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object_parent);
-                    }
-
-                    
-                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-                }
-
-                else if (i != date_projects.Count - 1 && date_projects[i].id_design_object == date_projects[i - 1].id_design_object)
-                {
-                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object);
-                    }
-                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object_parent);
-                    }
-                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-                }
-
-                else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
-                   date_projects[i].id_design_object != date_projects[i + 1].id_design_object)
-
-                {
-                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object);
-                    }
-                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object_parent);
-                    }
-                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
-                  
-                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-
-                }
-                else if (i != date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object &&
-                   date_projects[i].id_design_object == date_projects[i + 1].id_design_object)
-
-                {
-                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object);
-                    }
-                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object_parent);
-                    }
-                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
-                  
-                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-
-                }
-                else if (i == date_projects.Count - 1 && date_projects[i].id_design_object != date_projects[i - 1].id_design_object)
-
-                {
-                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object);
-                    }
-                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object_parent);
-                    }
-                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
-                   
-                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
-                }
-                else if (i == date_projects.Count - 1 && date_projects[i].id_design_object == date_projects[i - 1].id_design_object)
-
-                {
-                    if (all_id.IndexOf(date_projects[i].id_design_object) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object);
-                    }
-                    if (all_id.IndexOf(date_projects[i].id_design_object_parent) == -1)
-                    {
-                        all_id.Add(date_projects[i].id_design_object_parent);
-                    }
-                    stamps_number_list.Add(new Design_Object(date_projects[i].id_design_object, date_projects[i].id_parent, date_projects[i].stamps_number));
-                    stamps_number_list_list.Add(new List<Design_Object>(stamps_number_list));
-                }
-
-            }
+           
             //all_id.Sort();
             //all_id.Distinct();
 
@@ -914,14 +676,7 @@ namespace project
 
             //}
 
-            foreach (var stamp in stamps_number_list_list)
-            {
-                listBox.ItemsSource = stamp;
-                foreach (Design_Object stamp_obj in stamp)
-                {
-                    
-                }
-            }
+          
 
                 foreach (Design_Object i in date_projects)
                 {
