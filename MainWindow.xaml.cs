@@ -352,7 +352,19 @@ namespace project
                 Find_Parent_Object(date_projects);
                 id_parent_list.RemoveAt(i);
               }
-            } 
+            }
+             
+            int Comparer(Set_Documentation a, Set_Documentation b)
+            {
+
+                int comp_quantity_project = a.stamps_full_name.CompareTo(b.stamps_full_name);
+                if (comp_quantity_project != 0) return comp_quantity_project;
+
+                return a.stamps_full_name.CompareTo(b.stamps_full_name);
+            }
+            output_set_documentation.Sort(Comparer);
+
+
             void Delete_Dublicat(List<Set_Documentation> output_set_documentation_)
             {
                 for (int i = 0; i < output_set_documentation.Count; i++)
