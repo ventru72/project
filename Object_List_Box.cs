@@ -117,9 +117,24 @@ namespace project
         public int id_set_documentation { get; set; }
         public string stamps_short_name { get; set; }
 
-        public Design_Object( string name_object)
+        public Design_Object( string name_object, int id_parent)
         {
            this.name_object = name_object;
+            this.id_parent = id_parent;
+        }
+        public Design_Object(string full_code)
+        {
+            this.full_code = full_code;
+           
+        }
+        public Design_Object(int id_parent)
+        {
+            this.id_parent = id_parent;
+        }
+        public Design_Object(string full_code, string name_object)
+        {
+            this.full_code = full_code;
+            this.name_object = name_object;
         }
 
 

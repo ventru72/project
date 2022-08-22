@@ -607,11 +607,7 @@ namespace project
             Guide_Executors dictionary_executor = (Guide_Executors)set_project.DataContext;
             id_executor = dictionary_executor.id_executor;
             }
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-            //MessageBox.Show(textBox.Text);
-        }
+       
 
         void project_change_in_design_object_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -622,7 +618,8 @@ namespace project
             Project dictionary_executor = (Project)project_change.DataContext;
             int id_project = dictionary_executor.id_project;
             string selectQuery = $@"SELECT 
-                                 name_object
+                                 name_object,
+                                 id_parent
                                  FROM design_object
                                  LEFT JOIN project ON design_object.id_project = project.id_project
                                  WHERE project.id_project = '{id_project}'
@@ -633,15 +630,49 @@ namespace project
 
             foreach (Design_Object o in parent_object)
             {
-                output_parent_object.Add( new Design_Object(o.name_object));
+                output_parent_object.Add( new Design_Object(o.name_object, o.id_parent));
             }
             id_parent.ItemsSource = output_parent_object;
         }
         void chois_parent_design_object_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             id_parent.DataContext = id_parent.SelectedItem;
-            Design_Object dictionary_executor = (Design_Object)id_parent.DataContext;
-            id_parent_object = dictionary_executor.id_executor;
+            Design_Object dictionary_id_parent = (Design_Object)id_parent.DataContext;
+            id_parent_object = dictionary_id_parent.id_parent;
+        }
+        private void add_data_object_Click(object sender, RoutedEventArgs e)
+        {
+            try
+
+            {
+                Sql_Requests sql_Requests = new Sql_Requests();
+                string selectQuery = $@"SELECT 
+                                 full_code
+                                 FROM design_object
+                                 WHERE design_object.id_design_object = '{id_parent_object}'";
+                                
+
+                
+                List<Design_Object> parent_object_code = sql_Requests.Select_Object(selectQuery);
+                ObservableCollection<Project> output_parent_object_code = new ObservableCollection<Project>();
+
+                foreach (Design_Object o in parent_object_code)
+                {
+                    output_parent_object_code.Add(new Design_Object(o.full_code));
+                }
+                 
+                sql_Requests.Insert_Project(selectQuery, new Design_Object(ciher_project.Text, name_project.Text, id_executor));
+                selectQuery = $@"INSERT INTO project (cipher, name_project, id_executor  )" +
+                                    $"VALUES (@cipher, @name_project, @id_executor)";
+                MessageBox.Show("Запись добавлена.");
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка при добавлении: " + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
