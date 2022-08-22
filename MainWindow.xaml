@@ -5,20 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:project"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="450" Width="1200">
+        WindowStartupLocation="CenterOwner"
+        Title="MainWindow" Height="1000" Width="1600">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="27*"/>
-            <RowDefinition Height="22*"/>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="360*"/>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="17*"/>
+            <RowDefinition Height="52*" />
+            <RowDefinition Height="59*" />
+            <RowDefinition Height="550*"/>
+            <RowDefinition Height="306*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="287*"/>
+            <ColumnDefinition Width="187*"/>
             <ColumnDefinition Width="513*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="listBox" Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,25,0,0" Grid.RowSpan="2">
+        <WrapPanel Orientation="Horizontal"
+                   Grid.Row="4" 
+                   Grid.Column="1" 
+                   ItemWidth="180">
+            <TextBox x:Name="name_project"
+                     MaxLength="50"
+                     TextChanged="TextBox_TextChanged"
+                     Margin="0,0,30,0"
+                     SpellCheck.IsEnabled="True" Language="ru-ru" >Название проекта</TextBox>
+            <TextBox x:Name="ciher_project"
+                     MaxLength="50" 
+                     TextChanged="TextBox_TextChanged"
+                     Margin="0,0,30,0" 
+                     SpellCheck.IsEnabled="True" Language="ru-ru">Шифр проекта</TextBox>
+            <ComboBox x:Name="set_project"
+                  HorizontalAlignment="Left"
+                  Margin="0,0,30,0"
+                  VerticalAlignment="Top"
+                  Width="151"
+                  SelectionChanged="executor_set_project_SelectionChanged">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding executor_short_name}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="add_data_project" Click="add_data_project_Click" Content="Добавить новый проект" Margin="0,0,39,0"> </Button>
+        </WrapPanel>
+        <ListBox x:Name="listBox" Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,25,0,0" Grid.RowSpan="4">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -48,7 +80,7 @@
                             <Hyperlink  Tag="{Binding stamps_number_parent}" Click="Hyperlink_Click_Set_Documentation">
                              <TextBlock    Text="{Binding stamps_number_parent}"/>
                                  </Hyperlink>
-                        </TextBlock> 
+                        </TextBlock>
 
 
                     </StackPanel>
@@ -75,19 +107,17 @@
 
         </ListBox>-->
         <DataGrid x:Name="dataGrid"
-                  AutoGeneratingColumn = "DG1_AutoGeneratingColumn"
-                  Grid.Column="1" 
-                  Grid.RowSpan="4" d:ItemsSource="{d:SampleData ItemCount=5}" 
+                  AutoGeneratingColumn = "DG1_AutoGeneratingColumn" 
+                  Grid.RowSpan="3" d:ItemsSource="{d:SampleData ItemCount=5}" 
                   
-                  SelectionChanged="dataGrid_SelectionChanged" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}"/>
+                  SelectionChanged="dataGrid_SelectionChanged" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="2" Margin="427,0,0,0"/>
         <Button x:Name="button" Content="Выполнить" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="20" Width="65"/>
         <ComboBox x:Name="comboBox1"
                   HorizontalAlignment="Left"
                   Margin="126,22,0,0"
                   VerticalAlignment="Top"
                   Width="151"
-                  SelectionChanged="comboBox1_SelectionChanged" 
-                  Grid.RowSpan="2"
+                  SelectionChanged="comboBox1_SelectionChanged"
                   Grid.Row="1">
             <ComboBox.ItemTemplate>
                 <DataTemplate>

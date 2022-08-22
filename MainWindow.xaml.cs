@@ -30,27 +30,40 @@ namespace project
         {
             
             string selectQuery = $@"select 
-        id_project,
-        name_project,
-        id_executor,
-        cipher
-        from project
-        ORDER BY id_project ASC ";
+                                 id_project,
+                                 name_project,
+                                 id_executor,
+                                 cipher
+                                 from project
+                                 ORDER BY id_project ASC ";
             InitializeComponent();
           
 
             Sql_Requests sql_Requests = new Sql_Requests();
            
             List<Project> date_projects = sql_Requests.Select_Project(selectQuery);
-            List<Project> name_projects = new List<Project>();
-           // comboBox_projects.DataContext = date_projects;
+            List<Project> output_name_projects = new List<Project>();
+           
+            List<Dictionary> output_dictionary = new List<Dictionary>();
+            // comboBox_projects.DataContext = date_projects;
             foreach (Project project in date_projects)
             {
-                name_projects.Add(new Project(project.id_project, project.name_project.ToString()));
+                output_name_projects.Add(new Project(project.id_project, project.name_project.ToString()));
             }
 
             //dataGrid.ItemsSource = date_projects;
-            comboBox1.ItemsSource = name_projects;
+            comboBox1.ItemsSource = output_name_projects;
+            selectQuery = $@"select executor_short_name
+                           from guide_executors
+                           ORDER BY id_executor ASC ";
+            List<Dictionary> dictionary = sql_Requests.Select_Dictionary(selectQuery);
+
+            foreach (Dictionary d in dictionary)
+            {
+                output_dictionary.Add(new Dictionary(d.id_executor, d.executor_short_name, d.id_stamps, d.stamps_short_name,
+                d.id_type_documents, d.type_documents_short_name));
+            }
+            set_project.ItemsSource = output_dictionary;
         }
        
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -424,8 +437,15 @@ namespace project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            TextBox textBox = (TextBox)sender;
+            //MessageBox.Show(textBox.Text);
+        }
+       
+            private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            {
             name_object_l.Clear();
             Sql_Requests sql_Requests = new Sql_Requests();
             comboBox1.DataContext = comboBox1.SelectedItem;
@@ -548,7 +568,18 @@ namespace project
             }
            
         }
-         
+
+        
+        private void add_data_project_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void executor_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Sql_Requests sql_Requests = new Sql_Requests();
+            
+            comboBox1.DataContext = comboBox1.SelectedItem;
+        }
     }
 }
 
