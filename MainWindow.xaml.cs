@@ -30,6 +30,7 @@ namespace project
        public int id_parent_object;
        public int id_stamps;
        public int id_project;
+       public int id_design_object;
 
 
         public MainWindow()
@@ -682,14 +683,14 @@ namespace project
             Sql_Requests sql_Requests = new Sql_Requests();
 
             project_change.DataContext = project_change.SelectedItem;
-            Project dictionary_executor = (Project)project_change.DataContext;
-            id_project = dictionary_executor.id_project;
+            Project project = (Project)project_change.DataContext;
+            id_project = project.id_project;
             string selectQuery = $@"SELECT 
                                  name_object,
                                  id_parent
                                  FROM design_object
                                  LEFT JOIN project ON design_object.id_project = project.id_project
-                                 WHERE project.id_project = '{id_project}'
+                                 WHERE project.id_project = '{id_project}'  
                                  ORDER BY name_object ASC ";
 
             List<Design_Object> parent_object = sql_Requests.Select_Object(selectQuery);
@@ -747,9 +748,9 @@ namespace project
         }
         void chois_design_object_set_doc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            id_parent.DataContext = id_parent.SelectedItem;
-            Design_Object dictionary_id_parent = (Design_Object)id_parent.DataContext;
-            id_parent_object = dictionary_id_parent.id_parent;
+            chois_design_object_set_doc.DataContext = chois_design_object_set_doc.SelectedItem;
+            Design_Object dictionary_design_object = (Design_Object)chois_design_object_set_doc.DataContext;
+            id_design_object = dictionary_design_object.id_design_object;
         }
         void chois_stamps_set_doc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -764,27 +765,46 @@ namespace project
 
             {
                 Sql_Requests sql_Requests = new Sql_Requests();
+
                 string selectQuery = $@"SELECT 
-                                 full_code
+                                 name_object,
+                                 id_parent
                                  FROM design_object
-                                 WHERE design_object.id_design_object = '{id_parent_object}'";
+                                 WHERE id_design_object = '{id_design_object}'";
+
+                List<Design_Object> parent_object = sql_Requests.Select_Object(selectQuery);
+               int output_parent_object = 0;
+
+                foreach (Design_Object o in parent_object)
+                {
+                    output_parent_object=  o.id_parent;
+                }
+               
+               
+                 selectQuery = $@"SELECT 
+                                 full_code,
+                                 cipher
+                                 FROM design_object
+                                 JOIN project ON project.id_project = design_object.id_project
+                                 WHERE design_object.id_design_object = '{output_parent_object}'";
 
 
 
-                List<Design_Object> parent_object_code = sql_Requests.Select_Object(selectQuery);
+                List<Design_Object> parent_object_stamps_full_name = sql_Requests.Select_Object(selectQuery);
                 string data1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                 string output_parent_object_code = string.Empty;
-                foreach (Design_Object o in parent_object_code)
+                foreach (Design_Object o in parent_object_stamps_full_name)
                 {
-                    output_parent_object_code = o.full_code + "." + cod.Text;
+                    output_parent_object_code = o.cipher + "-" + o.full_code + "-" + cod.Text;
                 }
-                selectQuery = $@"INSERT INTO design_object (code, name_object, id_parent, data_creation_design_object,
-                                             data_change_design_object, id_executor, id_project, full_code) 
-                                            VALUES (@code, @name_object, @id_parent, @data_creation_design_object,
-                                             @data_change_design_object, @id_executor, @id_project, @full_code)";
-                sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text, id_parent_object, DateTime.Now,
-               DateTime.Now, id_executor, id_project, output_parent_object_code));
+                
+                selectQuery = $@"INSERT INTO set_documentation (number_set_documentation, data_creation_set_docment, data_change_set_docment,
+                                            id_stamps, id_design_object, stamps_full_name) 
+                                            VALUES (@number_set_documentation, @data_creation_set_docment, @data_change_set_docment,
+                                           @id_stamps, @id_design_object, @stamps_full_name)";
+                sql_Requests.Insert_Set_Documentation(selectQuery, new Set_Documentation(int.Parse(number_set_doc.Text), DateTime.Now, DateTime.Now, id_stamps, 
+                    id_design_object, output_parent_object_code));
 
                 MessageBox.Show("Запись добавлена.");
             }
