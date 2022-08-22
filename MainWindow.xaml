@@ -44,6 +44,8 @@
                     <DataTemplate>
                         <TextBlock>
                 <Run Text="{Binding executor_short_name}"/>
+                            <!--<TextBlock    Text="ID = "/> 
+                            <TextBlock    Text="{Binding id_executor}"/>--> 
                         </TextBlock>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -57,7 +59,6 @@
                         <TextBlock    Text="Обьект проектирования - ">
                             <Hyperlink  Tag="{Binding name_object}" Click="Hyperlink_Click_Object_Name">
                                 <TextBlock    Text="{Binding name_object}"/> 
-                                
                             </Hyperlink>
                             <TextBlock    Text="ID = "/> 
                             <TextBlock    Text="{Binding id_design_object}"/> 
@@ -81,8 +82,6 @@
                              <TextBlock    Text="{Binding stamps_number_parent}"/>
                                  </Hyperlink>
                         </TextBlock>
-
-
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

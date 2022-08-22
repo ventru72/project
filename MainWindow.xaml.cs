@@ -44,25 +44,31 @@ namespace project
             List<Project> date_projects = sql_Requests.Select_Project(selectQuery);
             List<Project> output_name_projects = new List<Project>();
            
-            List<Dictionary> output_dictionary = new List<Dictionary>();
+            List<Guide_Executors> output_dictionary = new List<Guide_Executors>();
             // comboBox_projects.DataContext = date_projects;
             foreach (Project project in date_projects)
             {
                 output_name_projects.Add(new Project(project.id_project, project.name_project.ToString()));
             }
-
+             
             //dataGrid.ItemsSource = date_projects;
             comboBox1.ItemsSource = output_name_projects;
-            selectQuery = $@"select executor_short_name
-                           from guide_executors
-                           ORDER BY id_executor ASC ";
-            List<Dictionary> dictionary = sql_Requests.Select_Dictionary(selectQuery);
+                  selectQuery =  $@" SELECT DISTINCT 
+                                  id_executor,
+                                 executor_short_name
+                                 FROM guide_executors";
 
-            foreach (Dictionary d in dictionary)
+            List<Guide_Executors> dictionary = sql_Requests.Select_Guide_Executors(selectQuery);
+
+            foreach (Guide_Executors d in dictionary)
             {
-                output_dictionary.Add(new Dictionary(d.id_executor, d.executor_short_name, d.id_stamps, d.stamps_short_name,
-                d.id_type_documents, d.type_documents_short_name));
+                output_dictionary.Add(new Guide_Executors(d.id_executor, d.executor_short_name));
             }
+            //foreach (Guide_Executors d in dictionary)
+            //{
+            //    output_dictionary.Add(new Guide_Executors(d.id_executor, d.executor_short_name, d.id_stamps, d.stamps_short_name,
+            //    d.id_type_documents, d.type_documents_short_name));
+            //}
             set_project.ItemsSource = output_dictionary;
         }
        
@@ -103,7 +109,7 @@ namespace project
         void Hyperlink_Click_Object_Name_Parent(object sender, RoutedEventArgs e)
         {
 
-
+         
             Hyperlink link = (Hyperlink)sender;
             string tag = (string)link.Tag;
             Design_Object design_object_click = (Design_Object)link.DataContext;
@@ -111,7 +117,7 @@ namespace project
             Sql_Requests sql_Requests = new Sql_Requests();
             string selectQuery = string.Empty;
             List<int> all_id = new List<int>();
-
+           
             for (int i = 0; i < date_projects.Count; i++)
             {
                 if (i == 0)
@@ -438,11 +444,7 @@ namespace project
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-            //MessageBox.Show(textBox.Text);
-        }
+       
        
             private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
@@ -574,11 +576,20 @@ namespace project
         {
 
         }
-        private void executor_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
+         void executor_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+           
+
             Sql_Requests sql_Requests = new Sql_Requests();
-            
-            comboBox1.DataContext = comboBox1.SelectedItem;
+          
+            set_project.DataContext = set_project.SelectedItem;
+            Guide_Executors dictionary_executor = (Guide_Executors)set_project.DataContext;
+            int id_project = dictionary_executor.id_executor;
+        }
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            //MessageBox.Show(textBox.Text);
         }
     }
 }

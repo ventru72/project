@@ -11,39 +11,50 @@ namespace project
     {
 
     }
-    public class Dictionary: IRequests
+    public class Guide_Executors  
+    {
+        public int id_executor { get; set; }
+        public string executor_short_name { get; set; }
+        public string executor_full_name { get; set; }
+       
+        public Guide_Executors() { }
+        public Guide_Executors(int id_executor, string executor_short_name )
+        { 
+            this.id_executor = id_executor;
+            this.executor_short_name= executor_short_name;
+        }
+
+    }
+    public class Guide_Stamps
     {
         public int id_stamps { get; set; }
         public string stamps_short_name { get; set; }
         public string stamps_full_name { get; set; }
 
+       
+        public Guide_Stamps() { }
+        public Guide_Stamps( int id_stamps, string stamps_short_name )
+        {
+           
+            this.id_stamps = id_stamps;
+            this.stamps_short_name = stamps_short_name;
+           
+        }
+    }
+    public class Guide_Type_Documents
+    {
         public int id_type_documents { get; set; }
         public string type_documents_short_name { get; set; }
         public string type_documents_full_Name { get; set; }
 
-        public int id_executor { get; set; }
-        public string executor_short_name { get; set; }
-        public string executor_full_name { get; set; }
-        //public Dictionary(string Stamps_Short_Name)
-        //{
-        //    this.Stamps_Short_Name = Stamps_Short_Name;
-        //}
-        public Dictionary() { }
-        public Dictionary(int id_executor, string executor_short_name, int id_stamps, string stamps_short_name,
-          int id_type_documents, string type_documents_short_name)
-        { 
-            this.id_executor = id_executor;
-            this.executor_short_name= executor_short_name;
-            this.id_stamps = id_stamps;
-            this.stamps_short_name = stamps_short_name;
+
+        public Guide_Type_Documents() { }
+        public Guide_Type_Documents( int id_type_documents, string type_documents_short_name)
+        {
+           
             this.type_documents_short_name = type_documents_short_name;
             this.id_type_documents = id_type_documents;
         }
-
-    }
-    public class Project_name : IRequests
-    {
-        public List<string> name_project { get; set; }
     }
     public class Project
     {
