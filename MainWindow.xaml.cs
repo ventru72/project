@@ -27,57 +27,109 @@ namespace project
        public ObservableCollection<Design_Object> name_object_l = new ObservableCollection<Design_Object>();
        public List<Design_Object> date_projects = new List<Design_Object>();
        public int id_executor;
-      
        public int id_parent_object;
+       public int id_stamps;
        public int id_project;
 
 
         public MainWindow()
         {
             
-            string selectQuery = $@"select 
+           
+            InitializeComponent();
+          
+
+            Sql_Requests sql_Requests = new Sql_Requests();
+           void ComboBox_Select_Projects_and_Project_Change()
+            {
+                string selectQuery = $@"select 
                                  id_project,
                                  name_project,
                                  id_executor,
                                  cipher
                                  from project
                                  ORDER BY id_project ASC ";
-            InitializeComponent();
-          
 
-            Sql_Requests sql_Requests = new Sql_Requests();
-           
-            List<Project> date_projects = sql_Requests.Select_Project(selectQuery);
-            List<Project> output_name_projects = new List<Project>();
-           
-            List<Guide_Executors> output_dictionary = new List<Guide_Executors>();
-            // comboBox_projects.DataContext = date_projects;
-            foreach (Project project in date_projects)
-            {
-                output_name_projects.Add(new Project(project.id_project, project.name_project.ToString()));
+                List<Project> date_projects = sql_Requests.Select_Project(selectQuery);
+                List<Project> output_name_projects = new List<Project>();
+
+               
+                // comboBox_projects.DataContext = date_projects;
+                foreach (Project project in date_projects)
+                {
+                    output_name_projects.Add(new Project(project.id_project, project.name_project.ToString()));
+                }
+
+                //dataGrid.ItemsSource = date_projects;
+                select_projects.ItemsSource = output_name_projects;
+                project_change.ItemsSource = output_name_projects;
             }
-             
-            //dataGrid.ItemsSource = date_projects;
-            comboBox1.ItemsSource = output_name_projects;
-                  selectQuery =  $@" SELECT DISTINCT 
+           void Combo_Box_Set_Project_and_Set_Executor_Object()
+            {
+                string selectQuery = $@" SELECT DISTINCT 
                                   id_executor,
                                  executor_short_name
                                  FROM guide_executors";
 
-            List<Guide_Executors> dictionary = sql_Requests.Select_Guide_Executors(selectQuery);
-
-            foreach (Guide_Executors d in dictionary)
-            {
-                output_dictionary.Add(new Guide_Executors(d.id_executor, d.executor_short_name));
+                List<Guide_Executors> dictionary = sql_Requests.Select_Guide_Executors(selectQuery);
+                List<Guide_Executors> output_dictionary = new List<Guide_Executors>();
+                foreach (Guide_Executors d in dictionary)
+                {
+                    output_dictionary.Add(new Guide_Executors(d.id_executor, d.executor_short_name));
+                }
+                //foreach (Guide_Executors d in dictionary)
+                //{
+                //    output_dictionary.Add(new Guide_Executors(d.id_executor, d.executor_short_name, d.id_stamps, d.stamps_short_name,
+                //    d.id_type_documents, d.type_documents_short_name));
+                //}
+                set_project.ItemsSource = output_dictionary;
+                set_executor_object.ItemsSource = output_dictionary;
             }
-            //foreach (Guide_Executors d in dictionary)
-            //{
-            //    output_dictionary.Add(new Guide_Executors(d.id_executor, d.executor_short_name, d.id_stamps, d.stamps_short_name,
-            //    d.id_type_documents, d.type_documents_short_name));
-            //}
-            set_project.ItemsSource = output_dictionary;
-            set_executor_object.ItemsSource = output_dictionary;
-            project_change.ItemsSource = output_name_projects;
+           void Combo_Box_Chois_Stamps()
+            {
+                string selectQuery = $@" SELECT DISTINCT 
+                                  id_stamps,
+                                 stamps_short_name
+                                 FROM guide_stamps";
+
+                List<Guide_Stamps> dictionary = sql_Requests.Select_Guide_Stamps(selectQuery);
+                List<Guide_Stamps> output_dictionary = new List<Guide_Stamps>();
+                foreach (Guide_Stamps d in dictionary)
+                {
+                    output_dictionary.Add(new Guide_Stamps(d.id_stamps, d.stamps_short_name));
+                }
+                //foreach (Guide_Executors d in dictionary)
+                //{
+                //    output_dictionary.Add(new Guide_Executors(d.id_executor, d.executor_short_name, d.id_stamps, d.stamps_short_name,
+                //    d.id_type_documents, d.type_documents_short_name));
+                //}
+                chois_stamps.ItemsSource = output_dictionary;
+                 
+            }
+           void Combo_Box_Chois_Design_Object_Set_Doc()
+            {
+                string selectQuery = $@" SELECT DISTINCT 
+                                       id_design_object,
+                                       name_object
+                                       FROM design_object";
+
+                List<Design_Object> dictionary = sql_Requests.Select_Object(selectQuery);
+                List<Design_Object> output_dictionary = new List<Design_Object>();
+                foreach (Design_Object d in dictionary)
+                {
+                    output_dictionary.Add(new Design_Object(d.id_design_object, d.name_object));
+                }
+                
+                chois_design_object_set_doc.ItemsSource = output_dictionary;
+
+            }
+
+            ComboBox_Select_Projects_and_Project_Change();
+            Combo_Box_Set_Project_and_Set_Executor_Object();
+            Combo_Box_Chois_Stamps();
+            Combo_Box_Chois_Design_Object_Set_Doc();
+
+
         }
        
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -458,9 +510,9 @@ namespace project
             {
             name_object_l.Clear();
             Sql_Requests sql_Requests = new Sql_Requests();
-            comboBox1.DataContext = comboBox1.SelectedItem;
+            select_projects.DataContext = select_projects.SelectedItem;
            
-            Project project = comboBox1.DataContext as Project;
+            Project project = select_projects.DataContext as Project;
             int id_project = project.id_project;
 
 
@@ -683,6 +735,57 @@ namespace project
                 sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text, id_parent_object, DateTime.Now,
                DateTime.Now, id_executor, id_project, output_parent_object_code));
                 
+                MessageBox.Show("Запись добавлена.");
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка при добавлении: " + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        void chois_design_object_set_doc_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            id_parent.DataContext = id_parent.SelectedItem;
+            Design_Object dictionary_id_parent = (Design_Object)id_parent.DataContext;
+            id_parent_object = dictionary_id_parent.id_parent;
+        }
+        void chois_stamps_set_doc_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            chois_stamps.DataContext = chois_stamps.SelectedItem;
+            Guide_Stamps dictionary_id_stamps = (Guide_Stamps)chois_stamps.DataContext;
+            id_stamps = dictionary_id_stamps.id_stamps;
+            
+        }
+        private void add_data_set_doc_Click(object sender, RoutedEventArgs e)
+        {
+            try
+
+            {
+                Sql_Requests sql_Requests = new Sql_Requests();
+                string selectQuery = $@"SELECT 
+                                 full_code
+                                 FROM design_object
+                                 WHERE design_object.id_design_object = '{id_parent_object}'";
+
+
+
+                List<Design_Object> parent_object_code = sql_Requests.Select_Object(selectQuery);
+                string data1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                string output_parent_object_code = string.Empty;
+                foreach (Design_Object o in parent_object_code)
+                {
+                    output_parent_object_code = o.full_code + "." + cod.Text;
+                }
+                selectQuery = $@"INSERT INTO design_object (code, name_object, id_parent, data_creation_design_object,
+                                             data_change_design_object, id_executor, id_project, full_code) 
+                                            VALUES (@code, @name_object, @id_parent, @data_creation_design_object,
+                                             @data_change_design_object, @id_executor, @id_project, @full_code)";
+                sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text, id_parent_object, DateTime.Now,
+               DateTime.Now, id_executor, id_project, output_parent_object_code));
+
                 MessageBox.Show("Запись добавлена.");
             }
             catch (Exception ex)

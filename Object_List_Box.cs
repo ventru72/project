@@ -40,6 +40,13 @@ namespace project
             this.stamps_short_name = stamps_short_name;
            
         }
+        public Guide_Stamps(int id_stamps )
+        {
+
+            this.id_stamps = id_stamps;
+             
+
+        }
     }
     public class Guide_Type_Documents
     {

@@ -20,6 +20,46 @@
             <ColumnDefinition Width="513*"/>
         </Grid.ColumnDefinitions>
         <WrapPanel Orientation="Horizontal"
+                    Margin="0,60,0,0"
+                   Grid.Row="5" 
+                   Grid.Column="1" 
+                   ItemWidth="140">
+            <TextBox x:Name="number_set_doc"
+                     MaxLength="50"
+                     Margin="0,0,10,0"
+                     SpellCheck.IsEnabled="True" Language="ru-ru" >Номер комп. док.</TextBox>
+           
+            <ComboBox x:Name="chois_design_object_set_doc"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Width="126"
+                  SelectionChanged="chois_design_object_set_doc_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding name_object}"/>
+                            
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox x:Name="chois_stamps"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Width="126"
+                  SelectionChanged="chois_stamps_set_doc_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding stamps_short_name}"/>
+
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="add_data_set_doc" Click="add_data_set_doc_Click" Content="Добавить комп. док." Margin="0,0,20,0"></Button>
+        </WrapPanel>
+        <WrapPanel Orientation="Horizontal"
                    Grid.Row="5" 
                    Grid.Column="1" 
                    ItemWidth="140">
@@ -169,7 +209,7 @@
                   
                   SelectionChanged="dataGrid_SelectionChanged" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="2" Margin="427,0,0,0"/>
         <Button x:Name="button" Content="Выполнить" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="20" Width="65"/>
-        <ComboBox x:Name="comboBox1"
+        <ComboBox x:Name="select_projects"
                   HorizontalAlignment="Left"
                   Margin="126,22,0,0"
                   VerticalAlignment="Top"
