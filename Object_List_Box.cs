@@ -82,6 +82,11 @@ namespace project
             this.executor_short_name = executor_short_name;
             this.name_project = name_project;
         }
+        public Project (string name_project)
+        {
+           
+            this.name_project = name_project;
+        }
         public Project(string cipher, string name_project, int id_executor)
         {
             this.cipher = cipher;
@@ -112,7 +117,10 @@ namespace project
         public int id_set_documentation { get; set; }
         public string stamps_short_name { get; set; }
 
-
+        public Design_Object( string name_object)
+        {
+           this.name_object = name_object;
+        }
 
 
         public Design_Object(int id_set_documentation, int id_project, string executor_full_name, DateTime data_creation_set_docment, DateTime data_change_set_docment,

@@ -27,6 +27,9 @@ namespace project
        public ObservableCollection<Design_Object> name_object_l = new ObservableCollection<Design_Object>();
        public List<Design_Object> date_projects = new List<Design_Object>();
        public int id_executor;
+       public int id_parent_object;
+
+
         public MainWindow()
         {
             
@@ -70,7 +73,9 @@ namespace project
             //    output_dictionary.Add(new Guide_Executors(d.id_executor, d.executor_short_name, d.id_stamps, d.stamps_short_name,
             //    d.id_type_documents, d.type_documents_short_name));
             //}
-            set_project.ItemsSource = output_dictionary;
+            set_project.ItemsSource = output_dictionary; 
+            set_executor_object.ItemsSource = output_dictionary;
+            project_change.ItemsSource = output_name_projects;
         }
        
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -593,7 +598,7 @@ namespace project
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-            void executor_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void executor_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
            
             Sql_Requests sql_Requests = new Sql_Requests();
@@ -601,13 +606,42 @@ namespace project
             set_project.DataContext = set_project.SelectedItem;
             Guide_Executors dictionary_executor = (Guide_Executors)set_project.DataContext;
             id_executor = dictionary_executor.id_executor;
-           
-           
             }
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             //MessageBox.Show(textBox.Text);
+        }
+
+        void project_change_in_design_object_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            Sql_Requests sql_Requests = new Sql_Requests();
+
+            project_change.DataContext = project_change.SelectedItem;
+            Project dictionary_executor = (Project)project_change.DataContext;
+            int id_project = dictionary_executor.id_project;
+            string selectQuery = $@"SELECT 
+                                 name_object
+                                 FROM design_object
+                                 LEFT JOIN project ON design_object.id_project = project.id_project
+                                 WHERE project.id_project = '{id_project}'
+                                 ORDER BY name_object ASC ";
+
+            List<Design_Object> parent_object = sql_Requests.Select_Object(selectQuery);
+            ObservableCollection<Project> output_parent_object = new ObservableCollection <Project>();
+
+            foreach (Design_Object o in parent_object)
+            {
+                output_parent_object.Add( new Design_Object(o.name_object));
+            }
+            id_parent.ItemsSource = output_parent_object;
+        }
+        void chois_parent_design_object_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            id_parent.DataContext = id_parent.SelectedItem;
+            Design_Object dictionary_executor = (Design_Object)id_parent.DataContext;
+            id_parent_object = dictionary_executor.id_executor;
         }
     }
 }

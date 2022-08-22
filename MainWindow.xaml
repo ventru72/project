@@ -22,36 +22,90 @@
         <WrapPanel Orientation="Horizontal"
                    Grid.Row="5" 
                    Grid.Column="1" 
-                   ItemWidth="180">
+                   ItemWidth="140">
             <TextBox x:Name="name_project"
                      MaxLength="50"
                      TextChanged="TextBox_TextChanged"
-                     Margin="0,0,30,0"
+                     Margin="0,0,10,0"
                      SpellCheck.IsEnabled="True" Language="ru-ru" >Название проекта</TextBox>
             <TextBox x:Name="ciher_project"
                      MaxLength="50" 
                      TextChanged="TextBox_TextChanged"
-                     Margin="0,0,30,0" 
+                     Margin="0,0,10,0" 
                      SpellCheck.IsEnabled="True" Language="ru-ru">Шифр проекта</TextBox>
             <ComboBox x:Name="set_project"
                   HorizontalAlignment="Left"
-                  Margin="0,0,30,0"
-                  VerticalAlignment="Top"
-                  Width="151"
+                  VerticalAlignment="Center"
+                  Width="126"
                   SelectionChanged="executor_set_project_SelectionChanged">
-
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>
                 <Run Text="{Binding executor_short_name}"/>
                             <!--<TextBlock    Text="ID = "/> 
-                            <TextBlock    Text="{Binding id_executor}"/>--> 
+                            <TextBlock    Text="{Binding id_executor}"/>-->
                         </TextBlock>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button x:Name="add_data_project" Click="add_data_project_Click" Content="Добавить новый проект" Margin="0,0,39,0"> </Button>
+            <Button x:Name="add_data_project" Click="add_data_project_Click" Content="Добавить проект" Margin="0,0,38,0"></Button>
         </WrapPanel>
+
+        <WrapPanel Orientation="Horizontal"
+                   Grid.Row="5" 
+                   Grid.Column="1" 
+                   Margin="0,30,39,0"
+                   ItemWidth="160">
+            <ComboBox x:Name="project_change" Margin="0,0,12,0"
+                     SelectionChanged="project_change_in_design_object_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding name_project}"/>
+                            <!--<TextBlock    Text="ID = "/> 
+                            <TextBlock    Text="{Binding id_executor}"/>-->
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBox x:Name="name_object"
+                     MaxLength="50" 
+                     TextChanged="TextBox_TextChanged"
+                     Margin="0,0,10,0" 
+                     SpellCheck.IsEnabled="True" Language="ru-ru">Имя обьекта</TextBox>
+            <ComboBox x:Name="id_parent"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Width="140"
+                  SelectionChanged="chois_parent_design_object_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding name_object}"/>
+                           
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <ComboBox x:Name="set_executor_object"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Width="126"
+                  SelectionChanged="executor_set_project_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding executor_short_name}"/>
+                            <!--<TextBlock    Text="ID = "/> 
+                            <TextBlock    Text="{Binding id_executor}"/>-->
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="add_data_project1" Click="add_data_project_Click" Content="Добавить обьект " Margin="0,0,54,0"/>
+        </WrapPanel>
+
         <ListBox x:Name="listBox" Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,25,0,0" Grid.RowSpan="4">
             <ListBox.ItemTemplate>
                 <DataTemplate>
