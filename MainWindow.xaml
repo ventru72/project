@@ -91,7 +91,7 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Width="146"
-                  SelectionChanged="executor_set_project_SelectionChanged">
+                  SelectionChanged="executor_object_set_project_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>

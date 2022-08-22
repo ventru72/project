@@ -111,12 +111,26 @@ namespace project
         public int id_design_object_parent { get; set; }
         public string stamps_number_parent { get; set; }
         public int number_set_documentation { get; set; }
-        public DateTime data_creation_set_docment { get; set; }
-        public DateTime data_change_set_docment { get; set; }
-        public string executor_full_name { get; set; }
+        public string data_creation_set_docment { get; set; }
+        public string data_change_set_docment { get; set; }
+        public DateTime data_creation_design_object { get; set; }
+        public DateTime data_change_design_object { get; set; }
+
         public int id_set_documentation { get; set; }
         public string stamps_short_name { get; set; }
+        public  Design_Object(string code, string name_object, int id_parent, DateTime data_creation_design_object,
+                DateTime data_change_design_object, int id_executor,int id_project, string full_code)
+        {
+            this.full_code = full_code;
+            this.id_project = id_project;
+            this.id_executor = id_executor;
+            this.data_creation_design_object = data_creation_design_object;
+            this.data_change_design_object = data_change_design_object;
+            this.name_object = name_object;
+            this.id_parent = id_parent;
+            this.code = code;
 
+        }
         public Design_Object( string name_object, int id_parent)
         {
            this.name_object = name_object;
@@ -138,7 +152,7 @@ namespace project
         }
 
 
-        public Design_Object(int id_set_documentation, int id_project, string executor_full_name, DateTime data_creation_set_docment, DateTime data_change_set_docment,
+        public Design_Object(int id_set_documentation, int id_project, string executor_full_name, string data_creation_set_docment, string data_change_set_docment,
             string cipher,
             int id_design_object,  string code, string name_object, string stamps_number, int id_parent,
             int id_design_object_parent, string code_parent, string name_object_parent, string stamps_number_parent, int id_parent_parent)
@@ -163,7 +177,7 @@ namespace project
             this.id_parent_parent = id_parent_parent;
             this.code_parent = code_parent;
         }
-        public Design_Object( int id_design_object, int id_project, string executor_full_name, DateTime data_creation_set_docment, DateTime data_change_set_docment,
+        public Design_Object( int id_design_object, int id_project, string executor_full_name, string data_creation_set_docment, string data_change_set_docment,
            string cipher,  string code, string name_object, string stamps_number, int id_parent,
            int id_design_object_parent, string code_parent, string name_object_parent, string stamps_number_parent, int id_parent_parent)
         {
@@ -189,7 +203,7 @@ namespace project
         }///
         public Design_Object(string cipher,  string full_code, string stamps_short_name,
             int number_set_documentation, string stamps_full_name, string executor_full_name,
-            DateTime data_creation_set_docment, DateTime data_change_set_docment )
+            string data_creation_set_docment, string data_change_set_docment )
         {
 
             //this.executor_full_name = executor_full_name;

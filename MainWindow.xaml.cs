@@ -27,7 +27,9 @@ namespace project
        public ObservableCollection<Design_Object> name_object_l = new ObservableCollection<Design_Object>();
        public List<Design_Object> date_projects = new List<Design_Object>();
        public int id_executor;
+      
        public int id_parent_object;
+       public int id_project;
 
 
         public MainWindow()
@@ -73,7 +75,7 @@ namespace project
             //    output_dictionary.Add(new Guide_Executors(d.id_executor, d.executor_short_name, d.id_stamps, d.stamps_short_name,
             //    d.id_type_documents, d.type_documents_short_name));
             //}
-            set_project.ItemsSource = output_dictionary; 
+            set_project.ItemsSource = output_dictionary;
             set_executor_object.ItemsSource = output_dictionary;
             project_change.ItemsSource = output_name_projects;
         }
@@ -606,8 +608,21 @@ namespace project
             set_project.DataContext = set_project.SelectedItem;
             Guide_Executors dictionary_executor = (Guide_Executors)set_project.DataContext;
             id_executor = dictionary_executor.id_executor;
-            }
-       
+           
+        }
+        void executor_object_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            Sql_Requests sql_Requests = new Sql_Requests();
+
+           
+            set_executor_object.DataContext = set_executor_object.SelectedItem;
+            
+            Guide_Executors dictionary_executor_object = (Guide_Executors)set_executor_object.DataContext;
+            id_executor = dictionary_executor_object.id_executor;
+            
+        }
+
 
         void project_change_in_design_object_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -616,7 +631,7 @@ namespace project
 
             project_change.DataContext = project_change.SelectedItem;
             Project dictionary_executor = (Project)project_change.DataContext;
-            int id_project = dictionary_executor.id_project;
+            id_project = dictionary_executor.id_project;
             string selectQuery = $@"SELECT 
                                  name_object,
                                  id_parent
@@ -654,16 +669,20 @@ namespace project
 
                 
                 List<Design_Object> parent_object_code = sql_Requests.Select_Object(selectQuery);
-                ObservableCollection<Project> output_parent_object_code = new ObservableCollection<Project>();
-
+                string data1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                
+                string output_parent_object_code = string.Empty;
                 foreach (Design_Object o in parent_object_code)
                 {
-                    output_parent_object_code.Add(new Design_Object(o.full_code));
+                     output_parent_object_code = o.full_code +"." + cod.Text;
                 }
-                 
-                sql_Requests.Insert_Project(selectQuery, new Design_Object(ciher_project.Text, name_project.Text, id_executor));
-                selectQuery = $@"INSERT INTO project (cipher, name_project, id_executor  )" +
-                                    $"VALUES (@cipher, @name_project, @id_executor)";
+                selectQuery = $@"INSERT INTO design_object (code, name_object, id_parent, data_creation_design_object,
+                                             data_change_design_object, id_executor, id_project, full_code) 
+                                            VALUES (@code, @name_object, @id_parent, @data_creation_design_object,
+                                             @data_change_design_object, @id_executor, @id_project, @full_code)";
+                sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text, id_parent_object, DateTime.Now,
+               DateTime.Now, id_executor, id_project, output_parent_object_code));
+                
                 MessageBox.Show("Запись добавлена.");
             }
             catch (Exception ex)
