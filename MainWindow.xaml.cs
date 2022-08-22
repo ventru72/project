@@ -26,6 +26,7 @@ namespace project
     {
        public ObservableCollection<Design_Object> name_object_l = new ObservableCollection<Design_Object>();
        public List<Design_Object> date_projects = new List<Design_Object>();
+       public int id_executor;
         public MainWindow()
         {
             
@@ -574,18 +575,35 @@ namespace project
         
         private void add_data_project_Click(object sender, RoutedEventArgs e)
         {
+            try
 
+            { 
+                Sql_Requests sql_Requests = new Sql_Requests();
+                string selectQuery = $@"INSERT INTO project (cipher, name_project, id_executor  )" +
+                                     $"VALUES (@cipher, @name_project, @id_executor)";
+              
+                sql_Requests.Insert_Project(selectQuery, new Project (ciher_project.Text, name_project.Text, id_executor ));
+                MessageBox.Show("Запись добавлена.");
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка при добавлении: " + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
-         void executor_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+            void executor_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            {
            
-
             Sql_Requests sql_Requests = new Sql_Requests();
           
             set_project.DataContext = set_project.SelectedItem;
             Guide_Executors dictionary_executor = (Guide_Executors)set_project.DataContext;
-            int id_project = dictionary_executor.id_executor;
-        }
+            id_executor = dictionary_executor.id_executor;
+           
+           
+            }
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = (TextBox)sender;

@@ -20,7 +20,7 @@
             <ColumnDefinition Width="513*"/>
         </Grid.ColumnDefinitions>
         <WrapPanel Orientation="Horizontal"
-                   Grid.Row="4" 
+                   Grid.Row="5" 
                    Grid.Column="1" 
                    ItemWidth="180">
             <TextBox x:Name="name_project"
@@ -107,7 +107,7 @@
         </ListBox>-->
         <DataGrid x:Name="dataGrid"
                   AutoGeneratingColumn = "DG1_AutoGeneratingColumn" 
-                  Grid.RowSpan="3" d:ItemsSource="{d:SampleData ItemCount=5}" 
+                  Grid.RowSpan="4" d:ItemsSource="{d:SampleData ItemCount=5}" 
                   
                   SelectionChanged="dataGrid_SelectionChanged" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="2" Margin="427,0,0,0"/>
         <Button x:Name="button" Content="Выполнить" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="20" Width="65"/>

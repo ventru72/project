@@ -56,7 +56,7 @@ namespace project
             this.id_type_documents = id_type_documents;
         }
     }
-    public class Project
+    public class Project : Guide_Executors
     {
         public int id_project { get; set; }
         
@@ -70,9 +70,22 @@ namespace project
 
         //}
         public Project() { }
-        public Project(int id_project, string name_project) 
-        { 
+        public Project(int id_project, string name_project)
+        {
             this.id_project = id_project;
+           
+            this.name_project = name_project;
+        }
+        public Project(int id_project, string name_project, string executor_short_name) 
+        {
+            this.id_project = id_project;
+            this.executor_short_name = executor_short_name;
+            this.name_project = name_project;
+        }
+        public Project(string cipher, string name_project, int id_executor)
+        {
+            this.cipher = cipher;
+            this.id_executor = id_executor;
             this.name_project = name_project;
         }
 
