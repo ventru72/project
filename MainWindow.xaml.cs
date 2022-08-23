@@ -555,22 +555,60 @@ namespace project
                                  $" LEFT JOIN set_documentation ON o.id_design_object = set_documentation.id_design_object" +
                                  $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
                                  $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-                                 $" LEFT  JOIN design_object AS r ON o.id_design_object = r.id_parent" +
-                                 $" WHERE project.id_project = '{project.id_project}'" +
-                                 $" ORDER BY  r.id_design_object";
+                                 $" LEFT  JOIN design_object AS r ON r.id_design_object = o.id_parent" +
+                                 $" WHERE project.id_project = '{project.id_project}'";
 
             date_projects = sql_Requests.Select_Object(selectQuery);
-           
-          
-                foreach (Design_Object i in date_projects)
-                {
-                 name_object_l.Add(new Design_Object(i.id_set_documentation, Combo_Box_Output.Id_Project,  i.executor_full_name, i.data_creation_set_docment,
-                      i.data_change_set_docment, i.cipher, i.id_design_object, i.code, i.name_object,  i.stamps_number, i.id_parent,
-                 i.id_design_object_parent, i.code_parent, i.name_object_parent, i.stamps_number_parent, i.id_parent_parent));
-                 
-                }
-          
-            listBox.ItemsSource = name_object_l;
+
+
+            foreach (Design_Object i in date_projects)
+            {
+
+                name_object_l.Add(new Design_Object(i.id_set_documentation, Combo_Box_Output.Id_Project, i.executor_full_name, i.data_creation_set_docment,
+                     i.data_change_set_docment, i.cipher, i.id_design_object, i.code, i.name_object, i.stamps_number, i.id_parent,
+                i.id_design_object_parent, i.code_parent, i.name_object_parent, i.stamps_number_parent, i.id_parent_parent, i.full_cipher_documents));
+
+            }
+            //int Comparer(Design_Object a, Design_Object b)
+            //{
+
+            //    int comp_quantity_project = a.id_design_object.CompareTo(b.id_design_object);
+            //    if (comp_quantity_project != 0) return comp_quantity_project;
+
+            //    return a.id_design_object.CompareTo(b.id_design_object);
+            //}
+            //name_object_l.Sort(Comparer);
+            //void Delete_Dublicat(List<Design_Object> name_object_l)
+            //{
+            //    for (int i = 0; i < name_object_l.Count; i++)
+            //    {
+            //        if (i != name_object_l.Count - 1 && name_object_l[i].full_cipher_documents == name_object_l[i + 1].full_cipher_documents
+            //            && name_object_l[i].id_parent == name_object_l[i + 1].id_parent)
+            //        {
+            //            name_object_l.RemoveAt(i);
+            //        }
+            //        if (i == name_object_l.Count - 1 && name_object_l[i].full_cipher_documents == name_object_l[i - 1].full_cipher_documents
+            //            && name_object_l[i].id_parent == name_object_l[i - 1].id_parent)
+            //        {
+            //            name_object_l.RemoveAt(i);
+            //        }
+            //    }
+            //}
+            //Delete_Dublicat(name_object_l);
+            
+                //for (int i = 0; i < date_projects.Count; i++)
+                //{
+                //    date_projects[i].full_code
+                //    name_object_l.Add(new Design_Object(date_projects[i].id_set_documentation, Combo_Box_Output.Id_Project,
+                //        date_projects[i].executor_full_name, date_projects[i].data_creation_set_docment,
+                //         date_projects[i].data_change_set_docment, date_projects[i].cipher, date_projects[i].id_design_object,
+                //        date_projects[i].code, date_projects[i].name_object, date_projects[i].stamps_number, date_projects[i].id_parent,
+                //   date_projects[i].id_design_object_parent, date_projects[i].code_parent, date_projects[i].name_object_parent,
+                //  date_projects[i].stamps_number_parent, date_projects[i].id_parent_parent));
+
+                //}
+
+                listBox.ItemsSource = name_object_l;
 
         }
         private void DG1_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)

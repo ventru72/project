@@ -291,11 +291,11 @@
                                 <TextBlock    Text="{Binding name_object_parent}"/> 
                             </Hyperlink>
                                 </TextBlock>
-                        <TextBlock    Text="Дочерний комплект документации -  ">
+                        <!--<TextBlock    Text="Дочерний комплект документации -  ">
                             <Hyperlink  Tag="{Binding stamps_number_parent}" Click="Hyperlink_Click_Set_Documentation">
                              <TextBlock    Text="{Binding stamps_number_parent}"/>
                                  </Hyperlink>
-                        </TextBlock>
+                        </TextBlock>-->
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
