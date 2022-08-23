@@ -20,6 +20,64 @@
             <ColumnDefinition Width="513*"/>
         </Grid.ColumnDefinitions>
         <WrapPanel Orientation="Horizontal"
+                    Margin="0,90,0,0"
+                   Grid.Row="5" 
+                   Grid.Column="1" 
+                   ItemWidth="140">
+            <TextBox x:Name="number_doc"
+                     MaxLength="50"
+                     Margin="0,0,10,0"
+                     SpellCheck.IsEnabled="True" Language="ru-ru" >Номер документа</TextBox>
+
+            <ComboBox x:Name="chois_type_documents_in_documents"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Width="126"
+                  SelectionChanged="chois_type_documents_in_documents_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding type_documents_short_name}"/>
+
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBox x:Name="name_doc"
+                     MaxLength="50"
+                     Margin="0,0,10,0"
+                     SpellCheck.IsEnabled="True" Language="ru-ru" >Название документа</TextBox>
+            <ComboBox x:Name="chois_design_object_doc"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Width="126"
+                  SelectionChanged="chois_design_object_doc_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding name_object}"/>
+
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox x:Name="chois_set_documentation"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Width="126"
+                  SelectionChanged="chois_set_documentation_SelectionChanged" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding stamps_name}"/>
+
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="add_data_set_doc12" Click="add_data_set_doc_Click" Content="Добавить комп. док." Margin="0,0,20,0"></Button>
+        </WrapPanel>
+        <WrapPanel Orientation="Horizontal"
                     Margin="0,60,0,0"
                    Grid.Row="5" 
                    Grid.Column="1" 

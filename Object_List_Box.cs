@@ -253,7 +253,14 @@ namespace project
 
 
         }
-         
+        public Design_Object(int id_design_object, string name_object, int id_set_documentation)
+        {
+            this.id_design_object = id_design_object;
+            this.name_object = name_object;
+            this.id_set_documentation = id_set_documentation;
+
+        }
+       
         public Design_Object(int id_design_object, string name_object)
         {
             this.id_design_object = id_design_object;
@@ -301,14 +308,21 @@ namespace project
         public DateTime data_change_set_docment { get; set; }
         public string stamps_full_name { get; set; }
         public string full_cipher_project { get; set; }
-        public string number_type_documents { get; set; }
+        public int number_type_documents { get; set; }
         public int id_documents { get; set; }
         public int id_design_object  { get; set; }
         public string executor_full_name { get; set; }
+        public string stamps_name { get; set; }
         public string cipher { get; set; }
         public int id_stamps { get; set; }
+        public int id_set_documentation { get; set; }
         public Set_Documentation() { }
-       
+
+        public Set_Documentation(string stamps_name, int id_set_documentation)
+        {
+            this.stamps_name = stamps_name;
+            this.id_set_documentation = id_set_documentation;
+        }
         public Set_Documentation(int number_set_documentation, DateTime data_creation_set_docment, DateTime data_change_set_docment,
             int id_stamps, string stamps_full_name)
         {
@@ -319,11 +333,7 @@ namespace project
             this.data_creation_set_docment = data_creation_set_docment;
             this.data_change_set_docment = data_change_set_docment;
         }
-         
-
-
-
-
+       
     }
     public class Documents  
     {
@@ -396,9 +406,12 @@ namespace project
         public int Id_Parent_Object { get; set; }
         public int Id_Design_Object { get; set; }
         public int Id_Stamps { get; set; }
+        public int Id_Type_Documents { get; set; }
+        public int Id_Set_Documentation { get; set; }
         public int Id_Executor { get; set; }
         public string Chois_Stamps_CB { get; set; }
-       public Combo_Box_Output_Date(int number_Set_Doc_CB, string chois_Stamps_CB)
+        public string Stamps_Name { get; set; }
+        public Combo_Box_Output_Date(int number_Set_Doc_CB, string chois_Stamps_CB)
         {
             Id_Project = number_Set_Doc_CB;
             Chois_Stamps_CB = chois_Stamps_CB;

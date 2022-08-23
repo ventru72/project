@@ -109,7 +109,7 @@ namespace project
                 chois_stamps.ItemsSource = output_dictionary;
                  
             }
-           void Combo_Box_Chois_Design_Object_Set_Doc()
+           void Combo_Box_Chois_Design_Object_Set_Doc_And_Doc()
             {
                 string selectQuery = $@" SELECT DISTINCT 
                                        id_design_object,
@@ -124,13 +124,36 @@ namespace project
                 }
                 
                 chois_design_object_set_doc.ItemsSource = output_dictionary;
+                chois_design_object_doc.ItemsSource = output_dictionary;
+
+            }
+           void Combo_Box_Chois_Type_Documents_In_Documents()
+            {
+                string selectQuery = $@" SELECT DISTINCT 
+                                  id_type_documents,
+                                 type_documents_short_name
+                                 FROM guide_type_documents";
+
+                List<Guide_Type_Documents> dictionary = sql_Requests.Select_Guide_Type_Documents(selectQuery);
+                List<Guide_Type_Documents> output_dictionary = new List<Guide_Type_Documents>();
+                foreach (Guide_Type_Documents d in dictionary)
+                {
+                    output_dictionary.Add(new Guide_Type_Documents(d.id_type_documents, d.type_documents_short_name));
+                }
+                //foreach (Guide_Executors d in dictionary)
+                //{
+                //    output_dictionary.Add(new Guide_Executors(d.id_executor, d.executor_short_name, d.id_stamps, d.stamps_short_name,
+                //    d.id_type_documents, d.type_documents_short_name));
+                //}
+                chois_type_documents_in_documents.ItemsSource = output_dictionary;
 
             }
 
             ComboBox_Select_Projects_and_Project_Change();
             Combo_Box_Set_Project_and_Set_Executor_Object();
             Combo_Box_Chois_Stamps();
-            Combo_Box_Chois_Design_Object_Set_Doc();
+            Combo_Box_Chois_Design_Object_Set_Doc_And_Doc();
+            Combo_Box_Chois_Type_Documents_In_Documents();
         }
        
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -817,6 +840,49 @@ namespace project
 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+        void chois_type_documents_in_documents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            Sql_Requests sql_Requests = new Sql_Requests();
+
+            chois_type_documents_in_documents.DataContext = chois_type_documents_in_documents.SelectedItem;
+            Guide_Type_Documents dictionary_type_documents = (Guide_Type_Documents)chois_type_documents_in_documents.DataContext;
+            Combo_Box_Output.Id_Type_Documents = dictionary_type_documents.id_type_documents;
+            //id_executor = dictionary_executor.id_executor;
+        }
+        void chois_design_object_doc_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            chois_design_object_doc.DataContext = chois_design_object_doc.SelectedItem;
+            Design_Object dictionary_design_object = (Design_Object)chois_design_object_doc.DataContext;
+            Combo_Box_Output.Id_Design_Object = dictionary_design_object.id_design_object;
+            Sql_Requests sql_Requests = new Sql_Requests();
+
+            string selectQuery = $@"SELECT 
+                                 set_documentation.id_set_documentation,
+                                 number_set_documentation,
+                                 guide_stamps.stamps_short_name
+                                 FROM design_object
+                                 LEFT JOIN set_documentation ON design_object.id_design_object = 
+                                 set_documentation.id_design_object
+                                 LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps
+                                 WHERE set_documentation.id_design_object = '{Combo_Box_Output.Id_Design_Object}'";
+
+            List<Set_Documentation> stamps_name = sql_Requests.Select_Set_Documentation(selectQuery);
+            ObservableCollection<Set_Documentation> output_stamps_name = new ObservableCollection<Set_Documentation>();
+
+            foreach (Set_Documentation o in stamps_name)
+            {
+                output_stamps_name.Add(new Set_Documentation(o.stamps_short_name + o.number_set_documentation, o.id_set_documentation));
+            }
+            chois_set_documentation.ItemsSource = output_stamps_name;
+        }
+        void chois_set_documentation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            chois_set_documentation.DataContext = chois_set_documentation.SelectedItem;
+            Set_Documentation set_documentation = (Set_Documentation)chois_set_documentation.DataContext;
+            Combo_Box_Output.Id_Set_Documentation = set_documentation.id_set_documentation;
+
         }
     }
 }
