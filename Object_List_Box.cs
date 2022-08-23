@@ -339,7 +339,8 @@ namespace project
     {
         public int number_document { get; set; }
         public string name_document { get; set; }
-       
+        public int id_type_documents { get; set; }
+        public int id_set_documentation { get; set; }
         public string type_documents_short_name { get; set; }
         public DateTime data_creation_document { get; set; }
         public DateTime data_change_document { get; set; }
@@ -377,14 +378,22 @@ namespace project
         public Documents( string type_documents_short_name, int number_document, string name_document,
            DateTime data_creation_document, DateTime data_change_document )
         {
-            
-            
-            
             this.type_documents_short_name = type_documents_short_name;
             this.number_document = number_document;
             this.name_document = name_document;
             this.data_creation_document = data_creation_document;
             this.data_change_document = data_change_document;
+        }
+        public Documents(int number_document, int id_type_documents, string name_document,
+          DateTime data_creation_document, DateTime data_change_document, int id_set_documentation,
+          string full_cipher_documents)
+        {
+            this.number_document = number_document;
+            this.id_type_documents = id_type_documents;
+            this.name_document = name_document;
+            this.data_creation_document = data_creation_document;
+            this.data_change_document = data_change_document;
+            this.full_cipher_documents = full_cipher_documents;
         }
 
         //public Documents(int Id_Documents, string Stamps_Short_Name, int Number_Documents, string Name_Documents, string Сomposite_Stamps_Doc,  DateTime Dadata_Creation, DateTime Dadata_Change)  

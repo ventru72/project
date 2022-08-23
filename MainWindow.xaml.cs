@@ -884,6 +884,54 @@ namespace project
             Combo_Box_Output.Id_Set_Documentation = set_documentation.id_set_documentation;
 
         }
+        private void add_data_doc_Click(object sender, RoutedEventArgs e)
+        {
+            try
+
+            {
+                Sql_Requests sql_Requests = new Sql_Requests();
+
+                string selectQuery = $@"SELECT 
+                                 stamps_full_name
+                                 FROM set_documentation
+                                 WHERE id_set_documentation = '{Combo_Box_Output.Id_Set_Documentation}'";
+
+                List<Set_Documentation> stamps_full_name = sql_Requests.Select_Set_Documentation(selectQuery);
+              
+                string full_cipher_documents = string.Empty;
+                foreach (Set_Documentation o in stamps_full_name)
+                {
+                    full_cipher_documents = o.stamps_full_name + "-" + number_doc.Text;
+                    
+                }
+
+                List<Design_Object> parent_object_stamps_full_name = sql_Requests.Select_Object(selectQuery);
+                string data1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                string output_parent_object_code = string.Empty;
+                //foreach (Design_Object o in parent_object_stamps_full_name)
+                //{
+                //    output_parent_object_code = o.cipher + "-" + o.full_code + "." + outpunt_code + "-" + Combo_Box_Output.Chois_Stamps_CB + number_set_doc.Text;
+                //}
+
+                selectQuery = $@"INSERT INTO documents (number_document, id_type_documents, data_creation_document,
+                                            data_change_document, name_document, id_set_documentation, full_cipher_documents) 
+                                            VALUES (@number_document, @id_type_documents, @data_creation_document,
+                                            @data_change_document, @name_document, @id_set_documentation, @full_cipher_documents)";
+                sql_Requests.Insert_Document(selectQuery, new Documents(int.Parse(number_doc.Text), Combo_Box_Output.Id_Type_Documents,
+                    name_doc.Text, DateTime.Now, DateTime.Now, Combo_Box_Output.Id_Set_Documentation, full_cipher_documents));
+                   
+
+                MessageBox.Show("Запись добавлена.");
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка при добавлении: " + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 }
 

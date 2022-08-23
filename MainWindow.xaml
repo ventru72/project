@@ -75,7 +75,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button x:Name="add_data_set_doc12" Click="add_data_set_doc_Click" Content="Добавить комп. док." Margin="0,0,20,0"></Button>
+            <Button x:Name="add_doc" Click="add_data_doc_Click" Content="Добавить комп. док." Margin="0,0,20,0"></Button>
         </WrapPanel>
         <WrapPanel Orientation="Horizontal"
                     Margin="0,60,0,0"
