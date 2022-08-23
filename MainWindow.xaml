@@ -47,7 +47,7 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Width="126"
-                  SelectionChanged="chois_stamps_set_doc_SelectionChanged">
+                  SelectionChanged="chois_stamps_set_doc_SelectionChanged" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>
@@ -214,7 +214,7 @@
                   Margin="126,22,0,0"
                   VerticalAlignment="Top"
                   Width="151"
-                  SelectionChanged="comboBox1_SelectionChanged"
+                  SelectionChanged="select_projects_SelectionChanged"
                   Grid.Row="1">
             <ComboBox.ItemTemplate>
                 <DataTemplate>

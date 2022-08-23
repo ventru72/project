@@ -391,19 +391,29 @@ namespace project
   
     public class Combo_Box_Output_Date
     {
-        public int Number_Set_Doc_CB { get; set; }
+        
+        public int Id_Project { get; set; }
+        public int Id_Parent_Object { get; set; }
+        public int Id_Design_Object { get; set; }
+        public int Id_Stamps { get; set; }
+        public int Id_Executor { get; set; }
         public string Chois_Stamps_CB { get; set; }
-        Combo_Box_Output_Date(int number_Set_Doc_CB, string chois_Stamps_CB)
+       public Combo_Box_Output_Date(int number_Set_Doc_CB, string chois_Stamps_CB)
         {
-            Number_Set_Doc_CB = number_Set_Doc_CB;
+            Id_Project = number_Set_Doc_CB;
             Chois_Stamps_CB = chois_Stamps_CB;
         }
-        Combo_Box_Output_Date(int number_Set_Doc_CB)
+        public Combo_Box_Output_Date(int Id_Project)
         {
-            Number_Set_Doc_CB = number_Set_Doc_CB;
+            this.Id_Project = Id_Project;
             
         }
-        Combo_Box_Output_Date (string chois_Stamps_CB)
+        public Combo_Box_Output_Date( )
+        {
+            
+
+        }
+        public Combo_Box_Output_Date(string chois_Stamps_CB)
         {
             Chois_Stamps_CB = chois_Stamps_CB;
         }

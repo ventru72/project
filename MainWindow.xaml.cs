@@ -26,20 +26,22 @@ namespace project
     {
        public ObservableCollection<Design_Object> name_object_l = new ObservableCollection<Design_Object>();
        public List<Design_Object> date_projects = new List<Design_Object>();
-       public int id_executor;
-       public int id_parent_object;
-       public int id_stamps;
-       public int id_project;
-       public int id_design_object;
-       public string stamps_short_name;
-       public int number_doc;
+       //public int id_executor;
+       //public int id_parent_object;
+       //public int id_stamps;
+       //public int id_project;
+       //public int id_design_object;
+       //public string stamps_short_name;
+       //public int number_doc;
+       public Combo_Box_Output_Date Combo_Box_Output = new Combo_Box_Output_Date();
 
 
         public MainWindow()
         {
             
             InitializeComponent();
-
+         
+           
            Sql_Requests sql_Requests = new Sql_Requests();
            void ComboBox_Select_Projects_and_Project_Change()
             {
@@ -503,14 +505,15 @@ namespace project
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void select_projects_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
             name_object_l.Clear();
             Sql_Requests sql_Requests = new Sql_Requests();
             select_projects.DataContext = select_projects.SelectedItem;
            
             Project project = select_projects.DataContext as Project;
-            int id_project = project.id_project;
+            Combo_Box_Output.Id_Project = project.id_project;
+            //int id_project = project.id_project;
 
 
             string selectQuery = $"SELECT DISTINCT set_documentation.id_set_documentation, project.id_project, o.full_code, r.full_code," +
@@ -538,7 +541,7 @@ namespace project
           
                 foreach (Design_Object i in date_projects)
                 {
-                 name_object_l.Add(new Design_Object(i.id_set_documentation, id_project,  i.executor_full_name, i.data_creation_set_docment,
+                 name_object_l.Add(new Design_Object(i.id_set_documentation, Combo_Box_Output.Id_Project,  i.executor_full_name, i.data_creation_set_docment,
                       i.data_change_set_docment, i.cipher, i.id_design_object, i.code, i.name_object,  i.stamps_number, i.id_parent,
                  i.id_design_object_parent, i.code_parent, i.name_object_parent, i.stamps_number_parent, i.id_parent_parent));
                  
@@ -636,7 +639,7 @@ namespace project
                 string selectQuery = $@"INSERT INTO project (cipher, name_project, id_executor  )" +
                                      $"VALUES (@cipher, @name_project, @id_executor)";
               
-                sql_Requests.Insert_Project(selectQuery, new Project (ciher_project.Text, name_project.Text, id_executor ));
+                sql_Requests.Insert_Project(selectQuery, new Project (ciher_project.Text, name_project.Text, Combo_Box_Output.Id_Executor));
                 MessageBox.Show("Запись добавлена.");
             }
             catch (Exception ex)
@@ -654,7 +657,8 @@ namespace project
           
             set_project.DataContext = set_project.SelectedItem;
             Guide_Executors dictionary_executor = (Guide_Executors)set_project.DataContext;
-            id_executor = dictionary_executor.id_executor;
+            Combo_Box_Output.Id_Executor = dictionary_executor.id_executor;
+            //id_executor = dictionary_executor.id_executor;
            
         }
         void executor_object_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -666,7 +670,7 @@ namespace project
             set_executor_object.DataContext = set_executor_object.SelectedItem;
             
             Guide_Executors dictionary_executor_object = (Guide_Executors)set_executor_object.DataContext;
-            id_executor = dictionary_executor_object.id_executor;
+            Combo_Box_Output.Id_Executor = dictionary_executor_object.id_executor;
             
         }
         void project_change_in_design_object_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -676,13 +680,13 @@ namespace project
 
             project_change.DataContext = project_change.SelectedItem;
             Project project = (Project)project_change.DataContext;
-            id_project = project.id_project;
+            Combo_Box_Output.Id_Project = project.id_project;
             string selectQuery = $@"SELECT 
                                  name_object,
                                  id_parent
                                  FROM design_object
                                  LEFT JOIN project ON design_object.id_project = project.id_project
-                                 WHERE project.id_project = '{id_project}'  
+                                 WHERE project.id_project = '{Combo_Box_Output.Id_Project}'  
                                  ORDER BY name_object ASC ";
 
             List<Design_Object> parent_object = sql_Requests.Select_Object(selectQuery);
@@ -698,7 +702,8 @@ namespace project
         {
             id_parent.DataContext = id_parent.SelectedItem;
             Design_Object dictionary_id_parent = (Design_Object)id_parent.DataContext;
-            id_parent_object = dictionary_id_parent.id_parent;
+            Combo_Box_Output.Id_Parent_Object = dictionary_id_parent.id_parent;
+            //id_parent_object = dictionary_id_parent.id_parent;
         }
         private void add_data_object_Click(object sender, RoutedEventArgs e)
         {
@@ -709,7 +714,7 @@ namespace project
                 string selectQuery = $@"SELECT 
                                  full_code
                                  FROM design_object
-                                 WHERE design_object.id_design_object = '{id_parent_object}'";
+                                 WHERE design_object.id_design_object = '{Combo_Box_Output.Id_Parent_Object}'";
                                 
 
                 
@@ -725,8 +730,8 @@ namespace project
                                              data_change_design_object, id_executor, id_project, full_code) 
                                             VALUES (@code, @name_object, @id_parent, @data_creation_design_object,
                                              @data_change_design_object, @id_executor, @id_project, @full_code)";
-                sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text, id_parent_object, DateTime.Now,
-               DateTime.Now, id_executor, id_project, output_parent_object_code));
+                sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text, Combo_Box_Output.Id_Parent_Object, DateTime.Now,
+               DateTime.Now, Combo_Box_Output.Id_Executor, Combo_Box_Output.Id_Project, output_parent_object_code));
                 
                 MessageBox.Show("Запись добавлена.");
             }
@@ -742,16 +747,17 @@ namespace project
         {
             chois_design_object_set_doc.DataContext = chois_design_object_set_doc.SelectedItem;
             Design_Object dictionary_design_object = (Design_Object)chois_design_object_set_doc.DataContext;
-            id_design_object = dictionary_design_object.id_design_object;
+            Combo_Box_Output.Id_Design_Object = dictionary_design_object.id_design_object;
+            //id_design_object = dictionary_design_object.id_design_object;
         }
-        void chois_stamps_set_doc_SelectionChanged(object sender, SelectionChangedEventArgs e)
+         void chois_stamps_set_doc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+           
             chois_stamps.DataContext = chois_stamps.SelectedItem;
             Guide_Stamps dictionary_id_stamps = (Guide_Stamps)chois_stamps.DataContext;
-            id_stamps = dictionary_id_stamps.id_stamps;
-            stamps_short_name = dictionary_id_stamps.stamps_short_name;
-
-
+            Combo_Box_Output.Id_Stamps = dictionary_id_stamps.id_stamps;
+            Combo_Box_Output.Chois_Stamps_CB = dictionary_id_stamps.stamps_short_name;
+            //stamps_short_name = dictionary_id_stamps.stamps_short_name;
         }
         private void add_data_set_doc_Click(object sender, RoutedEventArgs e)
         {
@@ -765,7 +771,7 @@ namespace project
                                  id_parent,
                                  code
                                  FROM design_object
-                                 WHERE id_design_object = '{id_design_object}'";
+                                 WHERE id_design_object = '{Combo_Box_Output.Id_Design_Object}'";
 
                 List<Design_Object> parent_object = sql_Requests.Select_Object(selectQuery);
                int output_parent_object = 0;
@@ -792,14 +798,14 @@ namespace project
                 string output_parent_object_code = string.Empty;
                 foreach (Design_Object o in parent_object_stamps_full_name)
                 {
-                    output_parent_object_code = o.cipher + "-" + o.full_code + "." + outpunt_code + "-" + stamps_short_name + number_set_doc.Text;
+                    output_parent_object_code = o.cipher + "-" + o.full_code + "." + outpunt_code + "-" + Combo_Box_Output.Chois_Stamps_CB + number_set_doc.Text;
                 }
                 
                 selectQuery = $@"INSERT INTO set_documentation (number_set_documentation, data_creation_set_docment, data_change_set_docment,
                                             id_stamps, id_design_object, stamps_full_name) 
                                             VALUES (@number_set_documentation, @data_creation_set_docment, @data_change_set_docment,
                                            @id_stamps, @id_design_object, @stamps_full_name)";
-                sql_Requests.Insert_Set_Documentation(selectQuery, new Set_Documentation(int.Parse(number_set_doc.Text), DateTime.Now, DateTime.Now, id_stamps, 
+                sql_Requests.Insert_Set_Documentation(selectQuery, new Set_Documentation(int.Parse(number_set_doc.Text), DateTime.Now, DateTime.Now, Combo_Box_Output.Id_Stamps, 
                    output_parent_object_code));
 
                 MessageBox.Show("Запись добавлена.");
