@@ -19,6 +19,24 @@
             <ColumnDefinition Width="187*"/>
             <ColumnDefinition Width="513*"/>
         </Grid.ColumnDefinitions>
+        <!--Словарь guide_executors-->
+        <WrapPanel Orientation="Horizontal"
+                    Margin="0,120,0,0"
+                   Grid.Row="5" 
+                   Grid.Column="1" 
+                   ItemWidth="140">
+            <TextBox x:Name="executor_short_name"
+                     MaxLength="50"
+                     Margin="0,0,10,0"
+                     SpellCheck.IsEnabled="True" Language="ru-ru" >Краткое название</TextBox>
+            <TextBox x:Name="executor_full_name"
+                     MaxLength="50"
+                     Margin="0,0,10,0"
+                     SpellCheck.IsEnabled="True" Language="ru-ru" >Полное название</TextBox>
+
+            <Button x:Name="add_data_guide_executors" Click="add_data_guide_executors_Click" Content="Добавить подрядчика" Margin="0,0,15,0"></Button>
+        </WrapPanel>
+        <!--Таблица documents-->
         <WrapPanel Orientation="Horizontal"
                     Margin="0,90,0,0"
                    Grid.Row="5" 
@@ -33,7 +51,8 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Width="126"
-                  SelectionChanged="chois_type_documents_in_documents_SelectionChanged">
+                  SelectionChanged="chois_type_documents_in_documents_SelectionChanged"
+                   ToolTip="Выбирите тип документа"    >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>
@@ -51,7 +70,8 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Width="126"
-                  SelectionChanged="chois_design_object_doc_SelectionChanged">
+                  SelectionChanged="chois_design_object_doc_SelectionChanged"
+                  ToolTip="Выбирите обьект проектирования">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>
@@ -65,6 +85,7 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Width="126"
+                  ToolTip="Выбирите комплект документации"
                   SelectionChanged="chois_set_documentation_SelectionChanged" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -77,6 +98,7 @@
             </ComboBox>
             <Button x:Name="add_doc" Click="add_data_doc_Click" Content="Добавить комп. док." Margin="0,0,20,0"></Button>
         </WrapPanel>
+        <!--Таблица добавления записи в set_documents-->
         <WrapPanel Orientation="Horizontal"
                     Margin="0,60,0,0"
                    Grid.Row="5" 
@@ -91,6 +113,7 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Width="126"
+                  ToolTip="Выбирите обьект проектирования"
                   SelectionChanged="chois_design_object_set_doc_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -105,6 +128,7 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Width="126"
+                  ToolTip="Выбирите марку"
                   SelectionChanged="chois_stamps_set_doc_SelectionChanged" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -117,6 +141,7 @@
             </ComboBox>
             <Button x:Name="add_data_set_doc" Click="add_data_set_doc_Click" Content="Добавить комп. док." Margin="0,0,20,0"></Button>
         </WrapPanel>
+        <!--Таблица добавления в project-->
         <WrapPanel Orientation="Horizontal"
                    Grid.Row="5" 
                    Grid.Column="1" 
@@ -134,6 +159,7 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Width="126"
+                  ToolTip="Выбирите подрядчика"
                   SelectionChanged="executor_set_project_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -147,20 +173,20 @@
             </ComboBox>
             <Button x:Name="add_data_project" Click="add_data_project_Click" Content="Добавить проект" Margin="0,0,38,0"></Button>
         </WrapPanel>
-
+        <!--Таблица добавления в design_object-->
         <WrapPanel Orientation="Horizontal"
                    Grid.Row="5" 
                    Grid.Column="1" 
                    Margin="0,30,39,0"
                    ItemWidth="160">
             <ComboBox x:Name="project_change" Margin="0,0,12,0"
+                      ToolTip="Выбирите проект"
                      SelectionChanged="project_change_in_design_object_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>
                 <Run Text="{Binding name_project}"/>
-                            <!--<TextBlock    Text="ID = "/> 
-                            <TextBlock    Text="{Binding id_executor}"/>-->
+                         
                         </TextBlock>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -174,6 +200,7 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Width="140"
+                  ToolTip="Выбирите родительский обьект проектирования"
                   SelectionChanged="chois_parent_design_object_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -189,13 +216,13 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Width="146"
+                  ToolTip="Выбирите обьект подрядчика"
                   SelectionChanged="executor_object_set_project_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>
                 <Run Text="{Binding executor_short_name}"/>
-                            <!--<TextBlock    Text="ID = "/> 
-                            <TextBlock    Text="{Binding id_executor}"/>-->
+                           
                         </TextBlock>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -205,9 +232,9 @@
                      
                      Margin="0,0,16,0" 
                      SpellCheck.IsEnabled="True" Language="ru-ru">Код</TextBox>
-            <Button x:Name="add_data_project1" Click="add_data_object_Click" Content="Добавить обьект " Margin="0,0,54,0"/>
+            <Button x:Name="add_data_object" Click="add_data_object_Click" Content="Добавить обьект " Margin="0,0,54,0"/>
         </WrapPanel>
-
+        <!--Левая часть меню - список-->
         <ListBox x:Name="listBox" Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,25,0,0" Grid.RowSpan="4">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -220,10 +247,7 @@
                             <TextBlock    Text="{Binding id_design_object}"/> 
                         </TextBlock>
                         <TextBlock  x:Name="textbloc2"   Text="Комплект документации -  ">
-                            <!--<ListBox x:Name="listbox2">
-                               <TextBlock  Text="{Binding stamps_number}"/>
-                                
-                            </ListBox>-->
+                            
                             <Hyperlink  Tag="{Binding stamps_number}" Click="Hyperlink_Click_Set_Documentation">
                              <TextBlock    Text="{Binding stamps_number}"/>
                                  </Hyperlink>
@@ -243,35 +267,20 @@
             </ListBox.ItemTemplate>
 
         </ListBox>
-        <!--<ListBox x:Name="listBox2" Grid.Row="0" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,25,0,0" Grid.RowSpan="2">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock    Text="Обьект проектирования - ">
-                            <Hyperlink  Tag="{Binding stamps_number}" Click="Hyperlink_Click_Object_Name">
-                                <TextBlock    Text="{Binding stamps_number}"/> 
-                                
-                            </Hyperlink>
-                            
-                        </TextBlock>
-                       
-
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-
-        </ListBox>-->
+        
+        <!--Таблица вывода данных справа-->
         <DataGrid x:Name="dataGrid"
                   AutoGeneratingColumn = "DG1_AutoGeneratingColumn" 
                   Grid.RowSpan="4" d:ItemsSource="{d:SampleData ItemCount=5}" 
                   
                   SelectionChanged="dataGrid_SelectionChanged" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="2" Margin="427,0,0,0"/>
-        <Button x:Name="button" Content="Выполнить" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="20" Width="65"/>
+        <!--Выподающий список выбора проекта, для построения дерева обьектов в левой части-->
         <ComboBox x:Name="select_projects"
                   HorizontalAlignment="Left"
                   Margin="126,22,0,0"
                   VerticalAlignment="Top"
                   Width="151"
+                  ToolTip="Выбирите проект"
                   SelectionChanged="select_projects_SelectionChanged"
                   Grid.Row="1">
             <ComboBox.ItemTemplate>

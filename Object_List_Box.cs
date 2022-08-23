@@ -23,6 +23,11 @@ namespace project
             this.id_executor = id_executor;
             this.executor_short_name= executor_short_name;
         }
+        public Guide_Executors(string executor_short_name, string executor_full_name)
+        {
+            this.executor_short_name = executor_short_name;
+            this.executor_full_name = executor_full_name;
+        }
 
     }
     public class Guide_Stamps
@@ -33,6 +38,11 @@ namespace project
 
        
         public Guide_Stamps() { }
+        public Guide_Stamps(string stamps_short_name, string stamps_full_name)
+        {
+            this.stamps_short_name = stamps_short_name;
+            this.stamps_full_name = stamps_full_name;
+        }
         public Guide_Stamps( int id_stamps, string stamps_short_name )
         {
            
@@ -56,6 +66,11 @@ namespace project
 
 
         public Guide_Type_Documents() { }
+        public Guide_Type_Documents(string type_documents_short_name, string type_documents_full_Name)
+        {
+            this.type_documents_short_name = type_documents_short_name;
+            this.type_documents_full_Name = type_documents_full_Name;
+        }
         public Guide_Type_Documents( int id_type_documents, string type_documents_short_name)
         {
            

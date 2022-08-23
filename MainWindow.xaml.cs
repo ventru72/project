@@ -675,32 +675,20 @@ namespace project
         }
         void executor_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
-           
-            Sql_Requests sql_Requests = new Sql_Requests();
-          
             set_project.DataContext = set_project.SelectedItem;
             Guide_Executors dictionary_executor = (Guide_Executors)set_project.DataContext;
             Combo_Box_Output.Id_Executor = dictionary_executor.id_executor;
-            //id_executor = dictionary_executor.id_executor;
            
         }
         void executor_object_set_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            Sql_Requests sql_Requests = new Sql_Requests();
-
-           
             set_executor_object.DataContext = set_executor_object.SelectedItem;
-            
             Guide_Executors dictionary_executor_object = (Guide_Executors)set_executor_object.DataContext;
             Combo_Box_Output.Id_Executor = dictionary_executor_object.id_executor;
-            
         }
         void project_change_in_design_object_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             Sql_Requests sql_Requests = new Sql_Requests();
-
             project_change.DataContext = project_change.SelectedItem;
             Project project = (Project)project_change.DataContext;
             Combo_Box_Output.Id_Project = project.id_project;
@@ -843,9 +831,6 @@ namespace project
         }
         void chois_type_documents_in_documents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            Sql_Requests sql_Requests = new Sql_Requests();
-
             chois_type_documents_in_documents.DataContext = chois_type_documents_in_documents.SelectedItem;
             Guide_Type_Documents dictionary_type_documents = (Guide_Type_Documents)chois_type_documents_in_documents.DataContext;
             Combo_Box_Output.Id_Type_Documents = dictionary_type_documents.id_type_documents;
@@ -882,7 +867,6 @@ namespace project
             chois_set_documentation.DataContext = chois_set_documentation.SelectedItem;
             Set_Documentation set_documentation = (Set_Documentation)chois_set_documentation.DataContext;
             Combo_Box_Output.Id_Set_Documentation = set_documentation.id_set_documentation;
-
         }
         private void add_data_doc_Click(object sender, RoutedEventArgs e)
         {
@@ -922,6 +906,25 @@ namespace project
                     name_doc.Text, DateTime.Now, DateTime.Now, Combo_Box_Output.Id_Set_Documentation, full_cipher_documents));
                    
 
+                MessageBox.Show("Запись добавлена.");
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка при добавлении: " + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        private void add_data_guide_executors_Click(object sender, RoutedEventArgs e)
+        {
+            try
+
+            {
+                Sql_Requests sql_Requests = new Sql_Requests();
+                string selectQuery = $@"INSERT INTO guide_executors (executor_short_name, executor_full_name) 
+                                            VALUES (@executor_short_name, @executor_full_name)";
+                sql_Requests.Insert_Guide_Executors(selectQuery, new Guide_Executors(executor_short_name.Text, executor_full_name.Text));
                 MessageBox.Show("Запись добавлена.");
             }
             catch (Exception ex)
