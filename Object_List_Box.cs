@@ -154,6 +154,19 @@ namespace project
             this.code = code;
 
         }
+        public Design_Object(string code, string name_object,  DateTime data_creation_design_object,
+                DateTime data_change_design_object, int id_executor, int id_project, string full_code)
+        {
+            this.full_code = full_code;
+            this.id_project = id_project;
+            this.id_executor = id_executor;
+            this.data_creation_design_object = data_creation_design_object;
+            this.data_change_design_object = data_change_design_object;
+            this.name_object = name_object;
+         
+            this.code = code;
+
+        }
         public Design_Object(string name_object, int id_parent)
         {
             this.name_object = name_object;
@@ -181,14 +194,7 @@ namespace project
         {
             this.id_parent = id_parent;
         }
-        //public Design_Object(string full_code, string name_object, int id_project)
-        //{
-        //    this.full_code = full_code;
-        //    this.name_object = name_object;
-        //    this.id_project = id_project;
-        //}
-
-
+        
         public Design_Object(int id_set_documentation, int id_project, string executor_full_name, string data_creation_set_docment, 
             string data_change_set_docment, string cipher,
             int id_design_object,  string code, string name_object, string stamps_number, int id_parent,
@@ -299,16 +305,7 @@ namespace project
             this.stamps_number = stamps_number;
             this.id_parent = id_parent;
         }
-        //public Design_Object(int Id_Design_Object, string Full_Code, string Stamps_Short_Name, string Сomposite_Stamps_Do, string Executor, DateTime Dadata_Creation, DateTime Dadata_Change) : base(Stamps_Short_Name, Dadata_Creation, Dadata_Change)
-        //{
-        //    this.Id_Design_Object = Id_Design_Object;
-        //    this.Full_Code = Full_Code;
-        //    this.Stamps_Short_Name = Stamps_Short_Name;
-        //    this.Сomposite_Stamps_Do = Сomposite_Stamps_Do;
-        //    this.executor = Executor;
-        //    this.Dadata_Creation = Dadata_Creation;
-        //    this.Dadata_Change = Dadata_Change;
-        //}
+        
         public Design_Object(){}
     }
     public class Set_Documentation  

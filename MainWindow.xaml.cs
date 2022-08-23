@@ -702,11 +702,12 @@ namespace project
 
             List<Design_Object> parent_object = sql_Requests.Select_Object(selectQuery);
             ObservableCollection<Project> output_parent_object = new ObservableCollection <Project>();
-
+            output_parent_object.Add(new Design_Object("Пусто", 0));
             foreach (Design_Object o in parent_object)
             {
                 output_parent_object.Add( new Design_Object(o.name_object, o.id_parent));
             }
+            
             id_parent.ItemsSource = output_parent_object;
         }
         void chois_parent_design_object_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -722,27 +723,39 @@ namespace project
 
             {
                 Sql_Requests sql_Requests = new Sql_Requests();
-                string selectQuery = $@"SELECT 
+                List<Design_Object> parent_object_code = new List<Design_Object>();
+                string selectQuery = string.Empty;
+                string output_parent_object_code = string.Empty;
+                if (Combo_Box_Output.Id_Parent_Object != 0)
+                {
+                    selectQuery = $@"SELECT 
                                  full_code
                                  FROM design_object
                                  WHERE design_object.id_design_object = '{Combo_Box_Output.Id_Parent_Object}'";
-                                
-
-                
-                List<Design_Object> parent_object_code = sql_Requests.Select_Object(selectQuery);
-                string data1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                
-                string output_parent_object_code = string.Empty;
-                foreach (Design_Object o in parent_object_code)
-                {
-                     output_parent_object_code = o.full_code +"." + cod.Text;
-                }
-                selectQuery = $@"INSERT INTO design_object (code, name_object, id_parent, data_creation_design_object,
+                     parent_object_code = sql_Requests.Select_Object(selectQuery);
+                    
+                    foreach (Design_Object o in parent_object_code)
+                    {
+                        output_parent_object_code = o.full_code + "." + cod.Text;
+                    }
+                    selectQuery = $@"INSERT INTO design_object (code, name_object, id_parent, data_creation_design_object,
                                              data_change_design_object, id_executor, id_project, full_code) 
                                             VALUES (@code, @name_object, @id_parent, @data_creation_design_object,
                                              @data_change_design_object, @id_executor, @id_project, @full_code)";
-                sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text, Combo_Box_Output.Id_Parent_Object, DateTime.Now,
-               DateTime.Now, Combo_Box_Output.Id_Executor, Combo_Box_Output.Id_Project, output_parent_object_code));
+                    sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text, Combo_Box_Output.Id_Parent_Object, DateTime.Now,
+                   DateTime.Now, Combo_Box_Output.Id_Executor, Combo_Box_Output.Id_Project, output_parent_object_code));
+                }
+                   else
+                   {
+                    output_parent_object_code = cod.Text;
+                    selectQuery = $@"INSERT INTO design_object (code, name_object, data_creation_design_object,
+                                             data_change_design_object, id_executor, id_project, full_code) 
+                                            VALUES (@code, @name_object,  @data_creation_design_object,
+                                             @data_change_design_object, @id_executor, @id_project, @full_code)";
+                    sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text,  DateTime.Now,
+                   DateTime.Now, Combo_Box_Output.Id_Executor, Combo_Box_Output.Id_Project, output_parent_object_code));
+                }
+                
                 
                 MessageBox.Show("Запись добавлена.");
             }
