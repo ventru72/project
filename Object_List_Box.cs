@@ -139,10 +139,17 @@ namespace project
             this.code = code;
 
         }
-        public Design_Object( string name_object, int id_parent)
+        public Design_Object(string name_object, int id_parent)
+        {
+            this.name_object = name_object;
+            this.id_parent = id_parent;
+           
+        }
+        public Design_Object( string name_object, int id_parent, string code)
         {
            this.name_object = name_object;
-            this.id_parent = id_parent;
+           this.id_parent = id_parent;
+           this.code = code;
         }
         public Design_Object(string full_code, string cipher)
         {
@@ -167,8 +174,8 @@ namespace project
         //}
 
 
-        public Design_Object(int id_set_documentation, int id_project, string executor_full_name, string data_creation_set_docment, string data_change_set_docment,
-            string cipher,
+        public Design_Object(int id_set_documentation, int id_project, string executor_full_name, string data_creation_set_docment, 
+            string data_change_set_docment, string cipher,
             int id_design_object,  string code, string name_object, string stamps_number, int id_parent,
             int id_design_object_parent, string code_parent, string name_object_parent, string stamps_number_parent, int id_parent_parent)
         {
@@ -192,8 +199,8 @@ namespace project
             this.id_parent_parent = id_parent_parent;
             this.code_parent = code_parent;
         }
-        public Design_Object( int id_design_object, int id_project, string executor_full_name, string data_creation_set_docment, string data_change_set_docment,
-           string cipher,  string code, string name_object, string stamps_number, int id_parent,
+        public Design_Object( int id_design_object, int id_project, string executor_full_name, string data_creation_set_docment,
+            string data_change_set_docment, string cipher,  string code, string name_object, string stamps_number, int id_parent,
            int id_design_object_parent, string code_parent, string name_object_parent, string stamps_number_parent, int id_parent_parent)
         {
             this.id_set_documentation = id_set_documentation;
@@ -303,7 +310,7 @@ namespace project
         public Set_Documentation() { }
        
         public Set_Documentation(int number_set_documentation, DateTime data_creation_set_docment, DateTime data_change_set_docment,
-            int id_stamps, int id_design_object, string stamps_full_name)
+            int id_stamps, string stamps_full_name)
         {
             this.number_set_documentation = number_set_documentation;
             this.id_stamps = id_stamps;
@@ -382,5 +389,24 @@ namespace project
         //}
     }
   
+    public class Combo_Box_Output_Date
+    {
+        public int Number_Set_Doc_CB { get; set; }
+        public string Chois_Stamps_CB { get; set; }
+        Combo_Box_Output_Date(int number_Set_Doc_CB, string chois_Stamps_CB)
+        {
+            Number_Set_Doc_CB = number_Set_Doc_CB;
+            Chois_Stamps_CB = chois_Stamps_CB;
+        }
+        Combo_Box_Output_Date(int number_Set_Doc_CB)
+        {
+            Number_Set_Doc_CB = number_Set_Doc_CB;
+            
+        }
+        Combo_Box_Output_Date (string chois_Stamps_CB)
+        {
+            Chois_Stamps_CB = chois_Stamps_CB;
+        }
+    }
 
 }
