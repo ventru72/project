@@ -19,6 +19,40 @@
             <ColumnDefinition Width="187*"/>
             <ColumnDefinition Width="513*"/>
         </Grid.ColumnDefinitions>
+        <!--Словарь guide_type_documents-->
+        <WrapPanel Orientation="Horizontal"
+                    Margin="0,180,0,0"
+                   Grid.Row="5" 
+                   Grid.Column="1" 
+                   ItemWidth="140">
+            <TextBox x:Name="type_documents_short_name"
+                     MaxLength="50"
+                     Margin="0,0,10,0"
+                     SpellCheck.IsEnabled="True" Language="ru-ru" >Краткое название</TextBox>
+            <TextBox x:Name="type_documents_full_name"
+                     MaxLength="50"
+                     Margin="0,0,10,0"
+                     SpellCheck.IsEnabled="True" Language="ru-ru" >Полное название</TextBox>
+
+            <Button x:Name="add_data_guide_type_documents" Click="add_data_guide_type_documents_Click" Content="Добавить тип док." Margin="0,0,15,0"></Button>
+        </WrapPanel>
+        <!--Словарь guide_stamps-->
+        <WrapPanel Orientation="Horizontal"
+                    Margin="0,150,0,0"
+                   Grid.Row="5" 
+                   Grid.Column="1" 
+                   ItemWidth="140">
+            <TextBox x:Name="stamps_short_name"
+                     MaxLength="50"
+                     Margin="0,0,10,0"
+                     SpellCheck.IsEnabled="True" Language="ru-ru" >Краткое название</TextBox>
+            <TextBox x:Name="stamps_full_name"
+                     MaxLength="50"
+                     Margin="0,0,10,0"
+                     SpellCheck.IsEnabled="True" Language="ru-ru" >Полное название</TextBox>
+
+            <Button x:Name="add_data_guide_stamps" Click="add_data_guide_stamps_Click" Content="Добавить марку" Margin="0,0,15,0"></Button>
+        </WrapPanel>
         <!--Словарь guide_executors-->
         <WrapPanel Orientation="Horizontal"
                     Margin="0,120,0,0"

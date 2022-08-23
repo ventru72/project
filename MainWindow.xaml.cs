@@ -935,6 +935,44 @@ namespace project
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+        private void add_data_guide_stamps_Click(object sender, RoutedEventArgs e)
+        {
+            try
+
+            {
+                Sql_Requests sql_Requests = new Sql_Requests();
+                string selectQuery = $@"INSERT INTO guide_stamps (stamps_short_name, stamps_full_name) 
+                                            VALUES (@stamps_short_name, @stamps_full_name)";
+                sql_Requests.Insert_Guide_Stamps(selectQuery, new Guide_Stamps(stamps_short_name.Text, stamps_full_name.Text));
+                MessageBox.Show("Запись добавлена.");
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка при добавлении: " + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        private void add_data_guide_type_documents_Click(object sender, RoutedEventArgs e)
+        {
+            try
+
+            {
+                Sql_Requests sql_Requests = new Sql_Requests();
+                string selectQuery = $@"INSERT INTO guide_type_documents (type_documents_short_name, type_documents_full_name) 
+                                            VALUES (@type_documents_short_name, @type_documents_full_name)";
+                sql_Requests.Insert_Guide_Type_Documents(selectQuery, new Guide_Type_Documents(type_documents_short_name.Text, type_documents_full_name.Text));
+                MessageBox.Show("Запись добавлена.");
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка при добавлении: " + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 }
 
