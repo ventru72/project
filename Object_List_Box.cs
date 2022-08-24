@@ -419,7 +419,7 @@ namespace project
             this.id_set_documentation = id_set_documentation;
         }
         public Set_Documentation(int number_set_documentation, DateTime data_creation_set_docment, DateTime data_change_set_docment,
-            int id_stamps, string stamps_full_name)
+            int id_stamps, int id_design_object,  string stamps_full_name)
         {
             this.number_set_documentation = number_set_documentation;
             this.id_stamps = id_stamps;
@@ -485,6 +485,7 @@ namespace project
         {
             this.number_document = number_document;
             this.id_type_documents = id_type_documents;
+            this.id_set_documentation = id_set_documentation;
             this.name_document = name_document;
             this.data_creation_document = data_creation_document;
             this.data_change_document = data_change_document;

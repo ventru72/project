@@ -429,9 +429,15 @@ namespace project
         }
         private void DG1_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
+
             List<string> block_field_table = new List<string>()
             {
-                "id_parent", 
+                "id_parent",
+                 "id_executor",
+                  "executor_short_name",
+                  "data_change_design_object",
+                   "id_type_documents",
+                  "data_creation_design_object", 
                 "id_documents",
                 "code", 
                 "id_design_object", 
@@ -519,6 +525,8 @@ namespace project
               
                 sql_Requests.Execute_Project(selectQuery, new Project (ciher_project.Text, name_project.Text, Combo_Box_Output.Id_Executor));
                 MessageBox.Show("Запись добавлена.");
+                MainWindow mainWindow = new MainWindow();
+                
             }
             catch (Exception ex)
 
@@ -588,10 +596,32 @@ namespace project
         }
         void chois_parent_design_object_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            id_parent.DataContext = id_parent.SelectedItem;
-            Design_Object dictionary_id_parent = (Design_Object)id_parent.DataContext;
-            Combo_Box_Output.Id_Parent_Object = dictionary_id_parent.id_parent;
-            //id_parent_object = dictionary_id_parent.id_parent;
+            try
+
+            {
+                id_parent.DataContext = id_parent.SelectedItem;
+                if ((Design_Object)id_parent.DataContext == null)
+                {
+                    Design_Object dictionary_id_parent_null = new Design_Object("Пусо", 0);
+                    Combo_Box_Output.Id_Parent_Object = dictionary_id_parent_null.id_parent;
+                }
+                else
+                {
+                    Design_Object dictionary_id_parent = (Design_Object)id_parent.DataContext;
+
+                    Combo_Box_Output.Id_Parent_Object = dictionary_id_parent.id_parent;
+                }
+                    
+                //id_parent_object = dictionary_id_parent.id_parent;
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка:" + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
         }
         private void add_data_object_Click(object sender, RoutedEventArgs e)
         {
@@ -652,11 +682,23 @@ namespace project
         }
          void chois_stamps_set_doc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            try
+
+            {
+                chois_stamps.DataContext = chois_stamps.SelectedItem;
+                Guide_Stamps dictionary_id_stamps = (Guide_Stamps)chois_stamps.DataContext;
+                Combo_Box_Output.Id_Stamps = dictionary_id_stamps.id_stamps;
+                Combo_Box_Output.Chois_Stamps_CB = dictionary_id_stamps.stamps_short_name;
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка:" + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
            
-            chois_stamps.DataContext = chois_stamps.SelectedItem;
-            Guide_Stamps dictionary_id_stamps = (Guide_Stamps)chois_stamps.DataContext;
-            Combo_Box_Output.Id_Stamps = dictionary_id_stamps.id_stamps;
-            Combo_Box_Output.Chois_Stamps_CB = dictionary_id_stamps.stamps_short_name;
             //stamps_short_name = dictionary_id_stamps.stamps_short_name;
         }
         private void add_data_set_doc_Click(object sender, RoutedEventArgs e)
@@ -705,8 +747,8 @@ namespace project
                                             id_stamps, id_design_object, stamps_full_name) 
                                             VALUES (@number_set_documentation, @data_creation_set_docment, @data_change_set_docment,
                                            @id_stamps, @id_design_object, @stamps_full_name)";
-                sql_Requests.Insert_Set_Documentation(selectQuery, new Set_Documentation(int.Parse(number_set_doc.Text), DateTime.Now, DateTime.Now, Combo_Box_Output.Id_Stamps, 
-                   output_parent_object_code));
+                sql_Requests.Insert_Set_Documentation(selectQuery, new Set_Documentation(int.Parse(number_set_doc.Text), DateTime.Now, DateTime.Now, Combo_Box_Output.Id_Stamps,
+                   Combo_Box_Output.Id_Design_Object, output_parent_object_code));
 
                 MessageBox.Show("Запись добавлена.");
             }
@@ -720,19 +762,34 @@ namespace project
         }
         void chois_type_documents_in_documents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            chois_type_documents_in_documents.DataContext = chois_type_documents_in_documents.SelectedItem;
-            Guide_Type_Documents dictionary_type_documents = (Guide_Type_Documents)chois_type_documents_in_documents.DataContext;
-            Combo_Box_Output.Id_Type_Documents = dictionary_type_documents.id_type_documents;
-            //id_executor = dictionary_executor.id_executor;
+            try
+
+            {
+                chois_type_documents_in_documents.DataContext = chois_type_documents_in_documents.SelectedItem;
+                Guide_Type_Documents dictionary_type_documents = (Guide_Type_Documents)chois_type_documents_in_documents.DataContext;
+                Combo_Box_Output.Id_Type_Documents = dictionary_type_documents.id_type_documents;
+                //id_executor = dictionary_executor.id_executor;
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка:" + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+           
         }
         void chois_design_object_doc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            chois_design_object_doc.DataContext = chois_design_object_doc.SelectedItem;
-            Design_Object dictionary_design_object = (Design_Object)chois_design_object_doc.DataContext;
-            Combo_Box_Output.Id_Design_Object = dictionary_design_object.id_design_object;
-            Sql_Requests sql_Requests = new Sql_Requests();
+            try
 
-            string selectQuery = $@"SELECT 
+            {
+                chois_design_object_doc.DataContext = chois_design_object_doc.SelectedItem;
+                Design_Object dictionary_design_object = (Design_Object)chois_design_object_doc.DataContext;
+                Combo_Box_Output.Id_Design_Object = dictionary_design_object.id_design_object;
+                Sql_Requests sql_Requests = new Sql_Requests();
+
+                string selectQuery = $@"SELECT 
                                  set_documentation.id_set_documentation,
                                  number_set_documentation,
                                  guide_stamps.stamps_short_name
@@ -742,20 +799,42 @@ namespace project
                                  LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps
                                  WHERE set_documentation.id_design_object = '{Combo_Box_Output.Id_Design_Object}'";
 
-            List<Set_Documentation> stamps_name = sql_Requests.Select_Set_Documentation(selectQuery);
-            ObservableCollection<Set_Documentation> output_stamps_name = new ObservableCollection<Set_Documentation>();
+                List<Set_Documentation> stamps_name = sql_Requests.Select_Set_Documentation(selectQuery);
+                ObservableCollection<Set_Documentation> output_stamps_name = new ObservableCollection<Set_Documentation>();
 
-            foreach (Set_Documentation o in stamps_name)
-            {
-                output_stamps_name.Add(new Set_Documentation(o.stamps_short_name + o.number_set_documentation, o.id_set_documentation));
+                foreach (Set_Documentation o in stamps_name)
+                {
+                    output_stamps_name.Add(new Set_Documentation(o.stamps_short_name + o.number_set_documentation, o.id_set_documentation));
+                }
+                chois_set_documentation.ItemsSource = output_stamps_name;
             }
-            chois_set_documentation.ItemsSource = output_stamps_name;
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка:" + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            
         }
         void chois_set_documentation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            chois_set_documentation.DataContext = chois_set_documentation.SelectedItem;
-            Set_Documentation set_documentation = (Set_Documentation)chois_set_documentation.DataContext;
-            Combo_Box_Output.Id_Set_Documentation = set_documentation.id_set_documentation;
+
+            try
+
+            {
+
+                chois_set_documentation.DataContext = chois_set_documentation.SelectedItem;
+                Set_Documentation set_documentation = (Set_Documentation)chois_set_documentation.DataContext;
+                Combo_Box_Output.Id_Set_Documentation = set_documentation.id_set_documentation;
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка:" + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
         private void add_data_doc_Click(object sender, RoutedEventArgs e)
         {
@@ -777,6 +856,7 @@ namespace project
                     full_cipher_documents = o.stamps_full_name + "-" + number_doc.Text;
                     
                 }
+                MainWindow mainWindow= new MainWindow();
 
                 List<Design_Object> parent_object_stamps_full_name = sql_Requests.Select_Object(selectQuery);
                 string data1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -815,7 +895,9 @@ namespace project
                                             VALUES (@executor_short_name, @executor_full_name)";
                 sql_Requests.Insert_Guide_Executors(selectQuery, new Guide_Executors(executor_short_name.Text, executor_full_name.Text));
                 MessageBox.Show("Запись добавлена.");
+                MainWindow mainWindow = new MainWindow();
             }
+
             catch (Exception ex)
 
             {
@@ -834,6 +916,7 @@ namespace project
                                             VALUES (@stamps_short_name, @stamps_full_name)";
                 sql_Requests.Insert_Guide_Stamps(selectQuery, new Guide_Stamps(stamps_short_name.Text, stamps_full_name.Text));
                 MessageBox.Show("Запись добавлена.");
+                MainWindow mainWindow = new MainWindow();
             }
             catch (Exception ex)
 
@@ -853,6 +936,7 @@ namespace project
                                             VALUES (@type_documents_short_name, @type_documents_full_name)";
                 sql_Requests.Insert_Guide_Type_Documents(selectQuery, new Guide_Type_Documents(type_documents_short_name.Text, type_documents_full_name.Text));
                 MessageBox.Show("Запись добавлена.");
+                MainWindow mainWindow = new MainWindow();
             }
             catch (Exception ex)
 
@@ -862,12 +946,61 @@ namespace project
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+        //Выбор проекта для редактирования
         void update_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             update_project.DataContext = update_project.SelectedItem;
             Project project = (Project)update_project.DataContext;
             Combo_Box_Output.Id_Update_Project = project.id_project;
             
+        }
+        private void update_doc_set_Click(object sender, RoutedEventArgs e)
+        {
+            try
+
+            {
+                Sql_Requests sql_Requests = new Sql_Requests();
+
+                string selectQuery = $@"SELECT 
+                                 stamps_full_name
+                                 FROM set_documentation
+                                 WHERE id_set_documentation = '{Combo_Box_Output.Id_Set_Documentation}'";
+
+                List<Set_Documentation> stamps_full_name = sql_Requests.Select_Set_Documentation(selectQuery);
+
+                string full_cipher_documents = string.Empty;
+                foreach (Set_Documentation o in stamps_full_name)
+                {
+                    full_cipher_documents = o.stamps_full_name + "-" + number_doc.Text;
+
+                }
+
+                List<Design_Object> parent_object_stamps_full_name = sql_Requests.Select_Object(selectQuery);
+                string data1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                string output_parent_object_code = string.Empty;
+                //foreach (Design_Object o in parent_object_stamps_full_name)
+                //{
+                //    output_parent_object_code = o.cipher + "-" + o.full_code + "." + outpunt_code + "-" + Combo_Box_Output.Chois_Stamps_CB + number_set_doc.Text;
+                //}
+
+                selectQuery = $@"INSERT INTO documents (number_document, id_type_documents, data_creation_document,
+                                            data_change_document, name_document, id_set_documentation, full_cipher_documents) 
+                                            VALUES (@number_document, @id_type_documents, @data_creation_document,
+                                            @data_change_document, @name_document, @id_set_documentation, @full_cipher_documents)";
+                sql_Requests.Insert_Document(selectQuery, new Documents(int.Parse(number_doc.Text), Combo_Box_Output.Id_Type_Documents,
+                    name_doc.Text, DateTime.Now, DateTime.Now, Combo_Box_Output.Id_Set_Documentation, full_cipher_documents));
+
+
+                MessageBox.Show("Запись добавлена.");
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка при добавлении: " + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
