@@ -208,7 +208,7 @@ namespace project
             void Get_Data_Chois_Id_Object(int id_design)
             {
                 selectQuery = $"SELECT DISTINCT   full_code, set_documentation.stamps_full_name,  cipher, " +
-                                              $" name_object, stamps_short_name,  " +
+                                              $" name_object, stamps_short_name, number_set_documentation,  " +
                                               $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
                                               $" executor_full_name" +
                                               $" FROM project" +
@@ -225,7 +225,7 @@ namespace project
                 {
                     output_set_doc.Add(new Design_Object(set_doc_chois_id_object[j].full_code, set_doc_chois_id_object[j].stamps_full_name,
                     set_doc_chois_id_object[j].cipher, set_doc_chois_id_object[j].name_object, set_doc_chois_id_object[j].stamps_short_name,
-                    set_doc_chois_id_object[j].stamps_number, set_doc_chois_id_object[j].data_creation_set_docment,
+                    set_doc_chois_id_object[j].number_set_documentation, set_doc_chois_id_object[j].data_creation_set_docment,
                     set_doc_chois_id_object[j].data_change_set_docment, set_doc_chois_id_object[j].executor_full_name));
                 }
             }
@@ -269,7 +269,7 @@ namespace project
             void Get_Data_Chois_Id_Object (int id_design)
             {
                 selectQuery = $"SELECT DISTINCT   full_code, set_documentation.stamps_full_name,  cipher, " +
-                                              $" name_object, stamps_short_name,  " +
+                                              $" name_object, stamps_short_name, number_set_documentation, " +
                                               $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
                                               $" executor_full_name" +
                                               $" FROM project" +
@@ -286,7 +286,7 @@ namespace project
                 {
                         output_set_doc.Add(new Design_Object(set_doc_chois_id_object[j].full_code, set_doc_chois_id_object[j].stamps_full_name,
                         set_doc_chois_id_object[j].cipher, set_doc_chois_id_object[j].name_object, set_doc_chois_id_object[j].stamps_short_name,
-                        set_doc_chois_id_object[j].stamps_number, set_doc_chois_id_object[j].data_creation_set_docment,
+                        set_doc_chois_id_object[j].number_set_documentation, set_doc_chois_id_object[j].data_creation_set_docment,
                         set_doc_chois_id_object[j].data_change_set_docment, set_doc_chois_id_object[j].executor_full_name));
                 }
             }
@@ -368,7 +368,7 @@ namespace project
                                  $"o.full_code, " +
                                  $"r.full_code," +
                                  $" set_documentation.stamps_full_name," +
-                                 $" full_cipher_documents," +
+                                 $" " +
                                  $" o.id_parent AS id_parent_o," +
                                  $" cipher, " +
                                  $"o.data_creation_design_object," +
@@ -382,7 +382,8 @@ namespace project
                                  $" executor_full_name," +
                                  $" r.code AS code_parent," +
                                  $" r.name_object AS name_object_parent," +
-                                 $" r.id_parent AS id_parent_parent" +
+                                 $" r.id_parent AS id_parent_parent," +
+                                 $" full_cipher_documents " +
                                  $" FROM project" +
 
                                  $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
@@ -578,7 +579,8 @@ namespace project
             Combo_Box_Output.Id_Project = project.id_project;
             string selectQuery = $@"SELECT 
                                  name_object,
-                                 id_parent
+                                 id_parent,
+                                 id_design_object
                                  FROM design_object
                                  LEFT JOIN project ON design_object.id_project = project.id_project
                                  WHERE project.id_project = '{Combo_Box_Output.Id_Project}'  
@@ -586,10 +588,10 @@ namespace project
 
             List<Design_Object> parent_object = sql_Requests.Select_Object(selectQuery);
             ObservableCollection<Project> output_parent_object = new ObservableCollection <Project>();
-            output_parent_object.Add(new Design_Object("Пусто", 0));
+            output_parent_object.Add(new Design_Object("Пусто", 0, 0));
             foreach (Design_Object o in parent_object)
             {
-                output_parent_object.Add( new Design_Object(o.name_object, o.id_parent));
+                output_parent_object.Add( new Design_Object(o.name_object, o.id_parent, o.id_design_object));
             }
             
             id_parent.ItemsSource = output_parent_object;
@@ -602,14 +604,14 @@ namespace project
                 id_parent.DataContext = id_parent.SelectedItem;
                 if ((Design_Object)id_parent.DataContext == null)
                 {
-                    Design_Object dictionary_id_parent_null = new Design_Object("Пусо", 0);
+                    Design_Object dictionary_id_parent_null = new Design_Object("Пусо", 0, 0);
                     Combo_Box_Output.Id_Parent_Object = dictionary_id_parent_null.id_parent;
                 }
                 else
                 {
                     Design_Object dictionary_id_parent = (Design_Object)id_parent.DataContext;
 
-                    Combo_Box_Output.Id_Parent_Object = dictionary_id_parent.id_parent;
+                    Combo_Box_Output.Id_Parent_Object = dictionary_id_parent.id_design_object;
                 }
                     
                 //id_parent_object = dictionary_id_parent.id_parent;

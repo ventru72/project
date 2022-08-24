@@ -171,11 +171,12 @@ namespace project
             this.code = code;
 
         }
-        public Design_Object(string name_object, int id_parent)
+        public Design_Object(string name_object, int id_parent, int id_design_object)
         {
             this.name_object = name_object;
             this.id_parent = id_parent;
-           
+            this.id_design_object = id_design_object;
+
         }
         public Design_Object( string name_object, int id_parent, string code)
         {
@@ -249,10 +250,10 @@ namespace project
             this.code_parent = code_parent;
             this.full_cipher_documents = full_cipher_documents;
         }
-        public Design_Object(string full_code, string stamps_full_name, string cipher, string name_object, string stamps_short_name, string stamps_number,
+        public Design_Object(string full_code, string stamps_full_name, string cipher, string name_object, string stamps_short_name, int number_set_documentation,
                   DateTime data_creation_set_docment, DateTime data_change_set_docment, string executor_full_name)
           {
-            this.id_set_documentation = id_set_documentation;
+            this.number_set_documentation = number_set_documentation;
             this.id_project = id_project;
             this.executor_full_name = executor_full_name;
             this.data_creation_set_docment = data_creation_set_docment;
