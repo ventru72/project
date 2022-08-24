@@ -526,6 +526,8 @@ namespace project
 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
+            InitializeComponent();
         }
         //кнопка редактирование проекта
         private void update_data_project_Click(object sender, RoutedEventArgs e)

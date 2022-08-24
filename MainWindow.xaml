@@ -12,23 +12,23 @@
             <RowDefinition Height="17*"/>
             <RowDefinition Height="22*" />
             <RowDefinition Height="89*" />
-            <RowDefinition Height="639*"/>
+            <RowDefinition Height="609*"/>
             <RowDefinition Height="17*"/>
-            <RowDefinition Height="200*"/>
+            <RowDefinition Height="230*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="449*"/>
-            <ColumnDefinition Width="695*"/>
-            <ColumnDefinition Width="28*"/>
-            <ColumnDefinition Width="184*"/>
-            <ColumnDefinition Width="168*"/>
-            <ColumnDefinition Width="158*"/>
+            <ColumnDefinition Width="179*"/>
+            <ColumnDefinition Width="293*"/>
+
+            <ColumnDefinition Width="58*"/>
+            <ColumnDefinition Width="67*"/>
+            <ColumnDefinition Width="63*"/>
         </Grid.ColumnDefinitions>
         <!--Словарь guide_type_documents-->
         <WrapPanel Orientation="Horizontal"
-                    Margin="0,163,0,0"
+                    Margin="0,192,9,0"
                    Grid.Row="5" 
-                   ItemWidth="140" Grid.ColumnSpan="5" Grid.Column="1">
+                   ItemWidth="140"  Grid.Column="1">
             <TextBox x:Name="type_documents_short_name"
                      MaxLength="50"
                      Margin="0,0,10,0"
@@ -40,9 +40,9 @@
         </WrapPanel>
         <!--Словарь guide_stamps-->
         <WrapPanel Orientation="Horizontal"
-                    Margin="0,133,0,0"
+                    Margin="0,162,9,0"
                    Grid.Row="5" 
-                   ItemWidth="140" Grid.ColumnSpan="5" Grid.Column="1">
+                   ItemWidth="140" Grid.Column="1">
             <TextBox x:Name="stamps_short_name"
                      MaxLength="50"
                      Margin="0,0,10,0"
@@ -56,9 +56,9 @@
         </WrapPanel>
         <!--Словарь guide_executors-->
         <WrapPanel Orientation="Horizontal"
-                    Margin="0,103,0,0"
+                    Margin="0,132,9,0"
                    Grid.Row="5" 
-                   ItemWidth="140" Grid.ColumnSpan="5" Grid.Column="1">
+                   ItemWidth="140"  Grid.Column="1">
             <TextBox x:Name="executor_short_name"
                      MaxLength="50"
                      Margin="0,0,10,0"
@@ -71,9 +71,9 @@
         </WrapPanel>
         <!--Таблица documents-->
         <WrapPanel Orientation="Horizontal"
-                    Margin="0,73,0,0"
+                    Margin="0,102,9,0"
                    Grid.Row="5" 
-                   ItemWidth="140" Grid.ColumnSpan="5" Grid.Column="1">
+                   ItemWidth="140"  Grid.Column="1">
             <TextBox x:Name="number_doc"
                      MaxLength="50"
                      Margin="0,0,10,0"
@@ -132,9 +132,9 @@
         </WrapPanel>
         <!--Таблица добавления записи в set_documents-->
         <WrapPanel Orientation="Horizontal"
-                    Margin="0,43,0,0"
+                    Margin="0,72,9,0"
                    Grid.Row="5" 
-                   ItemWidth="140" Grid.ColumnSpan="5" Grid.Column="1">
+                   ItemWidth="140"  Grid.Column="1">
             <TextBox x:Name="number_set_doc"
                      MaxLength="50"
                      Margin="0,0,10,0"
@@ -175,7 +175,7 @@
         <!--Таблица добавления в project-->
         <WrapPanel Orientation="Horizontal"
                    Grid.Row="5" 
-                   ItemWidth="140" Grid.ColumnSpan="5" Margin="0,550,0,-350" Grid.Column="1">
+                   ItemWidth="140"  Margin="0,12,9,0" Grid.Column="1">
             <TextBox x:Name="name_project"
                      MaxLength="50"
                      Margin="0,0,10,0"
@@ -207,10 +207,10 @@
         <!--Таблица добавления в design_object-->
         <WrapPanel Orientation="Horizontal"
                    Grid.Row="5" 
-                   Margin="0,13,10,0"
-                   ItemWidth="160" Grid.Column="1" Grid.ColumnSpan="2">
+                   Margin="0,42,10,0"
+                   ItemWidth="160" Grid.Column="1" >
             <ComboBox x:Name="project_change" Margin="0,0,12,0"
-                      ToolTip="Выбирите проект"
+                      ToolTip="Выберите проект"
                      SelectionChanged="project_change_in_design_object_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -267,14 +267,14 @@
         <WrapPanel Orientation="Vertical"
                    Grid.Row="5" 
                    Margin="0,13,10,0"
-                   ItemWidth="160" Grid.Column="3">
+                   ItemWidth="160" Grid.Column="2">
             <Button x:Name="add_data_project" Click="add_data_project_Click" Content="Добавить проект" Margin="0,0,0,0"></Button>
-            <Button x:Name="add_data_object" Click="add_data_object_Click" Content="Добавить обьект " Margin="0,5,0,0"/>
-            <Button x:Name="add_data_set_doc" Click="add_data_set_doc_Click" Content="Добавить комп. док." Margin="0,5,0,0"></Button>
-            <Button x:Name="add_doc" Click="add_data_doc_Click" Content="Добавить док." Margin="0,5,0,0"></Button>
-            <Button x:Name="add_data_guide_executors" Click="add_data_guide_executors_Click" Content="Добавить подрядчика" Margin="0,5,0,0"></Button>
-            <Button x:Name="add_data_guide_stamps" Click="add_data_guide_stamps_Click" Content="Добавить марку" Margin="0,5,0,0"></Button>
-            <Button x:Name="add_data_guide_type_documents" Click="add_data_guide_type_documents_Click" Content="Добавить тип док." Margin="0,5,0,0"></Button>
+            <Button x:Name="add_data_object" Click="add_data_object_Click" Content="Добавить обьект " Margin="0,10,0,0"/>
+            <Button x:Name="add_data_set_doc" Click="add_data_set_doc_Click" Content="Добавить комп. док." Margin="0,10,0,0"></Button>
+            <Button x:Name="add_doc" Click="add_data_doc_Click" Content="Добавить док." Margin="0,10,0,0"></Button>
+            <Button x:Name="add_data_guide_executors" Click="add_data_guide_executors_Click" Content="Добавить подрядчика" Margin="0,10,0,0"></Button>
+            <Button x:Name="add_data_guide_stamps" Click="add_data_guide_stamps_Click" Content="Добавить марку" Margin="0,10,0,0"></Button>
+            <Button x:Name="add_data_guide_type_documents" Click="add_data_guide_type_documents_Click" Content="Добавить тип док." Margin="0,10,0,0"></Button>
 
 
         </WrapPanel>
@@ -318,7 +318,7 @@
                   Grid.RowSpan="3"  d:ItemsSource="{d:SampleData ItemCount=5}" 
                   
                   SelectionChanged="dataGrid_SelectionChanged" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}"
-                  Grid.ColumnSpan="5" Grid.Column="1" Grid.Row="1"/>
+                  Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="1"/>
         <!--Выподающий список выбора проекта, для построения дерева обьектов в левой части-->
         <ComboBox x:Name="select_projects"
                   HorizontalAlignment="Left"
@@ -341,11 +341,11 @@
         <TextBlock x:Name="edit_text" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" Text="Заполнение полей" VerticalAlignment="Center" 
                    Height="16" Width="148" Margin="287,0,0,0"/>
         <TextBlock x:Name="add_text" HorizontalAlignment="Left"
-                   Margin="11,0,0,0" Grid.Row="4" Grid.Column="3" TextWrapping="Wrap" Text="Добавление записи" VerticalAlignment="Center" 
+                   Margin="11,0,0,0" Grid.Row="4" Grid.Column="2" TextWrapping="Wrap" Text="Добавление записи" VerticalAlignment="Center" 
                    Height="16" Width="149"/>
-        <TextBlock x:Name="delete_text" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="4" TextWrapping="Wrap" Text="Редактирование записи" VerticalAlignment="Center" 
+        <TextBlock x:Name="delete_text" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="3" TextWrapping="Wrap" Text="Редактирование записи" VerticalAlignment="Center" 
                    Height="16" Width="150"/>
-        <TextBlock x:Name="update_text" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="5" TextWrapping="Wrap" Text="Удаление записи" VerticalAlignment="Center" 
+        <TextBlock x:Name="update_text" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="4" TextWrapping="Wrap" Text="Удаление записи" VerticalAlignment="Center" 
                    Height="16" Width="150"/>
         <TextBlock x:Name="chois_project_text" HorizontalAlignment="Left"
                    Margin="10,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Выбор проекта:" VerticalAlignment="Center" 
