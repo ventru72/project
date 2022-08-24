@@ -324,6 +324,7 @@ namespace project
             Hyperlink link = (Hyperlink)sender;
             Design_Object set_doc_click = (Design_Object)link.DataContext;
             int set_doc_id = set_doc_click.id_set_documentation;
+            //int disign_id = set_doc_click.id_design_object;
             Sql_Requests sql_Requests = new Sql_Requests();
            
             List<Documents> date_right_table = new List<Documents>();
@@ -362,16 +363,20 @@ namespace project
 
 
             string selectQuery = $"SELECT DISTINCT set_documentation.id_set_documentation, " +
-                                 $"project.id_project, o.full_code, " +
+                                 $"project.id_project, " +
+                                 $"o.full_code, " +
                                  $"r.full_code," +
-                                 $" set_documentation.stamps_full_name, full_cipher_documents," +
+                                 $" set_documentation.stamps_full_name," +
+                                 $" full_cipher_documents," +
                                  $" o.id_parent AS id_parent_o," +
                                  $" cipher, " +
-                                 $"o.data_creation_design_object, o.data_change_design_object, " +
+                                 $"o.data_creation_design_object," +
+                                 $" o.data_change_design_object, " +
                                  $" r.id_design_object, o.code," +
                                  $" o.name_object," +
                                  $" stamps_short_name,  " +
-                                 $" stamps_short_name || number_set_documentation AS stamps_number, data_creation_set_docment, data_change_set_docment, " +
+                                 $" stamps_short_name || number_set_documentation AS stamps_number," +
+                                 $" data_creation_set_docment, data_change_set_docment, " +
                                  $" o.id_design_object AS id_design_object_parent," +
                                  $" executor_full_name," +
                                  $" r.code AS code_parent," +
@@ -381,10 +386,11 @@ namespace project
 
                                  $" LEFT JOIN guide_executors ON project.id_executor = guide_executors.id_executor " +
                                  $" LEFT JOIN design_object AS o ON project.id_project = o.id_project" +
-                                 $" LEFT JOIN set_documentation ON o.id_design_object = set_documentation.id_design_object" +
+                                  $" LEFT  JOIN design_object AS r ON r.id_design_object = o.id_parent" +
+                                 $" LEFT JOIN set_documentation ON r.id_design_object = set_documentation.id_design_object" +
                                  $" LEFT JOIN guide_stamps ON set_documentation.id_stamps = guide_stamps.id_stamps  " +
                                  $" LEFT JOIN documents ON set_documentation.id_set_documentation = documents.id_set_documentation  " +
-                                 $" LEFT  JOIN design_object AS r ON r.id_design_object = o.id_parent" +
+                                
                                  $" WHERE project.id_project = '{project.id_project}'";
 
             date_projects = sql_Requests.Select_Object(selectQuery);
@@ -393,8 +399,12 @@ namespace project
             foreach (Design_Object i in date_projects)
             {
 
-                name_object_l.Add(new Design_Object(i.id_set_documentation, Combo_Box_Output.Id_Project, i.executor_full_name,
-                    i.id_design_object, i.name_object, i.id_parent,  i.id_design_object_parent,  i.name_object_parent,  i.id_parent_parent));
+                name_object_l.Add(new Design_Object(i.id_set_documentation, Combo_Box_Output.Id_Project, i.executor_full_name, i.data_creation_set_docment,
+                     i.data_change_set_docment, i.cipher, i.id_design_object, i.code, i.name_object, i.stamps_number, i.id_parent,
+                i.id_design_object_parent, i.code_parent, i.name_object_parent, i.stamps_number_parent, i.id_parent_parent, i.full_cipher_documents));
+
+                //name_object_l.Add(new Design_Object(i.id_set_documentation, Combo_Box_Output.Id_Project, i.executor_full_name,
+                //    i.id_design_object, i.name_object, i.id_parent,  i.id_design_object_parent,  i.name_object_parent,  i.id_parent_parent));
 
             }
 
