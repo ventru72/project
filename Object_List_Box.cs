@@ -514,6 +514,7 @@ namespace project
         public int Id_Set_Documentation { get; set; }
         public int Id_Executor { get; set; }
         public string Chois_Stamps_CB { get; set; }
+        public int Id_Update_Project { get; set; }
         public string Stamps_Name { get; set; }
         public Combo_Box_Output_Date(int number_Set_Doc_CB, string chois_Stamps_CB)
         {

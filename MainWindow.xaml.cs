@@ -43,7 +43,7 @@ namespace project
          
            
            Sql_Requests sql_Requests = new Sql_Requests();
-           void ComboBox_Select_Projects_and_Project_Change()
+           void ComboBox_Select_Projects_and_Project_Change_and_Update_Project()
             {
                 string selectQuery = $@"select 
                                  id_project,
@@ -66,6 +66,7 @@ namespace project
                 //dataGrid.ItemsSource = date_projects;
                 select_projects.ItemsSource = output_name_projects;
                 project_change.ItemsSource = output_name_projects;
+                update_project.ItemsSource = output_name_projects;
             }
            void Combo_Box_Set_Project_and_Set_Executor_Object()
             {
@@ -149,7 +150,7 @@ namespace project
 
             }
 
-            ComboBox_Select_Projects_and_Project_Change();
+            ComboBox_Select_Projects_and_Project_Change_and_Update_Project();
             Combo_Box_Set_Project_and_Set_Executor_Object();
             Combo_Box_Chois_Stamps();
             Combo_Box_Chois_Design_Object_Set_Doc_And_Doc();
@@ -527,7 +528,6 @@ namespace project
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
-            InitializeComponent();
         }
         //кнопка редактирование проекта
         private void update_data_project_Click(object sender, RoutedEventArgs e)
@@ -861,6 +861,13 @@ namespace project
 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+        void update_project_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            update_project.DataContext = update_project.SelectedItem;
+            Project project = (Project)update_project.DataContext;
+            Combo_Box_Output.Id_Update_Project = project.id_project;
+            
         }
     }
 }
