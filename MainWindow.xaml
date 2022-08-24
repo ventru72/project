@@ -274,8 +274,8 @@
                 <DataTemplate>
                     <StackPanel>
                         <TextBlock    Text="Обьект проектирования - ">
-                            <Hyperlink  Tag="{Binding name_object}" Click="Hyperlink_Click_Object_Name">
-                                <TextBlock    Text="{Binding name_object}"/> 
+                            <Hyperlink  Tag="{Binding name_object_parent}" Click="Hyperlink_Click_Object_Name">
+                                <TextBlock    Text="{Binding name_object_parent}"/> 
                             </Hyperlink>
                             <TextBlock    Text="ID = "/> 
                             <TextBlock    Text="{Binding id_design_object}"/> 
@@ -287,8 +287,8 @@
                                  </Hyperlink>
                         </TextBlock>
                         <TextBlock    Text="Дочерний обьект проектирования - ">
-                            <Hyperlink  Tag="{Binding name_object_parent}" Click="Hyperlink_Click_Object_Name_Parent">
-                                <TextBlock    Text="{Binding name_object_parent}"/> 
+                            <Hyperlink  Tag="{Binding name_object}" Click="Hyperlink_Click_Object_Name_Parent">
+                                <TextBlock    Text="{Binding name_object}"/> 
                             </Hyperlink>
                                 </TextBlock>
                         <!--<TextBlock    Text="Дочерний комплект документации -  ">
