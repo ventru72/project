@@ -506,6 +506,7 @@ namespace project
             }
            
         }
+        //кнопка добавление проекта
         private void add_data_project_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -515,8 +516,28 @@ namespace project
                 string selectQuery = $@"INSERT INTO project (cipher, name_project, id_executor  )" +
                                      $"VALUES (@cipher, @name_project, @id_executor)";
               
-                sql_Requests.Insert_Project(selectQuery, new Project (ciher_project.Text, name_project.Text, Combo_Box_Output.Id_Executor));
+                sql_Requests.Execute_Project(selectQuery, new Project (ciher_project.Text, name_project.Text, Combo_Box_Output.Id_Executor));
                 MessageBox.Show("Запись добавлена.");
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("Ошибка при добавлении: " + ex.Message, " ",
+
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        //кнопка редактирование проекта
+        private void update_data_project_Click(object sender, RoutedEventArgs e)
+        {
+            try
+
+            {
+                Sql_Requests sql_Requests = new Sql_Requests();
+                string selectQuery = $@"UPDATE  project set cipher = @cipher, name_project = @name_project, id_executor = @id_executor ";
+
+                sql_Requests.Execute_Project(selectQuery, new Project(ciher_project.Text, name_project.Text, Combo_Box_Output.Id_Executor));
+                MessageBox.Show("Запись отредактирована.");
             }
             catch (Exception ex)
 
@@ -595,7 +616,7 @@ namespace project
                                              data_change_design_object, id_executor, id_project, full_code) 
                                             VALUES (@code, @name_object, @id_parent, @data_creation_design_object,
                                              @data_change_design_object, @id_executor, @id_project, @full_code)";
-                    sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text, Combo_Box_Output.Id_Parent_Object, DateTime.Now,
+                    sql_Requests.Execute_Project(selectQuery, new Design_Object(cod.Text, name_object.Text, Combo_Box_Output.Id_Parent_Object, DateTime.Now,
                    DateTime.Now, Combo_Box_Output.Id_Executor, Combo_Box_Output.Id_Project, output_parent_object_code));
                 }
                    else
@@ -605,7 +626,7 @@ namespace project
                                              data_change_design_object, id_executor, id_project, full_code) 
                                             VALUES (@code, @name_object,  @data_creation_design_object,
                                              @data_change_design_object, @id_executor, @id_project, @full_code)";
-                    sql_Requests.Insert_Project(selectQuery, new Design_Object(cod.Text, name_object.Text,  DateTime.Now,
+                    sql_Requests.Execute_Project(selectQuery, new Design_Object(cod.Text, name_object.Text,  DateTime.Now,
                    DateTime.Now, Combo_Box_Output.Id_Executor, Combo_Box_Output.Id_Project, output_parent_object_code));
                 }
                 
